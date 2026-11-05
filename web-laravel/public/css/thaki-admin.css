@@ -1,0 +1,463 @@
+/* Estilo de pantalla. La impresión conserva su formato independiente. */
+@media screen {
+
+    :root {
+        --navy: #082342;
+        --navy-dark: #04172d;
+        --peach: #fff0e7;
+        --paper: #ffffff;
+        --coral: #d93643;
+        --coral-hover: #bd2432;
+        --text: #263d53;
+        --muted: #5d6e7e;
+        --border: #e4e7eb;
+        --radius: 18px;
+        --shadow: 0 12px 35px rgba(8, 35, 66, .055);
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        color-scheme: light;
+    }
+
+    body {
+        margin: 0;
+        background: var(--peach);
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+        width: min(1240px, calc(100% - 64px));
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 45px 0 70px;
+    }
+
+    h1, h2, h3 {
+        color: var(--navy);
+        line-height: 1.2;
+        text-wrap: balance;
+    }
+
+    main > h1 {
+        max-width: 950px;
+        margin: 24px 0 16px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(36px, 4.5vw, 62px);
+        font-weight: 400;
+        letter-spacing: -.045em;
+    }
+
+    h2 {
+        margin: 0 0 18px;
+        font-size: 25px;
+        font-weight: 650;
+        letter-spacing: -.025em;
+    }
+
+    h3 {
+        margin: 25px 0 12px;
+        font-size: 18px;
+    }
+
+    p {
+        margin: 0 0 16px;
+    }
+
+    main > p {
+        max-width: 850px;
+        color: var(--muted);
+        font-size: 17px;
+    }
+
+    strong {
+        color: var(--navy);
+        font-weight: 650;
+    }
+
+    small,
+    .ayuda {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    a {
+        color: var(--navy);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+    }
+
+    a:hover {
+        color: var(--coral);
+    }
+
+    main > a {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 8px 0;
+    }
+
+    section,
+    .panel,
+    .tabla {
+        background: var(--paper);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin: 24px 0;
+    }
+
+    section > :last-child,
+    .panel > :last-child {
+        margin-bottom: 0;
+    }
+
+    /* Evitar una tarjeta dentro de otra tarjeta. */
+    .panel .tabla,
+    section .tabla {
+        border: 0;
+        border-radius: 10px;
+        box-shadow: none;
+        padding: 0;
+        margin: 20px 0 0;
+    }
+
+    .grid,
+    .campos {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 26px 30px;
+        margin-top: 25px;
+    }
+
+    .grid > div,
+    .campos > div {
+        min-width: 0;
+    }
+
+    label {
+        display: block;
+        min-height: 25px;
+        margin-bottom: 10px;
+        color: var(--navy);
+        font-size: 14px;
+        font-weight: 650;
+        line-height: 1.5;
+    }
+
+    input,
+    select,
+    textarea {
+        display: block;
+        width: 100%;
+        min-height: 52px;
+        border: 1px solid #c6d0da;
+        border-radius: 9px;
+        padding: 13px 15px;
+        background: #fcfdff;
+        color: var(--navy);
+        font: inherit;
+        transition: border-color .18s, box-shadow .18s;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #758596;
+        font-size: 14px;
+    }
+
+    input:hover,
+    select:hover,
+    textarea:hover {
+        border-color: #8295a8;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: var(--navy);
+        box-shadow: 0 0 0 4px rgba(8, 35, 66, .10);
+        background: white;
+    }
+
+    .ayuda {
+        display: block;
+        margin-top: 9px;
+    }
+
+    button,
+    .boton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 48px;
+        padding: 13px 23px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: var(--coral);
+        color: white;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 650;
+        line-height: 1.4;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background .18s, transform .18s, box-shadow .18s;
+    }
+
+    form > button {
+        margin-top: 30px;
+        min-width: 240px;
+    }
+
+    button:hover,
+    .boton:hover {
+        background: var(--coral-hover);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(189, 36, 50, .16);
+    }
+
+    button:active,
+    .boton:active {
+        transform: translateY(0);
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+        outline: 3px solid var(--navy);
+        outline-offset: 4px;
+    }
+
+    button:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .no-imprimir {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    .no-imprimir button {
+        background: var(--navy);
+        margin-top: 0;
+    }
+
+    .no-imprimir button:hover {
+        background: var(--navy-dark);
+    }
+
+    .tabla {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    th {
+        padding: 16px;
+        border-bottom: 1px solid #d7dfe7;
+        background: #eef2f6;
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.4;
+        letter-spacing: .045em;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    td {
+        padding: 19px 16px;
+        border-bottom: 1px solid #e8edf1;
+        color: var(--text);
+        text-align: left;
+        vertical-align: middle;
+        font-variant-numeric: tabular-nums;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    tbody tr:hover td {
+        background: #fff8f3;
+    }
+
+    td strong {
+        display: inline-block;
+        margin-bottom: 3px;
+    }
+
+    td small {
+        font-size: 12px;
+    }
+
+    td .boton {
+        min-height: 40px;
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+
+    .derecha {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .resumen {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .resumen .panel {
+        margin: 0;
+        padding: 25px;
+    }
+
+    .numero {
+        display: block;
+        margin: 14px 0;
+        color: var(--navy);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(34px, 4vw, 48px);
+        font-weight: 400;
+        line-height: 1.15;
+        letter-spacing: -.035em;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .badge {
+        display: inline-block;
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+    .badge.A {
+        background: #ffe4df;
+        color: #9a3027;
+    }
+
+    .badge.B {
+        background: #fff0cd;
+        color: #78540d;
+    }
+
+    .badge.C {
+        background: #e5efec;
+        color: #28574b;
+    }
+
+    details {
+        border-top: 1px solid var(--border);
+        padding-top: 16px;
+    }
+
+    summary {
+        color: var(--navy);
+        font-weight: 650;
+        cursor: pointer;
+        padding: 6px 0;
+    }
+
+    details[open] summary {
+        margin-bottom: 16px;
+    }
+
+    .error {
+        color: #a3222e;
+        line-height: 1.6;
+    }
+
+    .error strong {
+        color: inherit;
+    }
+
+    #informe-impresion,
+    .solo-imprimir {
+        display: none;
+    }
+
+    @media (max-width: 900px) {
+        main {
+            width: calc(100% - 36px);
+            padding-top: 25px;
+        }
+
+        .resumen {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        main {
+            width: calc(100% - 24px);
+        }
+
+        section,
+        .panel,
+        .tabla {
+            padding: 21px;
+            border-radius: 12px;
+        }
+
+        .grid,
+        .campos {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        form > button {
+            width: 100%;
+            min-width: 0;
+        }
+
+        th, td {
+            padding: 13px 12px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        input,
+        select,
+        textarea,
+        button,
+        .boton {
+            transition: none;
+        }
+
+        button:hover,
+        .boton:hover {
+            transform: none;
+        }
+    }
+}
