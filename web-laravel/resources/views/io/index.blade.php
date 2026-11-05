@@ -1,211 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Planificar reposición · Thaki Voyage</title>
-
-    <style>
-        #informe-impresion {
-    display: none;
-}
-
-@media print {
-    @page {
-        size: A4;
-        margin: 15mm;
-    }
-
-    body {
-        background: white !important;
-        color: black !important;
-        font-family: Arial, sans-serif;
-        font-size: 10pt;
-        line-height: 1.3;
-    }
-
-    /* Ocultar todos los elementos normales de la página. */
-    body > :not(main),
-    main > :not(#informe-impresion) {
-        display: none !important;
-    }
-
-    main {
-        display: block !important;
-        width: 100%;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Mostrar únicamente el informe. */
-    main > #informe-impresion {
-        display: block !important;
-    }
-
-    #informe-impresion h1 {
-        font-size: 18pt;
-        color: black;
-        margin: 0 0 5px;
-    }
-
-    #informe-impresion h2 {
-        font-size: 13pt;
-        color: black;
-        margin: 0 0 15px;
-    }
-
-    #informe-impresion h3 {
-        font-size: 11pt;
-        color: black;
-        margin: 15px 0 7px;
-        break-after: avoid;
-    }
-
-    #informe-impresion table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    #informe-impresion td {
-        padding: 6px 8px;
-        border: 1px solid #ccc;
-        color: black;
-    }
-
-    #informe-impresion td:last-child {
-        text-align: right;
-    }
-
-    #informe-impresion tr {
-        break-inside: avoid;
-    }
-
-    .nota-informe {
-        font-size: 8pt;
-    }
-}
-        * { box-sizing: border-box; }
-
-        body {
-            margin: 0;
-            background: #f3f5f7;
-            color: #24343b;
-            font-family: Arial, sans-serif;
-            line-height: 1.5;
-        }
-
-        main {
-            max-width: 1050px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-
-        h1, h2, h3 { color: #164c45; }
-        h1 { margin-bottom: 8px; }
-        h2 { margin-top: 0; }
-
-        a { color: #164c45; }
-
-        .panel {
-            background: white;
-            border: 1px solid #dce5e3;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 22px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 7px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #9eafb3;
-            border-radius: 6px;
-            font: inherit;
-        }
-
-        input:focus {
-            outline: 3px solid #c4ded6;
-            border-color: #164c45;
-        }
-
-        .ayuda {
-            display: block;
-            color: #53676e;
-            font-size: 14px;
-            margin-top: 7px;
-        }
-
-        button {
-            border: 0;
-            border-radius: 7px;
-            padding: 14px 22px;
-            background: #164c45;
-            color: white;
-            font: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 24px;
-        }
-
-        .numero {
-            font-size: 36px;
-            font-weight: bold;
-            color: #164c45;
-            margin: 8px 0;
-        }
-
-        .error { color: #a51f25; }
-
-        .tabla {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #dce5e3;
-        }
-
-        th { background: #edf4f1; }
-
-        @media (max-width: 650px) {
-            .grid { grid-template-columns: 1fr; }
-            main { padding: 12px; }
-            .panel { padding: 18px; }
-        }
-        .solo-imprimir {
-    display: none;
-}
-
-    </style>
-
-    <link
-    rel="stylesheet"
-    href="{{ asset('css/thaki-admin.css') }}?v=1"
->
-</head>
-
-<body>
-<main>
-    @php
+@extends('layouts.admin')
+@section('titulo', 'Reposición · EOQ')
+@section('clase-pagina', 'pagina-eoq')
+@section('contenido')
+@php
         $campos = [
             'demandaAnual' => [
                 '¿Cuántas unidades prevés comprar durante un año?',
@@ -219,7 +16,7 @@
                 '¿Cuánto cuesta comprar una unidad?',
                 'Precio de referencia de una sola unidad, expresado en bolivianos.',
                 'Ejemplo: 900',
-                '0.01',
+                0,
                 '0.01',
                 ''
             ],
@@ -260,14 +57,20 @@
         $formato = fn ($valor) => number_format($valor, 2, ',', '.');
     @endphp
 
-    <a href="{{ route('inventario.index') }}">← Volver al inventario</a>
+    <x-page-header :title="isset($producto) ? 'Planifica la próxima compra.' : 'Una compra bien pensada.'" description="Estima cantidades, costos y punto de reorden. Tú decides cuándo comprar." eyebrow="ANÁLISIS · REPOSICIÓN EOQ">
+        <a class="boton boton-secundario" href="{{ route('inventario.index') }}"><x-icon name="back"/> Inventario</a>
+        @isset($producto)<a class="boton boton-secundario" href="{{ route('inventario.unidades', ['codigo' => $producto['codigo']]) }}">Ver unidades</a>@endisset
+        <a class="boton boton-secundario" href="{{ route('inventario.abc') }}">Ver ABC</a>
+    </x-page-header>
 
-    <h1>Planificar compras de este producto</h1>
-
-    <p>
-        Calcula qué cantidad conviene comprar por pedido
-        para cubrir tu necesidad anual de reposición.
-    </p>
+    @isset($resultado)
+        <div class="banda-contexto no-imprimir">
+            <span class="icono-destacado"><x-icon name="calculator"/></span>
+            <div><strong>{{ $resultado['loteRecomendado'] }} {{ $resultado['loteRecomendado'] == 1 ? 'unidad por pedido' : 'unidades por pedido' }}</strong><p>La recomendación está lista. Revisa los costos y los supuestos antes de decidir.</p></div>
+            <a class="accion-enlace" href="#recomendacion">Ver resultado <x-icon name="arrow"/></a>
+            <button class="boton boton-secundario" type="button" data-print><x-icon name="print"/> Imprimir informe / Guardar PDF</button>
+        </div>
+    @endisset
 
     @isset($producto)
         <section class="panel">
@@ -295,7 +98,7 @@
         </section>
     @endisset
 
-    <section class="panel">
+    <section class="panel formulario-panel no-imprimir">
         <h2>1. Indica tu necesidad y los costos</h2>
 
         <p>
@@ -332,7 +135,7 @@
         >
             @csrf
 
-            <div class="grid">
+            <div class="formulario-grid">
                 @foreach ($campos as $nombre => $campo)
                     <div>
                         <label for="{{ $nombre }}">
@@ -358,73 +161,19 @@
                 @endforeach
             </div>
 
-            <button type="submit">
+            <button class="boton" type="submit">
                 Obtener recomendación de compra
             </button>
         </form>
     </section>
 
     @isset($resultado)
-    <div class="no-imprimir">
-    <button type="button" onclick="window.print()">
-        Imprimir informe / Guardar PDF
-    </button>
-</div>
-
-<section class="solo-imprimir">
-    <h2>Informe de planificación de reposición</h2>
-
-    <p><strong>Empresa:</strong> Thaki Voyage</p>
-
-    @isset($producto)
-        <p>
-            <strong>Producto:</strong> {{ $producto['nombre'] }}<br>
-            <strong>Código:</strong> {{ $producto['codigo'] }}
-        </p>
-    @endisset
-
-    <p>
-        <strong>Fecha de impresión:</strong>
-        {{ now()->timezone('America/La_Paz')->format('d/m/Y H:i') }}
-    </p>
-
-    <h3>Parámetros utilizados</h3>
-
-    @php
-        $etiquetasInforme = [
-            'demandaAnual' => 'Necesidad anual de adquisición (unidades/año)',
-            'costoPedido' => 'Costo por pedido',
-            'costoMantenimientoAnual' => 'Costo anual de mantener una unidad',
-            'costoUnitario' => 'Precio unitario',
-            'plazoEntregaDias' => 'Plazo de entrega (días)',
-            'diasAnuales' => 'Días considerados por año',
-        ];
-    @endphp
-
-    <table>
-        <tbody>
-            @foreach ($etiquetasInforme as $campo => $etiqueta)
-                <tr>
-                    <td>{{ $etiqueta }}</td>
-                    <td>
-                        {{ number_format($datos[$campo], 2, ',', '.') }}
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <p>
-        Los costos utilizan la moneda indicada en el formulario
-        y en los resultados del análisis.
-    </p>
-</section>
-        <section class="panel">
+        <section class="panel" id="recomendacion">
             <h2>2. Recomendación para los datos ingresados</h2>
 
             <p>Cantidad recomendada por pedido:</p>
 
-            <div class="numero">
+            <div class="valor-grande">
                 {{ $resultado['loteRecomendado'] }} unidades
             </div>
 
@@ -474,7 +223,7 @@
             <p>
                 Para unidades enteras, una referencia conservadora es
                 <strong>
-                    {{ (int) ceil($resultado['puntoReorden']) }} unidades.
+                    {{ (int) ceil($resultado['puntoReorden']) }} {{ (int) ceil($resultado['puntoReorden']) === 1 ? 'unidad' : 'unidades' }}.
                 </strong>
             </p>
 
@@ -507,8 +256,8 @@
         <section class="panel">
             <h2>4. Costos estimados por año</h2>
 
-            <div class="tabla">
-                <table>
+            <div class="tabla-scroll">
+                <table class="tabla-inventario">
                     <thead>
                         <tr>
                             <th>Concepto</th>
@@ -600,9 +349,7 @@
     @endisset
 @isset($resultado)
     @php
-        // Usa 'BOB' si tu formulario está expresado en bolivianos.
-        // La captura que mostraste estaba en USD.
-        $monedaInforme = 'USD';
+        $monedaInforme = 'BOB';
 
         $numeroInforme = fn ($valor) =>
             number_format($valor, 2, ',', '.');
@@ -631,7 +378,7 @@
 
         <h3>Datos utilizados</h3>
 
-        <table>
+        <table class="tabla-inventario">
             <tbody>
                 <tr>
                     <td>Necesidad anual de adquisición</td>
@@ -673,7 +420,7 @@
 
         <h3>Resultados</h3>
 
-        <table>
+        <table class="tabla-inventario">
             <tbody>
                 <tr>
                     <td>EOQ teórico</td>
@@ -750,6 +497,4 @@
         </p>
     </article>
 @endisset
-</main>
-</body>
-</html>
+@endsection

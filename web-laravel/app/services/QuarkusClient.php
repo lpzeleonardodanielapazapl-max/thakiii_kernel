@@ -23,17 +23,7 @@ class QuarkusClient
 
     public function get(string $endpoint): array
     {
-        try {
-            $response = $this->client()->get($endpoint);
-            if ($response->failed()) {
-                Log::error("Quarkus GET {$endpoint}", ['status' => $response->status()]);
-                return [];
-            }
-            return $response->json() ?? [];
-        } catch (\Throwable $e) {
-            Log::error("Quarkus GET {$endpoint}", ['msg' => $e->getMessage()]);
-            return [];
-        }
+        return $this->client()->get($endpoint)->throw()->json() ?? [];
     }
 
     public function post(string $endpoint, array $data = []): array
@@ -42,6 +32,7 @@ class QuarkusClient
             return $this->client()->post($endpoint, $data)->json() ?? [];
         } catch (\Throwable $e) {
             Log::error("Quarkus POST {$endpoint}", ['msg' => $e->getMessage()]);
+
             return [];
         }
     }
@@ -52,6 +43,7 @@ class QuarkusClient
             return $this->client()->put($endpoint, $data)->json() ?? [];
         } catch (\Throwable $e) {
             Log::error("Quarkus PUT {$endpoint}", ['msg' => $e->getMessage()]);
+
             return [];
         }
     }
@@ -62,6 +54,7 @@ class QuarkusClient
             return $this->client()->delete($endpoint)->json() ?? [];
         } catch (\Throwable $e) {
             Log::error("Quarkus DELETE {$endpoint}", ['msg' => $e->getMessage()]);
+
             return [];
         }
     }

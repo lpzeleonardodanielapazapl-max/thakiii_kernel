@@ -1,111 +1,20 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Prioridades del inventario · Thaki Voyage</title>
-
-    <style>
-        * { box-sizing: border-box; }
-
-        body {
-            margin: 0;
-            background: #f3f5f7;
-            color: #24343b;
-            font-family: Arial, sans-serif;
-            line-height: 1.5;
-        }
-
-        main {
-            max-width: 1250px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-
-        h1, h2 { color: #164c45; }
-        a { color: #164c45; }
-
-        .panel {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #dce5e3;
-            margin: 20px 0;
-        }
-
-        .resumen {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .numero {
-            display: block;
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .tabla { overflow-x: auto; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #dce5e3;
-        }
-
-        th { background: #edf4f1; }
-
-        .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-
-        .A { background: #fbe1df; color: #8b2020; }
-        .B { background: #fff0c7; color: #705000; }
-        .C { background: #dcefe5; color: #185437; }
-
-        small { color: #53676e; }
-        .derecha { text-align: right; }
-
-        @media (max-width: 650px) {
-            .resumen { grid-template-columns: 1fr; }
-            main { padding: 12px; }
-        }
-    </style>
-    <link
-    rel="stylesheet"
-    href="{{ asset('css/thaki-admin.css') }}?v=1"
->
-</head>
-
-<body>
-<main>
-    @php
+@extends('layouts.admin')
+@section('titulo', 'Clasificación ABC')
+@section('contenido')
+@php
         $formato = fn ($valor) => number_format($valor, 2, ',', '.');
         $productos = collect($abc['productos']);
     @endphp
 
-    <a href="{{ route('inventario.index') }}">← Volver al inventario</a>
-
-    <h1>¿Qué productos necesitan mayor control?</h1>
-
-    <p>
-        La clasificación ABC ordena los productos según el valor
-        de sus unidades registradas sin baja.
-    </p>
+    <x-page-header title="Cada equipo cuenta." description="Descubre dónde se concentra el valor de tu inventario y organiza tus prioridades." eyebrow="ANÁLISIS · CLASIFICACIÓN ABC">
+        <a class="boton boton-secundario" href="{{ route('inventario.index') }}"><x-icon name="back"/> Inventario</a>
+        <button class="boton" type="button" data-print><x-icon name="print"/> Imprimir / PDF</button>
+    </x-page-header>
 
     <section class="panel">
         <h2>Valor de referencia analizado</h2>
 
-        <span class="numero">
+        <span class="valor-grande">
             Bs {{ $formato($abc['valorTotal']) }}
         </span>
 
@@ -121,10 +30,10 @@
         </small>
     </section>
 
-    <div class="resumen">
+    <div class="resumen-abc">
         <section class="panel">
             <span class="badge A">A · Mayor prioridad</span>
-            <span class="numero">
+            <span class="valor-grande">
                 {{ $productos->where('clasificacion', 'A')->count() }}
             </span>
             <p>
@@ -135,7 +44,7 @@
 
         <section class="panel">
             <span class="badge B">B · Prioridad intermedia</span>
-            <span class="numero">
+            <span class="valor-grande">
                 {{ $productos->where('clasificacion', 'B')->count() }}
             </span>
             <p>
@@ -146,7 +55,7 @@
 
         <section class="panel">
             <span class="badge C">C · Menor concentración de valor</span>
-            <span class="numero">
+            <span class="valor-grande">
                 {{ $productos->where('clasificacion', 'C')->count() }}
             </span>
             <p>
@@ -156,11 +65,12 @@
         </section>
     </div>
 
-    <section class="panel">
+    <section class="panel" data-table>
         <h2>Productos ordenados por valor</h2>
+        <x-table-tools label="Buscar producto o código" :filters="['A' => 'Clase A', 'B' => 'Clase B', 'C' => 'Clase C']"/>
 
-        <div class="tabla">
-            <table>
+        <div class="tabla-scroll">
+            <table class="tabla-inventario">
                 <thead>
                     <tr>
                         <th>Producto</th>
@@ -176,7 +86,7 @@
 
                 <tbody>
                     @forelse ($abc['productos'] as $p)
-                        <tr>
+                        <tr data-row data-tags="{{ $p['clasificacion'] }}">
                             <td>
                                 <strong>{{ $p['nombre'] }}</strong><br>
                                 <small>
@@ -209,7 +119,8 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('inventario.analizar', [
+                                <a class="accion-enlace" href="{{ route('inventario.unidades', ['codigo' => $p['codigo']]) }}">Ver unidades ↗</a><br>
+                                <a class="accion-enlace" href="{{ route('inventario.analizar', [
                                     'codigo' => $p['codigo']
                                 ]) }}">
                                     Planificar compra
@@ -224,6 +135,7 @@
                             </td>
                         </tr>
                     @endforelse
+                    <tr data-no-results hidden><td colspan="8" class="estado-vacio">No encontramos coincidencias.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -286,6 +198,4 @@
             aunque pertenezca al grupo C.
         </p>
     </section>
-</main>
-</body>
-</html>
+@endsection

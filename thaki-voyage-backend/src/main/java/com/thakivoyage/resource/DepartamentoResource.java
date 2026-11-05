@@ -3,6 +3,7 @@ package com.thakivoyage.resource;
 import java.util.List;
 
 import com.thakivoyage.dto.request.DepartamentoRequest;
+import com.thakivoyage.service.GestionValidationService;
 import com.thakivoyage.entity.Departamento;
 import com.thakivoyage.repository.DepartamentoRepository;
 
@@ -24,6 +25,8 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class DepartamentoResource {
+    @Inject
+    GestionValidationService validacion;
 
     @Inject
     DepartamentoRepository departamentoRepository;
@@ -48,15 +51,14 @@ public class DepartamentoResource {
     @POST
     @Transactional
     public Response crear(@Valid DepartamentoRequest request) {
+        validacion.validar(request, null);
         Departamento existente = departamentoRepository.find("desDep", request.desDep).firstResult();
         if (existente != null) {
             return Response.status(Response.Status.CONFLICT)
                 .entity("{\"error\":\"Ya existe un departamento con ese nombre\"}")
                 .build();
         }
-
-        long total = departamentoRepository.count();
-        String nuevoCodigo = String.format("DEP-%03d", total + 1);
+        String nuevoCodigo = GestionValidationService.codigo("DEP");
 
         Departamento nuevo = new Departamento();
         nuevo.codDep = nuevoCodigo;
@@ -72,6 +74,7 @@ public class DepartamentoResource {
     @Path("/{codigo}")
     @Transactional
     public Response actualizar(@PathParam("codigo") String codigo, @Valid DepartamentoRequest request) {
+        validacion.validar(request, codigo);
         Departamento dep = departamentoRepository.find("codDep", codigo).firstResult();
         if (dep == null) {
             return Response.status(Response.Status.NOT_FOUND)

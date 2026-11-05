@@ -1,6 +1,7 @@
 package com.thakivoyage.entity;
 
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -26,16 +27,11 @@ public class Usuario extends PanacheEntityBase {
     public String email;
 
     @Column(name = "password_hash", length = 255)
+    @JsonIgnore
     public String passwordHash;
 
     @Column(name = "cod_rol", length = 20)
     public String codRol;
-
-    @Column(name = "cod_empleado", length = 20)
-    public String codEmpleado;
-
-    @Column(name = "cod_cliente", length = 20)
-    public String codCliente;
 
     @Column(name = "activo")
     public Boolean activo;

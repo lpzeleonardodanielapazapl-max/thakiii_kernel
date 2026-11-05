@@ -3,6 +3,7 @@ package com.thakivoyage.resource;
 import java.util.List;
 
 import com.thakivoyage.dto.request.CargoRequest;
+import com.thakivoyage.service.GestionValidationService;
 import com.thakivoyage.entity.Cargo;
 import com.thakivoyage.repository.CargoRepository;
 
@@ -24,6 +25,8 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CargoResource {
+    @Inject
+    GestionValidationService validacion;
 
     @Inject
     CargoRepository cargoRepository;
@@ -48,15 +51,14 @@ public class CargoResource {
     @POST
     @Transactional
     public Response crear(@Valid CargoRequest request) {
+        validacion.validar(request, null);
         Cargo existente = cargoRepository.find("desCargo", request.desCargo).firstResult();
         if (existente != null) {
             return Response.status(Response.Status.CONFLICT)
                 .entity("{\"error\":\"Ya existe un cargo con ese nombre\"}")
                 .build();
         }
-
-        long total = cargoRepository.count();
-        String nuevoCodigo = String.format("CAR-%03d", total + 1);
+        String nuevoCodigo = GestionValidationService.codigo("CAR");
 
         Cargo nuevo = new Cargo();
         nuevo.codCargo = nuevoCodigo;
@@ -72,6 +74,7 @@ public class CargoResource {
     @Path("/{codigo}")
     @Transactional
     public Response actualizar(@PathParam("codigo") String codigo, @Valid CargoRequest request) {
+        validacion.validar(request, codigo);
         Cargo cargo = cargoRepository.find("codCargo", codigo).firstResult();
         if (cargo == null) {
             return Response.status(Response.Status.NOT_FOUND)

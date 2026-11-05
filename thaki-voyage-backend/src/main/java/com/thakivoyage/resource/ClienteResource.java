@@ -1,6 +1,7 @@
 package com.thakivoyage.resource;
 
 import com.thakivoyage.dto.request.ClienteRequest;
+import com.thakivoyage.service.GestionValidationService;
 import com.thakivoyage.entity.Cliente;
 import com.thakivoyage.repository.ClienteRepository;
 import jakarta.inject.Inject;
@@ -17,6 +18,8 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ClienteResource {
+    @Inject
+    GestionValidationService validacion;
 
     @Inject
     ClienteRepository clienteRepository;
@@ -41,15 +44,14 @@ public class ClienteResource {
     @POST
     @Transactional
     public Response crear(@Valid ClienteRequest request) {
+        validacion.validar(request, null);
         Cliente existente = clienteRepository.find("codPersona", request.codPersona).firstResult();
         if (existente != null) {
             return Response.status(Response.Status.CONFLICT)
                 .entity("{\"error\":\"Esa persona ya es cliente\"}")
                 .build();
         }
-
-        long total = clienteRepository.count();
-        String nuevoCodigo = String.format("CLI-%04d", total + 1);
+        String nuevoCodigo = GestionValidationService.codigo("CLI");
 
         Cliente nuevo = new Cliente();
         nuevo.codCliente = nuevoCodigo;
@@ -67,6 +69,7 @@ public class ClienteResource {
     @Path("/{codigo}")
     @Transactional
     public Response actualizar(@PathParam("codigo") String codigo, @Valid ClienteRequest request) {
+        validacion.validar(request, codigo);
         Cliente cli = clienteRepository.find("codCliente", codigo).firstResult();
         if (cli == null) {
             return Response.status(Response.Status.NOT_FOUND)

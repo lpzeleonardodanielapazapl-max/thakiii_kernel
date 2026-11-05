@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.thakivoyage.dto.request.PersonaRequest;
+import com.thakivoyage.service.GestionValidationService;
 import com.thakivoyage.entity.Persona;
 import com.thakivoyage.repository.PersonaRepository;
 
@@ -25,6 +26,8 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonaResource {
+    @Inject
+    GestionValidationService validacion;
     @Inject
     PersonaRepository personaRepository;
 
@@ -48,6 +51,7 @@ public class PersonaResource {
     @POST
     @Transactional
     public Response crear(@Valid PersonaRequest request) {
+        validacion.validar(request, null);
         // Verificar duplicado de documento
         if (request.numeroDocumento != null) {
             Persona existente = personaRepository
@@ -59,9 +63,7 @@ public class PersonaResource {
                     .build();
             }
         }
-
-        long total = personaRepository.count();
-        String nuevoCodigo = String.format("PER-%04d", total + 1);
+        String nuevoCodigo = GestionValidationService.codigo("PER");
 
         Persona nueva = new Persona();
         nueva.codPersona = nuevoCodigo;
@@ -86,6 +88,7 @@ public class PersonaResource {
     @Path("/{codigo}")
     @Transactional
     public Response actualizar(@PathParam("codigo") String codigo, @Valid PersonaRequest request) {
+        validacion.validar(request, codigo);
         Persona persona = personaRepository.find("codPersona", codigo).firstResult();
         if (persona == null) {
             return Response.status(Response.Status.NOT_FOUND)

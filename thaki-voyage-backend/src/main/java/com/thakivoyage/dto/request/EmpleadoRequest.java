@@ -14,15 +14,11 @@ public class EmpleadoRequest {
 
     public String codDep;
 
-    public String codSucursal;
-
     public LocalDate fechaIngreso;
 
     public LocalDate fechaRetiro;
 
     public BigDecimal salario;
-
-    public String tipoContrato;
 
     public Boolean esGuia = false;
 

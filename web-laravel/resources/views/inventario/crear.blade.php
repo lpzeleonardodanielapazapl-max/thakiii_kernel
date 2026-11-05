@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('titulo', 'Registrar producto')
+@section('titulo', ($editing ?? false) ? 'Editar producto' : 'Registrar producto')
 
 @section('contenido')
     <div class="cabecera">
         <div>
             <p class="sobre-titulo">INVENTARIO</p>
 
-            <h1>Registrar producto.</h1>
+            <h1>{{ ($editing ?? false) ? 'Cada detalle, actualizado.' : 'El comienzo de un nuevo equipo.' }}</h1>
 
             <p class="descripcion">
                 Define el producto. Después podrás registrar
@@ -15,8 +15,8 @@
             </p>
         </div>
 
-        <a class="boton" href="{{ url('/inventario') }}">
-            Ver inventario
+        <a class="boton boton-secundario" href="{{ route('inventario.index') }}">
+            <x-icon name="back"/> Ver inventario
         </a>
     </div>
 
@@ -46,7 +46,8 @@
             El código del producto se genera automáticamente.
         </p>
 
-        <form method="POST" action="{{ route('inventario.guardar') }}">
+        <form method="POST" action="{{ ($editing ?? false) ? route('inventario.actualizar', ['codigo' => $producto['codigo']]) : route('inventario.guardar') }}">
+            @if ($editing ?? false) @method('PUT') @endif
             @csrf
 
             <div class="formulario-grid">
@@ -59,7 +60,7 @@
                         type="text"
                         maxlength="200"
                         placeholder="Ejemplo: Carpa Doite para tres personas"
-                        value="{{ old('nombre') }}"
+                        value="{{ old('nombre', $producto['nombre'] ?? '') }}"
                         required
                     >
                 </div>
@@ -73,7 +74,7 @@
                         @foreach ($catalogos['clases'] as $opcion)
                             <option
                                 value="{{ $opcion['codigo'] }}"
-                                @selected(old('codClase') === $opcion['codigo'])
+                                @selected(old('codClase', $producto['codClase'] ?? '') === $opcion['codigo'])
                             >
                                 {{ $opcion['nombre'] }}
                             </option>
@@ -90,7 +91,7 @@
                         @foreach ($catalogos['marcas'] as $opcion)
                             <option
                                 value="{{ $opcion['codigo'] }}"
-                                @selected(old('codMarca') === $opcion['codigo'])
+                                @selected(old('codMarca', $producto['codMarca'] ?? '') === $opcion['codigo'])
                             >
                                 {{ $opcion['nombre'] }}
                             </option>
@@ -107,7 +108,7 @@
                         type="text"
                         maxlength="100"
                         placeholder="Modelo o referencia comercial"
-                        value="{{ old('modelo') }}"
+                        value="{{ old('modelo', $producto['modelo'] ?? '') }}"
                     >
                 </div>
 
@@ -120,7 +121,7 @@
                         type="text"
                         maxlength="80"
                         placeholder="Ejemplo: Verde"
-                        value="{{ old('color') }}"
+                        value="{{ old('color', $producto['color'] ?? '') }}"
                     >
                 </div>
 
@@ -134,7 +135,7 @@
                             <option
                                 value="{{ $opcion['codigo'] }}"
                                 @selected(
-                                    old('codUm', 'UM-001') === $opcion['codigo']
+                                    old('codUm', $producto['codUm'] ?? 'UM-001') === $opcion['codigo']
                                 )
                             >
                                 {{ $opcion['nombre'] }}
@@ -149,12 +150,18 @@
                 </div>
             </div>
 
+            @if ($editing ?? false)
+                <div class="formulario-grid">
+                    <div><label for="stockMinimo">Stock mínimo de referencia *</label><input id="stockMinimo" name="stockMinimo" type="number" min="0" step="0.01" value="{{ old('stockMinimo', $producto['stockMinimo']) }}" required></div>
+                    <div><label for="estado">Estado *</label><select id="estado" name="estado" required><option value="ACTIVO" @selected(old('estado', $producto['estado']) === 'ACTIVO')>Activo</option><option value="INACTIVO" @selected(old('estado', $producto['estado']) === 'INACTIVO')>Inactivo</option></select><small>Inactivar conserva las unidades y el historial del producto.</small></div>
+                </div>
+            @endif
             <div class="formulario-acciones">
                 <button class="boton" type="submit">
-                    Guardar producto
+                    <x-icon name="plus"/> {{ ($editing ?? false) ? 'Guardar cambios' : 'Guardar producto' }}
                 </button>
 
-                <a href="{{ url('/inventario') }}">
+                <a class="boton boton-secundario" href="{{ route('inventario.index') }}">
                     Cancelar
                 </a>
             </div>

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.thakivoyage.dto.request.UsuarioRequest;
+import com.thakivoyage.service.GestionValidationService;
+import com.thakivoyage.service.PasswordService;
 import com.thakivoyage.entity.Usuario;
 import com.thakivoyage.repository.UsuarioRepository;
 
@@ -25,6 +27,11 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
+    @Inject
+    GestionValidationService validacion;
+
+    @Inject
+    PasswordService passwords;
 
     @Inject
     UsuarioRepository usuarioRepository;
@@ -61,6 +68,7 @@ public class UsuarioResource {
     @POST
     @Transactional
     public Response crear(@Valid UsuarioRequest request) {
+        validacion.validar(request, null);
         if (usuarioRepository.findByEmail(request.email) != null) {
             return Response.status(Response.Status.CONFLICT)
                 .entity("{\"error\":\"Ya existe un usuario con ese email\"}")
@@ -70,10 +78,8 @@ public class UsuarioResource {
         Usuario nuevo = new Usuario();
         nuevo.username = request.username;
         nuevo.email = request.email;
-        nuevo.passwordHash = "PENDIENTE_HASH_" + request.password;
+        nuevo.passwordHash = passwords.hash(request.password);
         nuevo.codRol = request.codRol;
-        nuevo.codEmpleado = request.codEmpleado;
-        nuevo.codCliente = request.codCliente;
         nuevo.activo = request.activo;
         nuevo.emailVerificado = false;
         nuevo.createdAt = LocalDateTime.now();
@@ -87,6 +93,7 @@ public class UsuarioResource {
     @Path("/{id}")
     @Transactional
     public Response actualizar(@PathParam("id") Long id, @Valid UsuarioRequest request) {
+        validacion.validar(request, id);
         Usuario user = usuarioRepository.findById(id);
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -94,11 +101,12 @@ public class UsuarioResource {
                 .build();
         }
 
+        if (request.password != null && !request.password.isEmpty()) {
+            user.passwordHash = passwords.hash(request.password);
+        }
         user.username = request.username;
         user.email = request.email;
         user.codRol = request.codRol;
-        user.codEmpleado = request.codEmpleado;
-        user.codCliente = request.codCliente;
         user.activo = request.activo;
 
         usuarioRepository.persist(user);

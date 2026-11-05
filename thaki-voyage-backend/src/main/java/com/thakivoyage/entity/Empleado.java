@@ -27,9 +27,6 @@ public class Empleado extends PanacheEntityBase {
     @Column(name = "cod_dep", length = 20)
     public String codDep;
 
-    @Column(name = "cod_sucursal", length = 20)
-    public String codSucursal;
-
     @Column(name = "fecha_ingreso")
     public LocalDate fechaIngreso;
 
@@ -38,9 +35,6 @@ public class Empleado extends PanacheEntityBase {
 
     @Column(name = "salario", precision = 12, scale = 2)
     public BigDecimal salario;
-
-    @Column(name = "tipo_contrato", length = 50)
-    public String tipoContrato;
 
     @Column(name = "es_guia")
     public Boolean esGuia;

@@ -14,16 +14,11 @@ public class UsuarioRequest {
     @Size(max = 150)
     public String email;
 
-    @NotBlank(message = "La contrasena es obligatoria")
-    @Size(min = 6, max = 255, message = "La contrasena debe tener al menos 6 caracteres")
+    @Size(min = 8, max = 255, message = "La contraseña debe tener al menos 8 caracteres")
     public String password;
 
     @NotBlank(message = "codRol es obligatorio")
     public String codRol;
-
-    public String codEmpleado;
-
-    public String codCliente;
 
     public Boolean activo = true;
 }

@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Http;
 
 class InventarioController extends Controller
 {
-    private function productos(): array
+    private function productos(string $estado = 'ACTIVO'): array
     {
         // Si la API falla, no mostramos el error como inventario vacío.
         return Http::baseUrl(config('services.quarkus.url'))
             ->acceptJson()
             ->timeout(15)
-            ->get('/api/inventario/productos')
+            ->get('/api/inventario/productos', $estado === 'ACTIVO' ? [] : ['estado' => $estado])
             ->throw()
             ->json();
     }
@@ -28,10 +28,11 @@ class InventarioController extends Controller
         return $producto;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $request->validate(['estado' => ['nullable', 'in:ACTIVO,INACTIVO,TODOS']]);
         return view('inventario.index', [
-            'productos' => $this->productos(),
+            'productos' => $this->productos($request->query('estado') ?: 'ACTIVO'),
         ]);
     }
 
@@ -137,12 +138,12 @@ public function guardarProducto(Request $request)
         $respuesta->throw();
 
         return redirect()
-            ->route('inventario.crear')
+            ->route('inventario.unidades', ['codigo' => $respuesta->json('codigo')])
             ->with(
                 'exito',
                 'Producto registrado. Código: '
                 . $respuesta->json('codigo')
-                . '. El siguiente paso es registrar sus unidades físicas.'
+                . '. Ahora puedes registrar sus unidades físicas.'
             );
 
     } catch (\Illuminate\Http\Client\ConnectionException $e) {

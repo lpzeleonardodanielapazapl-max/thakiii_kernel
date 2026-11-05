@@ -3,108 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>@yield('titulo', 'Administración') · Thaki Voyage</title>
-
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ filemtime(public_path('css/admin.css')) }}">
+    <script src="{{ asset('js/admin.js') }}?v={{ filemtime(public_path('js/admin.js')) }}" defer></script>
 </head>
-<body>
-
-<a class="saltar-contenido" href="#contenido-principal">
-    Saltar al contenido
-</a>
-
+<body class="@yield('clase-pagina')">
+<a class="saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
 <div class="admin-shell">
     <aside class="sidebar">
         <a class="marca" href="{{ route('admin.index') }}" aria-label="Thaki Voyage, inicio">
-            <svg class="marca-montana" viewBox="0 0 100 45" aria-hidden="true">
-                <path d="M5 40 35 7 56 30 70 15 95 40"
-                      fill="none" stroke="currentColor" stroke-width="2"/>
-                <path d="m25 18 10 5 8-7"
-                      fill="none" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>THAKI</span>
-            <small>VOYAGE</small>
+            <span class="marca-simbolo"><x-icon name="mountain"/></span>
+            <span class="marca-nombre">THAKI<small>V O Y A G E</small></span>
         </a>
-
-        <nav class="menu-admin" aria-label="Menú de administración">
-            <p class="menu-etiqueta">GENERAL</p>
-
-            <a href="{{ route('admin.index') }}"
-               class="{{ request()->is('admin') ? 'activo' : '' }}"
-               @if(request()->is('admin')) aria-current="page" @endif>
-                <span class="menu-icono" aria-hidden="true">⌂</span>
-                Inicio
-            </a>
-
-            <p class="menu-etiqueta">EQUIPAMIENTO</p>
-
-            <a href="{{ url('/inventario') }}"
-               class="{{ request()->is('inventario') || request()->is('inventario/*/reposicion') ? 'activo' : '' }}"
-               @if(request()->is('inventario') || request()->is('inventario/*/reposicion')) aria-current="page" @endif>
-                <span class="menu-icono" aria-hidden="true">▦</span>
-                Inventario
-            </a>
-
-            <a href="{{ route('inventario.crear') }}"
-               class="{{ request()->routeIs('inventario.crear') ? 'activo' : '' }}"
-               @if(request()->routeIs('inventario.crear')) aria-current="page" @endif>
-                <span class="menu-icono" aria-hidden="true">＋</span>
-                Registrar producto
-            </a>
-
-            <a href="{{ url('/inventario/abc') }}"
-               class="{{ request()->is('inventario/abc') ? 'activo' : '' }}"
-               @if(request()->is('inventario/abc')) aria-current="page" @endif>
-                <span class="menu-icono" aria-hidden="true">◫</span>
-                Clasificación ABC
-            </a>
-
-            <p class="menu-etiqueta">PERSONAS Y ACCESOS</p>
-
-            @foreach ([
-                'personas' => 'Personas',
-                'empleados' => 'Empleados',
-                'clientes' => 'Clientes',
-                'usuarios' => 'Usuarios',
-                'roles' => 'Roles'
-            ] as $ruta => $nombre)
-                <a href="{{ url('/'.$ruta) }}"
-                   class="{{ request()->is($ruta, $ruta.'/*') ? 'activo' : '' }}"
-                   @if(request()->is($ruta, $ruta.'/*')) aria-current="page" @endif>
-                    <span class="menu-icono menu-punto" aria-hidden="true">○</span>
-                    {{ $nombre }}
-                </a>
+        <div class="sidebar-contexto"><span class="punto-luz"></span> Centro de operaciones</div>
+        <button class="boton-menu" type="button" aria-expanded="true" aria-controls="navegacion-admin"><x-icon name="menu"/> Menú de navegación</button>
+        <nav class="menu-admin" id="navegacion-admin" aria-label="Menú de administración">
+            @php
+                $grupos = [
+                    'TU ESPACIO' => [['admin.index', 'Inicio', 'home', request()->is('admin')]],
+                    'EQUIPAMIENTO' => [
+                        ['inventario.index', 'Inventario', 'box', request()->is('inventario', 'inventario/*/unidades', 'inventario/*/unidades/*', 'inventario/productos/*') && ! request()->routeIs('inventario.crear')],
+                        ['inventario.crear', 'Registrar producto', 'plus', request()->routeIs('inventario.crear')],
+                    ],
+                    'ANÁLISIS Y COMPRAS' => [
+                        ['inventario.abc', 'Clasificación ABC', 'chart', request()->routeIs('inventario.abc')],
+                        ['io.index', 'Reposición · EOQ', 'calculator', request()->is('investigacion-operativa*', 'inventario/*/reposicion')],
+                    ],
+                    'PERSONAS Y ACCESOS' => [
+                        ['personas.index', 'Personas', 'users', request()->is('personas', 'personas/*')],
+                        ['empleados.index', 'Empleados', 'briefcase', request()->is('empleados', 'empleados/*')],
+                        ['cargos.index', 'Cargos', 'briefcase', request()->is('cargos', 'cargos/*')],
+                        ['departamentos.index', 'Departamentos', 'grid', request()->is('departamentos', 'departamentos/*')],
+                        ['clientes.index', 'Clientes', 'mountain', request()->is('clientes', 'clientes/*')],
+                        ['usuarios.index', 'Usuarios', 'users', request()->is('usuarios', 'usuarios/*')],
+                        ['roles.index', 'Roles', 'shield', request()->is('roles', 'roles/*')],
+                    ],
+                ];
+            @endphp
+            @foreach ($grupos as $grupo => $enlaces)
+                <p class="menu-etiqueta">{{ $grupo }}</p>
+                @foreach ($enlaces as [$ruta, $texto, $icono, $activo])
+                    <a href="{{ route($ruta) }}" @class(['activo' => $activo]) @if ($activo) aria-current="page" @endif>
+                        <x-icon :name="$icono"/><span>{{ $texto }}</span>@if ($activo)<span class="nav-indicador"></span>@endif
+                    </a>
+                @endforeach
             @endforeach
         </nav>
-
-        <div class="sidebar-pie">
-            <span class="sello">HECHO PARA EXPLORAR</span>
-            <p>El próximo viaje empieza<br>con cada detalle.</p>
-        </div>
+        <div class="sidebar-pie"><x-icon name="mountain"/><p>Todo listo para<br><em>el próximo camino.</em></p><span>BOLIVIA · THAKI VOYAGE</span></div>
     </aside>
-
     <div class="contenido">
-        <header class="barra-superior">
-            <div class="breadcrumb">
-                <span>Thaki Voyage</span>
-                <span aria-hidden="true">/</span>
-                <strong>Administración</strong>
-            </div>
-
-            <span class="etiqueta">Gestión interna</span>
+        <header class="barra-superior no-imprimir">
+            <nav class="breadcrumb" aria-label="Ruta de navegación">
+                <a href="{{ route('admin.index') }}"><x-icon name="home"/><span>Panel</span></a>
+                @if (request()->is('inventario/*'))<span aria-hidden="true">/</span><a href="{{ route('inventario.index') }}">Inventario</a>@endif
+                @if (request()->route('modulo') && ! request()->routeIs(request()->route('modulo').'.index'))<span aria-hidden="true">/</span><a href="{{ route(request()->route('modulo').'.index') }}">{{ config('gestion.'.request()->route('modulo').'.title') }}</a>@endif
+                <span aria-hidden="true">/</span><strong aria-current="page">@yield('titulo', 'Administración')</strong>
+            </nav>
+            <div class="barra-detalle"><span>{{ now()->timezone('America/La_Paz')->format('d.m.Y') }}</span><span class="avatar-marca" aria-label="Thaki Voyage">TV</span></div>
         </header>
-
-        <main class="pagina" id="contenido-principal" tabindex="-1">
-            @yield('contenido')
-        </main>
-
-        <footer class="pie-pagina">
-            <span>THAKI VOYAGE · Turismo a medida</span>
-            <span>Entorno de desarrollo · Acceso por rol pendiente</span>
-        </footer>
+        <main class="pagina" id="contenido-principal" tabindex="-1">@yield('contenido')</main>
+        <footer class="pie-pagina"><span>THAKI VOYAGE · Viajes que dejan huella.</span><a href="{{ route('admin.index') }}">Volver al panel ↗</a></footer>
     </div>
 </div>
-
 </body>
 </html>

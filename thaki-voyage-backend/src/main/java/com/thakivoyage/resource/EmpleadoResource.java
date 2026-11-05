@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.thakivoyage.dto.request.EmpleadoRequest;
+import com.thakivoyage.service.GestionValidationService;
 import com.thakivoyage.entity.Empleado;
 import com.thakivoyage.repository.EmpleadoRepository;
 
@@ -25,6 +26,8 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EmpleadoResource {
+    @Inject
+    GestionValidationService validacion;
 
     @Inject
     EmpleadoRepository empleadoRepository;
@@ -49,26 +52,23 @@ public class EmpleadoResource {
     @POST
     @Transactional
     public Response crear(@Valid EmpleadoRequest request) {
+        validacion.validar(request, null);
         Empleado existente = empleadoRepository.find("codPersona", request.codPersona).firstResult();
         if (existente != null) {
             return Response.status(Response.Status.CONFLICT)
                 .entity("{\"error\":\"Esa persona ya es empleado\"}")
                 .build();
         }
-
-        long total = empleadoRepository.count();
-        String nuevoCodigo = String.format("EMP-%04d", total + 1);
+        String nuevoCodigo = GestionValidationService.codigo("EMP");
 
         Empleado nuevo = new Empleado();
         nuevo.codEmpleado = nuevoCodigo;
         nuevo.codPersona = request.codPersona;
         nuevo.codCargo = request.codCargo;
         nuevo.codDep = request.codDep;
-        nuevo.codSucursal = request.codSucursal;
         nuevo.fechaIngreso = request.fechaIngreso;
         nuevo.fechaRetiro = request.fechaRetiro;
         nuevo.salario = request.salario;
-        nuevo.tipoContrato = request.tipoContrato;
         nuevo.esGuia = request.esGuia;
         nuevo.esAsesor = request.esAsesor;
         nuevo.esConductor = request.esConductor;
@@ -85,6 +85,7 @@ public class EmpleadoResource {
     @Path("/{codigo}")
     @Transactional
     public Response actualizar(@PathParam("codigo") String codigo, @Valid EmpleadoRequest request) {
+        validacion.validar(request, codigo);
         Empleado emp = empleadoRepository.find("codEmpleado", codigo).firstResult();
         if (emp == null) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -94,11 +95,9 @@ public class EmpleadoResource {
 
         emp.codCargo = request.codCargo;
         emp.codDep = request.codDep;
-        emp.codSucursal = request.codSucursal;
         emp.fechaIngreso = request.fechaIngreso;
         emp.fechaRetiro = request.fechaRetiro;
         emp.salario = request.salario;
-        emp.tipoContrato = request.tipoContrato;
         emp.esGuia = request.esGuia;
         emp.esAsesor = request.esAsesor;
         emp.esConductor = request.esConductor;

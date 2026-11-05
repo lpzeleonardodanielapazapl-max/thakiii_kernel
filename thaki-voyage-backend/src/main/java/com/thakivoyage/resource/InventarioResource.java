@@ -8,6 +8,8 @@ import com.thakivoyage.service.InventarioService.ProductoResumen;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -20,7 +22,7 @@ public class InventarioResource {
 
     @GET
     @Path("/productos")
-    public List<ProductoResumen> listarProductos() {
-        return inventarioService.listarProductos();
+    public List<ProductoResumen> listarProductos(@QueryParam("estado") @DefaultValue("ACTIVO") String estado) {
+        return inventarioService.listarProductos(estado);
     }
 }
