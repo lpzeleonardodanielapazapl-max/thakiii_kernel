@@ -50,11 +50,11 @@ class PanelNavigationTest extends TestCase
     {
         $this->prepararApi();
 
-        foreach (['/admin', '/inventario', '/inventario/abc', '/investigacion-operativa',
+        foreach (['/admin', '/admin/gestion', '/inventario', '/inventario/abc', '/investigacion-operativa',
             '/inventario/PRO-1/reposicion', '/inventario/productos/nuevo',
             '/personas', '/empleados', '/clientes', '/usuarios', '/roles'] as $ruta) {
             $this->get($ruta)->assertOk()->assertSee('id="navegacion-admin"', false)
-                ->assertSeeText('Volver al panel')->assertSeeText('Reposición · EOQ')
+                ->assertSeeText('Volver al panel')->assertSeeText('Gestión')
                 ->assertDontSee('cdn.tailwindcss.com', false);
         }
     }
@@ -63,7 +63,7 @@ class PanelNavigationTest extends TestCase
     {
         $this->prepararApi();
 
-        foreach (['/admin', '/inventario', '/empleados', '/usuarios', '/clientes', '/roles'] as $ruta) {
+        foreach (['/admin', '/admin/gestion', '/inventario', '/empleados', '/usuarios', '/clientes', '/roles'] as $ruta) {
             $response = $this->get($ruta)->assertOk();
             $dom = new \DOMDocument;
             @$dom->loadHTML($response->getContent());
@@ -76,6 +76,41 @@ class PanelNavigationTest extends TestCase
                 $this->assertContains('GET', $matched->methods(), $path);
             }
         }
+    }
+
+    public function test_herramientas_secundarias_se_alcanzan_desde_gestion_sin_llenar_el_inicio(): void
+    {
+        $this->prepararApi();
+        $inicio = $this->get('/admin')->assertOk()->assertSeeText('Inventario de un vistazo');
+        $this->assertStringNotContainsString('hero-thaki', $inicio->getContent());
+        $dom = new \DOMDocument;
+        @$dom->loadHTML($inicio->getContent());
+        $xpath = new \DOMXPath($dom);
+        $menu = $xpath->query('//nav[@id="navegacion-admin"]//a');
+        $destinos = [];
+        foreach ($menu as $enlace) {
+            $destinos[] = parse_url($enlace->getAttribute('href'), PHP_URL_PATH);
+        }
+        $this->assertSame(['/admin', '/atencion', '/atencion/calendario', '/inventario', '/clientes', '/admin/gestion'], $destinos);
+        $gestion = $this->get('/admin/gestion')->assertOk();
+        foreach (['personas.index', 'empleados.index', 'cargos.index', 'departamentos.index', 'usuarios.index', 'roles.index', 'inventario.abc', 'io.index'] as $ruta) {
+            $gestion->assertSee(route($ruta));
+        }
+    }
+
+    public function test_gestion_permanece_disponible_si_falla_la_api_y_situa_la_seccion_actual(): void
+    {
+        Http::preventStrayRequests();
+        $this->get('/admin/gestion')->assertOk()->assertSeeText('Personas y equipo')->assertSeeText('Análisis del inventario');
+        Http::assertNothingSent();
+        $this->prepararApi();
+        $response = $this->get('/empleados')->assertOk();
+        $dom = new \DOMDocument;
+        @$dom->loadHTML($response->getContent());
+        $xpath = new \DOMXPath($dom);
+        $actual = $xpath->query('//nav[@id="navegacion-admin"]//a[@aria-current="page"]');
+        $this->assertSame(1, $actual->length);
+        $this->assertSame('/admin/gestion', parse_url($actual[0]->getAttribute('href'), PHP_URL_PATH));
     }
 
     public function test_fallo_de_api_mantiene_navegacion_y_no_aparenta_directorio_vacio(): void

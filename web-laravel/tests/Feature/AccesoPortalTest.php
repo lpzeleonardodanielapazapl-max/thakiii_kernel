@@ -34,7 +34,7 @@ class AccesoPortalTest extends TestCase
 
     public function test_ninguna_ruta_privada_permite_acceso_anonimo(): void
     {
-        foreach (['/admin', '/personas', '/usuarios', '/inventario', '/atencion', '/mi-viaje', '/mi-viaje/perfil', '/mi-viaje/mensajes'] as $ruta) {
+        foreach (['/admin', '/admin/gestion', '/personas', '/usuarios', '/inventario', '/atencion', '/mi-viaje', '/mi-viaje/perfil', '/mi-viaje/mensajes'] as $ruta) {
             $this->get($ruta)->assertRedirect(route('acceso.ingresar'));
         }
         Http::assertNothingSent();
@@ -87,7 +87,7 @@ class AccesoPortalTest extends TestCase
         Http::fake([
             '*/api/acceso/sesion' => Http::response($this->identidad()),
             '*/api/cliente/resumen' => Http::response($this->resumen()),
-            '*/api/cliente/perfil' => Http::response(['nombres' => 'Ana', 'apellidos' => 'Pérez', 'email' => 'ana@example.test']),
+            '*/api/cliente/perfil' => Http::response(['nombres' => 'Ana', 'apellidos' => 'Pérez', 'email' => 'ana@example.test', 'completitud' => ['completo' => true, 'porcentaje' => 100]]),
             '*/api/cliente/mensajes' => Http::response([]), '*/api/cliente/notificaciones' => Http::response([]),
         ]);
         foreach (['/mi-viaje', '/mi-viaje/perfil', '/mi-viaje/solicitar', '/mi-viaje/mensajes', '/mi-viaje/notificaciones'] as $ruta) {
@@ -126,5 +126,31 @@ class AccesoPortalTest extends TestCase
         $this->withSession(['api_token' => 'token', 'usuario' => $this->identidad()])->post('/salir')
             ->assertRedirect(route('publico.inicio'))->assertSessionMissing('api_token')->assertSessionMissing('usuario');
         Http::assertSent(fn ($r) => $r->hasHeader('Authorization', 'Bearer token'));
+    }
+
+    public function test_reserva_confirmada_destaca_sin_seguir_pidiendo_verificar_el_anticipo(): void
+    {
+        $resumen = $this->resumen();
+        $resumen['reservas'] = [['codigo' => 'RES-1', 'fechaInicio' => '2027-01-01', 'fechaFin' => '2027-01-03', 'personas' => 2, 'estado' => 'CONFIRMADA', 'total' => 1000, 'anticipo' => 500, 'pagado' => 500, 'saldo' => 500, 'moneda' => 'USD']];
+        $resumen['propuestas'] = [['codigo' => 'PRP-1', 'titulo' => 'Primera versión', 'dias' => 3, 'version' => 1, 'precio' => 900, 'moneda' => 'USD', 'estado' => 'REEMPLAZADA']];
+        Http::fake(['*/api/acceso/sesion' => Http::response($this->identidad()), '*/api/cliente/resumen' => Http::response($resumen), '*/api/cliente/mensajes' => Http::response([])]);
+        $response = $this->withSession(['api_token' => 'token', 'usuario' => $this->identidad()])->get('/mi-viaje')->assertOk()
+            ->assertSeeText('Tu viaje está confirmado.')->assertSeeText('Versiones anteriores (1)')
+            ->assertDontSeeText('El personal debe verificarlo para confirmar el viaje.')->assertDontSeeText('CONFIRMADA');
+        $this->assertLessThan(strpos($response->getContent(), 'Tus propuestas'), strpos($response->getContent(), 'Reservas y pagos registrados'));
+    }
+
+    public function test_versiones_anteriores_y_aceptadas_no_invitan_a_aceptarlas_nuevamente(): void
+    {
+        $base = ['titulo' => 'Mi ruta', 'descripcion' => 'Descripción', 'dias' => 1, 'precio' => 1000, 'moneda' => 'USD', 'version' => 1, 'itinerario' => []];
+        Http::fake([
+            '*/api/acceso/sesion' => Http::response($this->identidad()),
+            '*/api/cliente/propuestas/PRP-1' => Http::response([...$base, 'codigo' => 'PRP-1', 'estado' => 'REEMPLAZADA']),
+            '*/api/cliente/propuestas/PRP-2' => Http::response([...$base, 'codigo' => 'PRP-2', 'estado' => 'ACEPTADA']),
+        ]);
+        $this->withSession(['api_token' => 'token', 'usuario' => $this->identidad()])->get('/mi-viaje/propuestas/PRP-1')->assertOk()
+            ->assertSeeText('Esta es una versión anterior')->assertDontSeeText('Comunicar mi aceptación');
+        $this->get('/mi-viaje/propuestas/PRP-2')->assertOk()->assertSeeText('Tu aceptación ya está registrada.')
+            ->assertDontSeeText('Comunicar mi aceptación');
     }
 }

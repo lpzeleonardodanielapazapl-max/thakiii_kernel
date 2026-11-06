@@ -24,7 +24,36 @@ public class PortalService {
             FROM persona WHERE email=:email
             """, Map.of("email", user.email()), "codigo", "nombres", "apellidos", "email", "telefono", "direccion", "tipoDocumento", "numeroDocumento", "fechaNacimiento", "genero");
         if (personas.size() > 1) throw new ClientErrorException("Hay más de un registro personal con tu correo. Solicita al personal revisar tu perfil.", 409);
-        return personas.isEmpty() ? Map.of("email", user.email()) : personas.getFirst();
+        var perfil = new LinkedHashMap<String, Object>(personas.isEmpty() ? Map.of("email", user.email()) : personas.getFirst());
+        perfil.put("completitud", completitud(perfil));
+        return perfil;
+    }
+
+    static Map<String, Object> completitud(Map<String, Object> perfil) {
+        var campos = valores("nombres", "Nombres", "apellidos", "Apellidos", "email", "Correo",
+            "telefono", "Teléfono", "direccion", "Dirección", "tipoDocumento", "Tipo de documento",
+            "numeroDocumento", "Número de documento", "fechaNacimiento", "Fecha de nacimiento");
+        var faltantes = new ArrayList<String>();
+        var claves = new ArrayList<String>();
+        campos.forEach((campo, etiqueta) -> {
+            Object valor = perfil.get(campo);
+            boolean valido = valor != null && !valor.toString().isBlank();
+            if (valido && campo.equals("fechaNacimiento")) {
+                try { valido = !LocalDate.parse(valor.toString()).isAfter(LocalDate.now()); }
+                catch (java.time.format.DateTimeParseException e) { valido = false; }
+            }
+            if (!valido) { faltantes.add(etiqueta.toString()); claves.add(campo); }
+        });
+        return valores("completo", faltantes.isEmpty(), "porcentaje", (campos.size() - faltantes.size()) * 100 / campos.size(),
+            "faltantes", faltantes, "camposFaltantes", claves);
+    }
+
+    private void exigirPerfilCompleto(AccesoService.Identidad user) {
+        var estado = completitud(persona(user));
+        if (!Boolean.TRUE.equals(estado.get("completo"))) {
+            throw new ClientErrorException("Completa tu perfil al 100 % antes de enviar tu solicitud. Faltan: "
+                + ((List<?>) estado.get("faltantes")).stream().map(Object::toString).collect(java.util.stream.Collectors.joining(", ")) + ".", 409);
+        }
     }
 
     private Map<String, Object> cliente(AccesoService.Identidad user, boolean obligatorio) {
@@ -68,7 +97,7 @@ public class PortalService {
 
     public Map<String, Object> asesor(AccesoService.Identidad user) {
         return db.primero("""
-            SELECT u.id_usuario, COALESCE(u.username,u.email), u.email
+            SELECT u.id_usuario, COALESCE(NULLIF(TRIM(CONCAT(p.nombres,' ',p.apellidos)),''),u.username,u.email), u.email
             FROM asignacion_asesor a JOIN usuario u ON u.id_usuario=a.id_usuario_ase
             JOIN rol r ON r.cod_rol=u.cod_rol
             JOIN persona p ON p.email=u.email JOIN empleado e ON e.cod_persona=p.cod_persona
@@ -141,6 +170,7 @@ public class PortalService {
 
     @Transactional
     public Map<String, Object> solicitar(AccesoService.Identidad user, Viaje datos) {
+        exigirPerfilCompleto(user);
         var c = cliente(user, true);
         if (datos == null || datos.fechaInicio()==null || datos.fechaFin()==null || datos.fechaInicio().isBefore(LocalDate.now()) || datos.fechaFin().isBefore(datos.fechaInicio())) throw new BadRequestException("Selecciona fechas válidas para tu viaje.");
         if (datos.personas()==null || datos.personas()<1 || datos.personas()>1000) throw new BadRequestException("Indica la cantidad de viajeros, entre 1 y 1000.");

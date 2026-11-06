@@ -1,0 +1,304 @@
+@media screen {
+    :root {
+        --liquid-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --liquid-ink: #182b46;
+        --liquid-muted: #53657c;
+        --liquid-blue: #284b7b;
+        --liquid-spring: cubic-bezier(.22,1.3,.36,1);
+        --liquid-rim: inset 0 1px 1px #fffffff0, inset 0 -1px 1px #ffffff30, inset 0 0 0 1px #ffffff59;
+        --tinta: #182b46; --muted: #53657c; --crema: #f3f5fa; --coral: #284b7b; --melocoton: #e0e8f7; --borde: #dce3ef;
+        --navy: #243d60; --navy-dark: #182b46; --text: #41546b; --paper: #f3f5fa; --line: #dfe5f0;
+        --serif: var(--liquid-font);
+    }
+    body.estilo-liquid {
+        font-family: var(--liquid-font); color: var(--liquid-ink);
+        background: radial-gradient(ellipse at 8% 2%, #d0dfef 0, transparent 43%), radial-gradient(ellipse at 93% 28%, #ded6f2 0, transparent 44%), radial-gradient(ellipse at 60% 100%, #d5e7e5 0, transparent 55%), #edf2fa;
+        background-attachment: fixed;
+    }
+    .estilo-liquid h1, .estilo-liquid h2, .estilo-liquid h3, .estilo-liquid h4,
+    .estilo-liquid .marca-nombre, .estilo-liquid .marca-publica, .estilo-liquid .numero,
+    .estilo-liquid .valor-grande, .estilo-liquid .banda-contexto strong {
+        font-family: var(--liquid-font) !important; font-weight: 550; letter-spacing: -.035em;
+    }
+    .estilo-liquid em { font-family: inherit; font-style: normal; font-weight: inherit; }
+    .estilo-liquid h1 { font-weight: 550; line-height: 1.12; }
+    .estilo-liquid h2 { font-weight: 550; }
+    .estilo-liquid .etiqueta, .estilo-liquid .sobre-titulo { color: #4c6482; font-size: 10px; font-weight: 650; letter-spacing: .13em; }
+    .estilo-liquid :focus-visible { outline: 3px solid #547dab; outline-offset: 4px; }
+    .estilo-liquid .boton, .estilo-liquid .chat-enviar {
+        border-radius: 999px; border: 1px solid #ffffff30;
+        background: linear-gradient(150deg,#ffffff18,#ffffff05), #213d65;
+        color: #fff !important; box-shadow: inset 0 1px 1px #ffffff55, 0 5px 15px #1b355d15;
+        padding: 12px 21px; font-family: var(--liquid-font); font-weight: 600;
+        transition: transform .4s var(--liquid-spring), box-shadow .3s, background-color .3s;
+    }
+    .estilo-liquid .boton:hover, .estilo-liquid .chat-enviar:hover { transform: translateY(-2px) scale(1.025); background-color: #2c527f; box-shadow: inset 0 1px 1px #ffffff66, 0 9px 20px #1b355d25; }
+    .estilo-liquid .boton:active, .estilo-liquid .chat-enviar:active { transform: scale(.97); }
+    .estilo-liquid .boton-secundario, .estilo-liquid .boton.secundario, .estilo-liquid .boton-texto {
+        background: linear-gradient(140deg,#ffffff26,#ffffff14); border-color: #ffffff59;
+        color: #203c61 !important; box-shadow: var(--liquid-rim), 0 4px 16px #20385c0a;
+        -webkit-backdrop-filter: blur(4px) saturate(175%); backdrop-filter: blur(4px) saturate(175%);
+    }
+    .estilo-liquid .boton-secundario:hover, .estilo-liquid .boton.secundario:hover { background-color: #dbe6f566; }
+    .estilo-liquid .boton-pequeno, .estilo-liquid .boton.pequeno { min-height: 36px; padding: 9px 16px; }
+    .estilo-liquid .cabecera, .estilo-liquid .barra-superior, .estilo-liquid .sidebar, .estilo-liquid .portal-barra {
+        border: 1px solid #ffffff59; box-shadow: var(--liquid-rim), 0 12px 35px #20335110;
+        -webkit-backdrop-filter: blur(5px) saturate(175%); backdrop-filter: blur(5px) saturate(175%);
+    }
+    .estilo-liquid .cabecera {
+        position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+        margin: 18px auto 0; padding: 17px 26px; width: calc(100% - 48px); max-width: 1510px; height: 78px;
+        border-radius: 999px; background: linear-gradient(135deg,#ffffff24,#ffffff12); z-index: 20;
+    }
+    .estilo-liquid .cabecera > .marca-publica { grid-column: 2; grid-row: 1; justify-self: center; z-index: 1; }
+    .estilo-liquid .cabecera nav { display: contents; }
+    .nav-publica-explorar, .nav-publica-acceso { display: flex; align-items: center; gap: clamp(12px,2vw,27px); grid-row: 1; font-size: 11px; font-weight: 550; }
+    .nav-publica-explorar { grid-column: 1; }
+    .nav-publica-acceso { grid-column: 3; justify-content: end; }
+    .estilo-liquid .marca-publica { font-size: 23px; font-weight: 650; letter-spacing: .16em; }
+    .estilo-liquid .marca-publica small { font-size: 8px; letter-spacing: .24em; }
+    .estilo-liquid .cabecera a:hover { color: #395f8a; }
+    .estilo-liquid .menu-toggle { grid-row: 1; grid-column: 3; justify-self: end; border-radius: 999px; }
+    .estilo-liquid.pagina-publica .cabecera { position: absolute; top: 8px; left: 24px; right: 24px; margin: 14px auto 0; width: auto; background: linear-gradient(135deg,#122a45d9,#172d45c9); color: #fff; }
+    .estilo-liquid.pagina-publica .cabecera a:hover { color: #dae8ff; }
+    .estilo-liquid.pagina-publica .cabecera .boton { background: #f4f7fb; color: #213b5d !important; box-shadow: inset 0 1px 1px #fff, 0 5px 15px #0f263f18; }
+    .estilo-liquid .hero {
+        height: 82svh; min-height: 650px; max-height: 980px; margin: 14px; padding: 150px clamp(30px,5vw,90px) 110px; border-radius: 32px;
+        background-image: linear-gradient(90deg,#0a2039b8,#0a20392b 85%), linear-gradient(0deg,#061e38a3,transparent 60%), var(--foto);
+        align-items: end; overflow: hidden;
+    }
+    .estilo-liquid .hero h1 { font-size: clamp(48px,5.7vw,88px); line-height: 1.06; letter-spacing: -.055em; font-weight: 550; }
+    .estilo-liquid .hero em { color: #e0ebfc; }
+    .estilo-liquid .hero p { color: #f1f5ff; line-height: 1.8; font-size: 15px; max-width: 560px; }
+    .estilo-liquid .hero .etiqueta { color: #e5efff; }
+    .estilo-liquid .hero .boton { background: linear-gradient(145deg,#ffffff26,#ffffff14); color: #fff !important; border-color: #ffffff59; box-shadow: var(--liquid-rim),0 5px 24px #11294525; backdrop-filter: blur(4px) saturate(175%); }
+    .estilo-liquid .hero-pie { left: clamp(30px,5vw,90px); right: clamp(30px,5vw,90px); border-color: #ffffff40; font-size: 9px; }
+    .estilo-liquid .seccion { padding-top: 86px; padding-bottom: 86px; }
+    .estilo-liquid .seccion h2 { font-size: clamp(32px,3.8vw,57px); line-height: 1.12; }
+    .estilo-liquid .seccion em { color: #526f99; }
+    .estilo-liquid .tarjeta-destino { border-radius: 26px; background: #243d60; }
+    .estilo-liquid .tarjeta-destino h3 { font-size: clamp(21px,2vw,29px); font-weight: 550; }
+    .estilo-liquid .tarjeta-destino:nth-child(even) { margin-top: 25px; }
+    .estilo-liquid .tarjeta-destino:after { background: linear-gradient(transparent 30%,#0c2538ed); }
+    .estilo-liquid .tarjeta-destino .etiqueta { color: #edf4ff; font-size: 8px; }
+    .estilo-liquid .nosotros { background: #edf1f8; border-radius: 32px; margin: 0 14px; }
+    .estilo-liquid .foto-editorial img { border-radius: 28px; }
+    .estilo-liquid .foto-editorial span { border-radius: 24px 0 24px 0; background: #243b5b; font: 500 21px/1.4 var(--liquid-font); }
+    .estilo-liquid .proceso .numero { font: 500 30px/1.3 var(--liquid-font); border-color: #bfcde0; color: #4c6890; }
+    .estilo-liquid .tarjeta, .estilo-liquid .panel, .estilo-liquid .formulario-panel, .estilo-liquid .herramientas, .estilo-liquid .operaciones-acceso,
+    .estilo-liquid .operaciones-resumen, .estilo-liquid .gestion-seccion { background: #fcfdff; border: 1px solid transparent; border-radius: 25px; box-shadow: 0 7px 25px #1a355a05; }
+    .estilo-liquid .llamada { background: radial-gradient(ellipse at 12% 20%,#c8dce6,transparent 65%),#e0def0; border-radius: 32px; margin: 0 14px 14px; }
+    .estilo-liquid .pie { border-radius: 30px 30px 0 0; background: #1c304d; margin: 14px 14px 0; }
+    .estilo-liquid .pie p { color: #d3ddef; }
+    .estilo-liquid .detalle-hero { margin: 14px; padding-top: 160px; border-radius: 32px; min-height: 520px; }
+    .estilo-liquid .detalle-hero h1 { font-size: clamp(38px,5vw,70px); }
+    .estilo-liquid .lectura { padding-top: 70px; }
+    .estilo-liquid .acceso { margin: 26px auto; width: calc(100% - 48px); max-width: 1280px; border-radius: 32px; overflow: hidden; background: #fcfdff; min-height: 650px; }
+    .estilo-liquid .acceso-foto { padding: 48px; }
+    .estilo-liquid .acceso-foto h2 { font-size: 45px; font-weight: 550; }
+    .estilo-liquid .acceso-foto em { color: #dceaff; }
+    .estilo-liquid .acceso-formulario { padding: 55px 50px; }
+    .estilo-liquid .acceso-formulario h1 { font-size: 35px; }
+    .estilo-liquid .portal-barra { position: sticky; top: 14px; z-index: 15; width: fit-content; max-width: calc(100% - 36px); margin: 22px auto 0; padding: 6px 8px; border-radius: 999px; gap: 5px; background: #ffffff20; overflow-x: auto; }
+    .estilo-liquid .portal-barra a { border: 0; border-radius: 999px; padding: 11px 21px; font-size: 12px; color: #394f6c; transition: background .4s, transform .4s var(--liquid-spring); }
+    .estilo-liquid .portal-barra a[aria-current=page] { background: #fcfdff; color: #243f67; font-weight: 600; box-shadow: 0 3px 10px #20395708; }
+    .estilo-liquid .portal-barra a:hover { background: #ffffff70; transform: scale(1.025); }
+    .estilo-liquid .portal-barra .salir { text-decoration: none; padding: 10px 18px; font-size: 11px; color: #4c607a; white-space: nowrap; }
+    .estilo-liquid .portal-cuerpo { padding-top: 42px; max-width: 1280px; }
+    .estilo-liquid .portal-cuerpo h1 { font-size: clamp(32px,3.3vw,46px); font-weight: 550; }
+    .estilo-liquid .portal-cuerpo h2 { font-size: 19px; font-weight: 550; }
+    .estilo-liquid .portal-bienvenida { border-radius: 28px; background-image: linear-gradient(90deg,#193b64ed,#1b365c38),url('../images/thaki/illimani.jpg'); }
+    .estilo-liquid .portal-bienvenida h2 { font: 550 36px/1.15 var(--liquid-font); }
+    .estilo-liquid .portal-bienvenida .etiqueta { color: #e3edff; }
+    .estilo-liquid .siguiente-paso { border: 0; border-radius: 24px; background: #e6edf8; box-shadow: none; padding: 25px 28px; }
+    .estilo-liquid .formulario label { color: #3d526e; font-size: 12px; }
+    .estilo-liquid .formulario input, .estilo-liquid .formulario select, .estilo-liquid .formulario textarea,
+    .estilo-liquid .formulario-panel input:not([type=checkbox]), .estilo-liquid .formulario-panel select, .estilo-liquid .formulario-panel textarea {
+        border: 1px solid #dfe6f3; border-radius: 14px; background: #f3f6fc; color: #203959; padding: 13px 15px; font-family: var(--liquid-font); box-shadow: inset 0 1px 2px #29446204;
+    }
+    .estilo-liquid .formulario input:focus, .estilo-liquid .formulario select:focus, .estilo-liquid .formulario textarea:focus { outline-color: #6c8db8; }
+    .estilo-liquid .formulario input[readonly] { background: #edf1f8; color: #53657c; }
+    .estilo-liquid .formulario fieldset { border-color: #dfe6f1; border-radius: 22px; }
+    .estilo-liquid .formulario .nota { font-size: 11px; }
+    .estilo-liquid .aviso { border-radius: 18px; }
+    .estilo-liquid .datos dt, .estilo-liquid .nota, .estilo-liquid .fecha { color: #53657c; }
+    .estilo-liquid .perfil-hero { position: relative; overflow: hidden; border-radius: 28px; min-height: 210px; display: flex; align-items: end; gap: 22px; padding: 32px; margin-bottom: 28px; color: #fff; background: linear-gradient(90deg,#163557ed,#16355740),url('../images/thaki/illimani.jpg') center 48%/cover; }
+    .estilo-liquid .perfil-avatar { display: grid; place-items: center; width: 70px; height: 70px; flex-shrink: 0; border-radius: 24px; background: #dfe8f7; color: #27456a; font-size: 24px; font-weight: 600; }
+    .estilo-liquid .perfil-hero h1 { color: #fff; margin: 4px 0 8px; font-size: 34px; }
+    .estilo-liquid .perfil-hero p { color: #e4ecf9; margin: 0; font-size: 12px; }
+    .estilo-liquid .perfil-hero .etiqueta { color: #dbe8fa; margin-bottom: 10px; }
+    .estilo-liquid .perfil-formulario { gap: 0; padding: 8px 32px 28px; }
+    .estilo-liquid .perfil-seccion { border: 0 !important; padding: 26px 0 30px !important; border-bottom: 1px solid #e1e8f3 !important; border-radius: 0 !important; }
+    .estilo-liquid .perfil-seccion legend { padding: 0; float: left; width: 100%; margin-bottom: 24px; color: #233c5d; font-weight: 600; font-size: 16px; }
+    .estilo-liquid .perfil-seccion legend span { display: inline-block; margin-right: 14px; color: #647c9c; font-size: 11px; }
+    .estilo-liquid .perfil-seccion .rejilla { clear: both; }
+    .estilo-liquid .perfil-acciones { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 25px 0 0; }
+    .estilo-liquid .perfil-acciones p { color: #53657c; font-size: 11px; margin: 0; }
+    .estilo-liquid .admin-shell { gap: 22px; padding: 18px; grid-template-columns: 224px minmax(0,1fr); min-height: 100dvh; }
+    .estilo-liquid .sidebar { top: 18px; height: calc(100dvh - 36px); border-radius: 30px; padding: 28px 14px 23px; background: linear-gradient(150deg,#203c66e8,#172b49e8); color: #e4ecfa; }
+    .estilo-liquid .marca { justify-content: start; padding: 2px 14px 28px; gap: 11px; }
+    .estilo-liquid .marca-simbolo { width: 41px; height: 41px; border-color: #ffffff45; border-radius: 15px; color: #dbe7ff; }
+    .estilo-liquid .marca-simbolo .icon { width: 25px; height: 25px; }
+    .estilo-liquid .marca-nombre { font-size: 23px; font-weight: 600; letter-spacing: .12em; }
+    .estilo-liquid .marca-nombre small { color: #c6d7f1; font-size: 7px; }
+    .estilo-liquid .sidebar-contexto { border-color: #ffffff20; color: #d7e4f8; padding: 13px 4px; }
+    .estilo-liquid .punto-luz { background: #b6cdf1; box-shadow: 0 0 0 4px #b6cdf115; }
+    .estilo-liquid .menu-etiqueta { color: #bacde9; letter-spacing: .13em; font-size: 8px; margin-top: 24px; }
+    .estilo-liquid .menu-admin { gap: 7px; }
+    .estilo-liquid .menu-admin a { min-height: 47px; border-radius: 999px; padding: 12px 15px; color: #dbe6f7; font-size: 11px; transition: background .3s, transform .4s var(--liquid-spring); }
+    .estilo-liquid .menu-admin a:hover { background: #ffffff13; transform: translateX(2px); }
+    .estilo-liquid .menu-admin a.activo { background: #eaf0fa; color: #213c61; box-shadow: 0 3px 10px #0e203d10; }
+    .estilo-liquid .nav-indicador { background: #547db3; }
+    .estilo-liquid .menu-gestion { border-color: #ffffff25; }
+    .estilo-liquid .menu-gestion p, .estilo-liquid .sidebar-pie>span, .estilo-liquid .sidebar-pie small { color: #bed0eb; }
+    .estilo-liquid .barra-superior { position: sticky; top: 18px; z-index: 10; margin: 0 0 8px; min-height: 66px; padding: 13px 24px; border-radius: 999px; background: linear-gradient(145deg,#ffffff26,#ffffff14); }
+    .estilo-liquid .breadcrumb { font-size: 10px; color: #52657f; gap: 9px; }
+    .estilo-liquid .barra-detalle { color: #52657f; font-size: 10px; gap: 20px; }
+    .estilo-liquid .pagina { padding: 28px 18px; }
+    .estilo-liquid .pie-pagina { margin: 0 18px; border-color: #c4d1e2; color: #52657f; }
+    .estilo-liquid .encabezado-pagina { gap: 20px; flex-wrap: wrap; }
+    .estilo-liquid .encabezado-pagina h1, .estilo-liquid .operaciones-cabecera h1, .estilo-liquid .atencion-cabecera h1 { font-size: clamp(28px,2.8vw,38px); }
+    .estilo-liquid .descripcion { color: #53657c; }
+    .estilo-liquid .operaciones-acceso { padding: 29px; background: #fcfdff; }
+    .estilo-liquid .operaciones-acceso:first-child { background: #f3f7fd; border-color: transparent; }
+    .estilo-liquid .operaciones-icono, .estilo-liquid .operaciones-acceso:first-child .operaciones-icono,
+    .estilo-liquid .gestion-icono, .estilo-liquid .icono-destacado, .estilo-liquid .numero { color: #4a6a94; background: #e8eef8; border-radius: 15px; }
+    .estilo-liquid .operaciones-cifras dd { font-weight: 550; }
+    .estilo-liquid .gestion-seccion { padding: 27px 30px 10px; }
+    .estilo-liquid .gestion-enlace { border-color: #e1e7f1; }
+    .estilo-liquid .resumen-viaje { background: #e4ecf8; border: 0; border-radius: 24px; }
+    .estilo-liquid .resumen-viaje dt { color: #53657c; }
+    .estilo-liquid .atencion-caja { background: #f0f4fc; border: 1px solid transparent; border-radius: 18px; }
+    .estilo-liquid .editor-dia { background: #f5f8fd; border-color: #e0e7f2; border-radius: 20px; }
+    .estilo-liquid .dia-control { border-radius: 999px; background: #e8eef8; border-color: transparent; color: #39567d; padding: 8px 12px; }
+    .estilo-liquid .version-propuesta { border-color: #e2e8f2; border-radius: 21px; background: #fcfdff; }
+    .estilo-liquid .version-propuesta>summary { background: #f3f6fc; }
+    .estilo-liquid .version-propuesta>summary:after { color: #4b6d9b; }
+    .estilo-liquid .version-itinerario>li { border-color: #ccd9ed; }
+    .estilo-liquid .version-itinerario h4 { color: #3d5d88; }
+    .estilo-liquid .tabla-inventario th { background: #f0f4fb; color: #526883; }
+    .estilo-liquid .tabla-inventario tbody tr:hover { background: #f4f7fc; }
+    .estilo-liquid .tabla-inventario td { border-color: #e6ecf5; }
+    .estilo-liquid .table-tools { background: transparent; }
+    .estilo-liquid .buscador, .estilo-liquid .selector-filtro select { border-radius: 999px; background: #edf2fa; border-color: transparent; }
+    .estilo-liquid .check-tarjeta, .estilo-liquid .banda-contexto { background: #e8effa; border-color: transparent; border-radius: 19px; }
+    .estilo-liquid .enlaces-contexto a { background: #e9eff9; border-color: transparent; border-radius: 999px; color: #415e86; }
+    .estilo-liquid .estado-viaje { border-radius: 999px; }
+    .estilo-liquid .thaki-chat { border: 0; border-radius: 27px; box-shadow: 0 8px 30px #203a5b08; }
+    .estilo-liquid .chat-cabecera { background: #f7faff; border-color: #dce5f2; }
+    .estilo-liquid .chat-avatar { background: #e1e9f8; color: #345581; border-radius: 50%; }
+    .estilo-liquid .chat-contacto h2 { color: #253e60; }
+    .estilo-liquid .chat-historial { background-color: #e9eff8; background-image: radial-gradient(#9bafd52e .8px,transparent .8px),radial-gradient(ellipse at top right,#e7dff680,transparent 65%); }
+    .estilo-liquid .chat-burbuja { background: #fff; border-color: transparent; border-radius: 4px 20px 20px; }
+    .estilo-liquid .chat-burbuja-propia { background: #dae6f8; border-radius: 20px 4px 20px 20px; }
+    .estilo-liquid .chat-burbuja p { color: #293f5d !important; }
+    .estilo-liquid .chat-burbuja time, .estilo-liquid .chat-burbuja-propia time, .estilo-liquid .chat-remitente, .estilo-liquid .chat-burbuja-propia .chat-remitente { color: #526b8b; }
+    .estilo-liquid .chat-compositor { background: #f7faff; border-color: #dce5f2; }
+    .estilo-liquid .chat-escritura textarea { background: #eaf0f9 !important; border-color: transparent !important; border-radius: 22px !important; color: #263f60; }
+    .estilo-liquid .chat-enviar { padding: 0 18px; }
+    .estilo-liquid .chat-enviar:disabled { background: #8d9fb8; }
+    .estilo-liquid .chat-aviso { color: #3f5879; background: #e0e9f8; border-color: transparent; border-radius: 999px; }
+    .estilo-liquid .chat-dia span { color: #3f5879; border-color: transparent; background: #f7faff; }
+    .estilo-liquid .chat-ir-final { color: #2d4e79; background: #f7faff; border-color: #d9e3f2; }
+    .estilo-liquid .chat-vacio h3 { font: 550 23px/1.3 var(--liquid-font) !important; color: #455f82; }
+    .estilo-liquid .chat-vacio>span { background: #dce6f6; color: #4c6e9c; }
+    .liquid-palabra { display: inline-block; white-space: pre; animation: liquid-palabra .8s cubic-bezier(.16,1,.3,1) both; animation-delay: calc(var(--orden)*.065s); }
+    .liquid-entrada { opacity: 0; transform: translateY(20px); transition: opacity .65s ease, transform .75s cubic-bezier(.16,1,.3,1); }
+    .liquid-entrada.liquid-visible, .liquid-entrada:focus-within { opacity: 1; transform: none; }
+    .estilo-liquid .cabecera { animation: liquid-nav .8s cubic-bezier(.16,1,.3,1) both; }
+    .estilo-liquid .hero-contenido>p, .estilo-liquid .hero-contenido>.boton { animation: liquid-nav .9s .45s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes liquid-palabra { from { opacity:0; transform: translateY(25px); filter: blur(5px); } to { opacity:1; transform:none; filter:blur(0); } }
+    @keyframes liquid-nav { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:none; } }
+    @supports (backdrop-filter: url("#vidrio-thaki") blur(4px)) {
+        .estilo-liquid .cabecera, .estilo-liquid .barra-superior, .estilo-liquid .portal-barra { backdrop-filter: url("#vidrio-thaki") blur(4px) saturate(175%); }
+    }
+    @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))) {
+        .estilo-liquid .cabecera, .estilo-liquid .barra-superior, .estilo-liquid .portal-barra { background: #e3eaf5; }
+        .estilo-liquid.pagina-publica .cabecera, .estilo-liquid .sidebar { background: #203a5f; }
+        .estilo-liquid .boton-secundario, .estilo-liquid .boton.secundario { background: #e2eaf6; }
+    }
+    @media(max-width:1150px) {
+        .nav-publica-explorar, .nav-publica-acceso { gap: 13px; font-size: 10px; }
+        .estilo-liquid .cabecera { padding-left: 22px; padding-right: 22px; }
+        .estilo-liquid .admin-shell { grid-template-columns: 204px minmax(0,1fr); gap: 16px; padding: 14px; }
+        .estilo-liquid .sidebar { top: 14px; height: calc(100dvh - 28px); padding-left: 10px; padding-right: 10px; }
+        .estilo-liquid .marca { padding-left: 9px; }
+        .estilo-liquid .marca-nombre { font-size: 21px; }
+    }
+    @media(max-width:900px) {
+        .estilo-liquid .cabecera { display: flex; justify-content: space-between; padding: 14px 20px; height: 70px; width: calc(100% - 28px); margin-top: 14px; }
+        .estilo-liquid.pagina-publica .cabecera { left: 14px; right: 14px; top: 10px; margin-top: 10px; }
+        .estilo-liquid .menu-toggle { display: block; color: inherit; border-color: #ffffff59; background: transparent; padding: 8px 14px; }
+        .estilo-liquid .cabecera nav { display: none; position: absolute; top: calc(100% + 10px); left: 0; right: 0; padding: 22px; border-radius: 26px; background: #edf2fb; box-shadow: 0 14px 35px #132b4a25; color: #243b5b; }
+        .estilo-liquid .cabecera nav.abierto { display: grid; gap: 20px; }
+        .estilo-liquid.pagina-publica .cabecera nav a:hover { color: #3d608d; }
+        .nav-publica-explorar, .nav-publica-acceso { display: flex; flex-direction: column; align-items: start; grid-row: auto; grid-column: auto; gap: 17px; font-size: 13px; }
+        .nav-publica-acceso { padding-top: 18px; border-top: 1px solid #ccd8eb; }
+        .estilo-liquid.pagina-publica .cabecera nav .boton { background: #243f66; color: #fff !important; }
+        .estilo-liquid .hero { height: 80svh; min-height: 620px; margin: 8px; border-radius: 27px; padding: 140px 28px 105px; background-position: 60% center; }
+        .estilo-liquid .hero h1 { font-size: clamp(40px,7.2vw,64px); }
+        .estilo-liquid .hero p { font-size: 13px; }
+        .estilo-liquid .hero-pie { left: 28px; right: 28px; font-size: 8px; }
+        .estilo-liquid .seccion { padding: 60px 6%; }
+        .estilo-liquid .encabezado-seccion, .estilo-liquid .nosotros, .estilo-liquid .rejilla.dos, .estilo-liquid .rejilla.tres, .estilo-liquid .rejilla.cuatro { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        .estilo-liquid .encabezado-seccion p { max-width: none; }
+        .estilo-liquid .inspiraciones { grid-template-columns: 1fr; gap: 20px; }
+        .estilo-liquid .tarjeta-destino { aspect-ratio: auto; width: 100%; min-width: 0; height: clamp(280px,75vw,440px); min-height: 0; max-height: 440px; }
+        .estilo-liquid .tarjeta-destino:nth-child(even) { margin-top: 0; }
+        .estilo-liquid .nosotros, .estilo-liquid .llamada { margin-left: 8px; margin-right: 8px; border-radius: 27px; }
+        .estilo-liquid .foto-editorial img { height: 370px; }
+        .estilo-liquid .pie { margin-left: 8px; margin-right: 8px; padding: 40px 25px; flex-wrap: wrap; }
+        .estilo-liquid .pie>div { width: 100%; }
+        .estilo-liquid .acceso { grid-template-columns: 1fr; width: calc(100% - 28px); min-height: 0; }
+        .estilo-liquid .acceso-foto { display: none; }
+        .estilo-liquid .acceso-formulario { padding: 38px 26px; margin: auto; }
+        .estilo-liquid .portal-barra { position: relative; top: auto; margin-top: 17px; max-width: calc(100% - 28px); padding: 5px; }
+        .estilo-liquid .portal-barra a { padding: 10px 15px; font-size: 11px; }
+        .estilo-liquid .portal-barra .salir { padding: 10px 12px; font-size: 10px; }
+        .estilo-liquid .portal-cuerpo { padding: 30px 20px 55px; }
+        .estilo-liquid .portal-paneles { grid-template-columns: 1fr; }
+        .estilo-liquid .portal-titulo { display: block; }
+        .estilo-liquid .portal-titulo .boton { margin-top: 18px; }
+        .estilo-liquid .perfil-hero { padding: 25px; min-height: 220px; gap: 16px; align-items: start; flex-direction: column; }
+        .estilo-liquid .perfil-hero h1 { font-size: 29px; }
+        .estilo-liquid .perfil-avatar { width: 52px; height: 52px; border-radius: 18px; font-size: 19px; }
+        .estilo-liquid .perfil-formulario { padding: 5px 25px 25px; }
+        .estilo-liquid .perfil-acciones { flex-direction: column; align-items: start; gap: 17px; }
+        .estilo-liquid .perfil-acciones .boton { width: 100%; }
+        .estilo-liquid .admin-shell { display: block; padding: 12px; }
+        .estilo-liquid .sidebar { position: relative; top: auto; height: auto; margin-bottom: 14px; padding: 17px 18px 10px; border-radius: 27px; }
+        .estilo-liquid .marca { justify-content: start; padding: 0 2px 13px; }
+        .estilo-liquid .marca-nombre { font-size: 22px; }
+        .estilo-liquid .sidebar-contexto, .estilo-liquid .sidebar-pie { display: none; }
+        .estilo-liquid .boton-menu { display: flex; align-items: center; gap: 9px; width: 100%; border: 0; background: none; color: #e0eafb; padding: 10px 2px; font-size: 11px; }
+        .estilo-liquid .menu-admin { grid-template-columns: 1fr; padding-bottom: 8px; }
+        .estilo-liquid.js .menu-admin:not(.menu-abierto), .js .estilo-liquid .menu-admin:not(.menu-abierto) { display: none; }
+        .estilo-liquid .menu-admin a { min-height: 44px; }
+        .estilo-liquid .menu-etiqueta { margin-top: 12px; }
+        .estilo-liquid .menu-gestion { margin-top: 11px; padding-top: 12px; }
+        .estilo-liquid .barra-superior { position: relative; top: auto; margin: 0 0 8px; padding: 13px 17px; min-height: 58px; border-radius: 26px; flex-wrap: wrap; }
+        .estilo-liquid .barra-detalle { gap: 13px; }
+        .estilo-liquid .pagina { padding: 24px 8px; }
+        .estilo-liquid .pie-pagina { margin: 0 8px; }
+        .estilo-liquid .operaciones-accesos, .estilo-liquid .gestion-enlaces, .estilo-liquid .atencion-columnas, .estilo-liquid .formulario-grid { grid-template-columns: 1fr; }
+        .estilo-liquid .operaciones-cabecera { flex-direction: column; align-items: start; gap: 15px; }
+        .estilo-liquid .operaciones-acceso { padding: 25px; display: flex; }
+        .estilo-liquid .operaciones-icono { margin-bottom: 20px; }
+        .estilo-liquid .operaciones-acceso p { margin-bottom: 23px; }
+        .estilo-liquid .operaciones-cifras, .estilo-liquid .resumen-viaje, .estilo-liquid .ficha-grid { grid-template-columns: 1fr; }
+        .estilo-liquid .operaciones-cifras { gap: 16px; }
+        .estilo-liquid .operaciones-cifras>div+div { border-left: 0; border-top: 1px solid #dfe6f2; padding: 16px 0 0; }
+        .estilo-liquid .operaciones-resumen, .estilo-liquid .gestion-seccion, .estilo-liquid .panel:not(.panel-tabla), .estilo-liquid .formulario-panel { padding: 25px; }
+        .estilo-liquid .operaciones-mas { flex-direction: column; align-items: start; gap: 17px; }
+        .estilo-liquid .atencion-cabecera { display: block; }
+        .estilo-liquid .atencion-cabecera>.boton { margin-top: 17px; }
+        .estilo-liquid .banda-contexto { flex-wrap: wrap; }
+        .estilo-liquid .thaki-chat { border-radius: 23px; }
+        .estilo-liquid .chat-enviar { width: 46px; padding: 0; }
+        .estilo-liquid .chat-enviar>span { display: none; }
+    }
+    @media(prefers-reduced-motion: reduce) {
+        .estilo-liquid *, .estilo-liquid *:before, .estilo-liquid *:after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+        .liquid-entrada { opacity: 1; transform: none; }
+    }
+}

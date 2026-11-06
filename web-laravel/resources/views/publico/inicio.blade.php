@@ -1,9 +1,11 @@
 @extends('layouts.publico')
 @section('contenido')
-<section class="hero" style="--foto:url('{{ asset('images/thaki/illimani.jpg') }}')"><div class="hero-contenido"><span class="etiqueta clara">BOLIVIA · VIAJES A MEDIDA</span><h1>Cada viajero,<br><em>su propio camino.</em></h1><p>Montañas, culturas y horizontes extraordinarios.<br>Cuéntanos qué te inspira. Diseñemos tu viaje juntos.</p><a class="boton" href="{{ route('acceso.registro') }}">Comienza tu historia <span>↗</span></a></div><a class="hero-pie" href="#inspiraciones">DESCUBRE LO QUE TE ESPERA <span>↓</span></a></section>
-<section class="seccion" id="inspiraciones"><div class="encabezado-seccion"><div><span class="etiqueta">UN PAÍS, MUCHOS CAMINOS</span><h2>¿Qué Bolivia<br><em>te gustaría descubrir?</em></h2></div><p>Estas ideas son un punto de partida. Tu ruta, fechas y experiencias se construyen contigo.</p></div><div class="inspiraciones">
+@section('publico-clase', 'portada-viajes')
+<section class="hero" style="--foto:url('{{ asset('images/thaki/illimani.jpg') }}')"><div class="hero-contenido"><span class="etiqueta clara">BOLIVIA · VIAJES A MEDIDA</span><h1>Cada viajero,<br><em>su propio camino.</em></h1><p>Montañas, culturas y horizontes extraordinarios.<br>Cuéntanos qué te inspira. Diseñemos tu viaje juntos.</p><a class="boton" href="#planifica">Comienza tu historia <span>↗</span></a></div><a class="hero-pie" href="#inspiraciones">DESCUBRE LO QUE TE ESPERA <span>↓</span></a></section>
+<x-planificador-publico/>
+<section class="seccion" id="inspiraciones"><div class="encabezado-seccion"><div><span class="etiqueta">UN PAÍS, MUCHOS CAMINOS</span><h2>¿Qué Bolivia<br><em>te gustaría descubrir?</em></h2></div><p>Estas ideas son un punto de partida. Tu ruta, fechas y experiencias se construyen contigo.</p></div><div class="destinos-cabecera"><span>Ideas para comenzar tu ruta</span><div class="destinos-controles" data-destinos-controles hidden><button type="button" data-destinos-anterior aria-label="Ver destinos anteriores">←</button><button type="button" data-destinos-siguiente aria-label="Ver más destinos">→</button></div></div><div class="inspiraciones" data-destinos-carrusel>
 @foreach(config('publico.inspiraciones') as $slug => $idea)
-<a class="tarjeta-destino" href="{{ route('publico.inspiracion', $slug) }}"><img src="{{ asset('images/thaki/'.$idea['imagen']) }}" alt="{{ $idea['nombre'] }}" loading="lazy"><div><span class="etiqueta clara">{{ $idea['region'] }}</span><h3>{{ $idea['nombre'] }}</h3><span class="flecha">↗</span></div></a>
+<a class="tarjeta-destino tarjeta-editorial" href="{{ route('publico.inspiracion', $slug) }}"><img src="{{ asset('images/thaki/'.$idea['imagen']) }}" alt="{{ $idea['nombre'] }}" loading="lazy"><div><span class="etiqueta clara">{{ $idea['region'] }}</span><h3>{{ $idea['nombre'] }}</h3><span class="flecha">↗</span></div></a>
 @endforeach
 </div></section>
 @if(count($destinos))

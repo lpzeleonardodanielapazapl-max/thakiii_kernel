@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicoController::class, 'inicio'])->name('publico.inicio');
+Route::get('/planificar-viaje', [PublicoController::class, 'planificar'])->name('publico.planificar');
 Route::get('/inspiracion/{slug}', [PublicoController::class, 'inspiracion'])->name('publico.inspiracion');
 Route::get('/destinos/{codigo}', [PublicoController::class, 'destino'])->name('publico.destino');
 Route::get('/ingresar', [AccesoController::class, 'ingresar'])->name('acceso.ingresar');
@@ -127,6 +128,7 @@ Route::middleware('sesion:personal')->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index'])
         ->name('admin.index');
+    Route::view('/admin/gestion', 'admin.gestion')->name('admin.gestion');
 
     Route::get(
         '/inventario/productos/nuevo',
@@ -139,6 +141,7 @@ Route::middleware('sesion:personal')->group(function () {
     )->name('inventario.guardar');
 
     Route::get('/atencion', [AtencionController::class, 'index'])->name('atencion.index');
+    Route::get('/atencion/calendario', [AtencionController::class, 'calendario'])->name('atencion.calendario');
     Route::get('/atencion/conversaciones/{id}', [AtencionController::class, 'conversacion'])->whereNumber('id')->name('atencion.conversacion');
     Route::post('/atencion/conversaciones/{id}/mensajes', [AtencionController::class, 'responder'])->whereNumber('id')->name('atencion.responder');
     Route::get('/atencion/solicitudes/{codigo}', [AtencionController::class, 'solicitud'])->name('atencion.solicitud');

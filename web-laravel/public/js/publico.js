@@ -19,3 +19,26 @@ window.addEventListener('beforeprint', () => {
 window.addEventListener('afterprint', () => { document.title = tituloOriginal; });
 const mensajes = document.querySelector('.mensajes');
 if (mensajes) mensajes.scrollTop = mensajes.scrollHeight;
+document.querySelectorAll('form[method="POST"], form[method="post"]').forEach(form => {
+    form.addEventListener('submit', event => {
+        if (event.defaultPrevented) return;
+        if (form.dataset.submitting === 'true') { event.preventDefault(); return; }
+        form.dataset.submitting = 'true';
+        form.querySelectorAll('button[type="submit"], button:not([type])').forEach(button => {
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+            if (!button.hasAttribute('data-chat-send')) {
+                button.dataset.originalLabel = button.textContent;
+                button.textContent = button.dataset.submittingLabel || 'Enviando…';
+            }
+        });
+    });
+    window.addEventListener('pageshow', () => {
+        delete form.dataset.submitting;
+        form.querySelectorAll('button[aria-busy="true"]').forEach(button => {
+            button.disabled = false;
+            button.removeAttribute('aria-busy');
+            if (button.dataset.originalLabel) button.textContent = button.dataset.originalLabel;
+        });
+    });
+});

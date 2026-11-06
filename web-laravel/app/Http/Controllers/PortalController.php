@@ -12,7 +12,7 @@ class PortalController extends Controller
 
     public function inicio(): View
     {
-        return view('portal.inicio', $this->consultarApi('GET', '/api/cliente/resumen'));
+        return view('portal.inicio', [...$this->consultarApi('GET', '/api/cliente/resumen'), 'mensajes' => $this->consultarApi('GET', '/api/cliente/mensajes')]);
     }
 
     public function perfil(): View
@@ -20,9 +20,16 @@ class PortalController extends Controller
         return view('portal.perfil', ['perfil' => $this->consultarApi('GET', '/api/cliente/perfil')]);
     }
 
-    public function solicitud(): View
+    public function solicitud(): View|RedirectResponse
     {
-        return view('portal.solicitud');
+        $perfil = $this->consultarApi('GET', '/api/cliente/perfil');
+        if (! ($perfil['completitud']['completo'] ?? false)) {
+            session()->put('continuar_solicitud', true);
+
+            return redirect()->route('portal.perfil')->withErrors(['perfil' => 'Completa tu perfil al 100 % para continuar con tu pedido de viaje. Tus preferencias se conservan.']);
+        }
+
+        return view('portal.solicitud', ['borrador' => session('viaje_borrador', [])]);
     }
 
     public function mensajes(): View
@@ -48,7 +55,10 @@ class PortalController extends Controller
             'tipoDocumento' => ['nullable', 'string', 'max:20'], 'numeroDocumento' => ['nullable', 'string', 'max:30'],
             'fechaNacimiento' => ['nullable', 'date_format:Y-m-d', 'before_or_equal:today'], 'genero' => ['nullable', 'string', 'max:20'],
         ]);
-        $this->consultarApi('PUT', '/api/cliente/perfil', $datos);
+        $perfil = $this->consultarApi('PUT', '/api/cliente/perfil', $datos);
+        if (($perfil['completitud']['completo'] ?? false) && $request->session()->pull('continuar_solicitud', false)) {
+            return redirect()->route('portal.solicitud')->with('exito', 'Tu perfil está completo. Continúa con las preferencias de tu viaje.');
+        }
 
         return back()->with('exito', 'Tu perfil está actualizado.');
     }
@@ -65,7 +75,15 @@ class PortalController extends Controller
             'alimentacion' => ['nullable', 'string', 'max:200'], 'transporte' => ['nullable', 'string', 'max:200'],
         ]);
         $datos['personas'] = (int) $datos['personas'];
+        $perfil = $this->consultarApi('GET', '/api/cliente/perfil');
+        if (! ($perfil['completitud']['completo'] ?? false)) {
+            $request->session()->put('viaje_borrador', $datos);
+            $request->session()->put('continuar_solicitud', true);
+
+            return redirect()->route('portal.perfil')->withErrors(['perfil' => 'Completa tu perfil al 100 % antes de enviar tu solicitud. Conservamos las preferencias de tu viaje.']);
+        }
         $this->consultarApi('POST', '/api/cliente/solicitudes', $datos);
+        $request->session()->forget(['viaje_borrador', 'continuar_solicitud']);
 
         return redirect()->route('portal.inicio')->with('exito', 'Recibimos tus preferencias. El asesor preparará tu propuesta de viaje.');
     }

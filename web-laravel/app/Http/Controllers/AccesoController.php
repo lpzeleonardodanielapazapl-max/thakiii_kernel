@@ -76,7 +76,8 @@ class AccesoController extends Controller
             $request->session()->regenerate();
             $request->session()->put(['api_token' => $sesion['token'], 'usuario' => $sesion['usuario']]);
 
-            return redirect()->route($sesion['usuario']['rol'] === 'CLIENTE' ? 'portal.inicio' : 'admin.index');
+            return redirect()->route($sesion['usuario']['rol'] === 'CLIENTE'
+                ? ($request->session()->has('viaje_borrador') ? 'portal.solicitud' : 'portal.inicio') : 'admin.index');
         } catch (ConnectionException $e) {
             return back()->withInput($request->only('email', 'nombres', 'apellidos'))->withErrors(['acceso' => 'No pudimos conectar con el servicio. Inténtalo nuevamente.']);
         }

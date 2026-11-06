@@ -1,0 +1,55 @@
+@media screen {
+    .agenda-calendario { background:#fafcff; border:1px solid #e0e7f2; border-radius:26px; padding:25px; margin:24px 0; }
+    .agenda-cabecera { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+    .agenda-cabecera h2 { margin:0; text-transform:capitalize; font-size:24px; }
+    .agenda-cabecera p { font-size:11px; color:#5b718c; margin:7px 0 0; }
+    .agenda-navegacion { display:flex; gap:8px; }
+    .agenda-navegacion a { display:grid; place-items:center; min-width:37px; height:37px; border:1px solid #d5e0ee; border-radius:12px; padding:0 13px; color:#345375; background:#f0f5fc; font-size:12px; }
+    .agenda-filtro { display:flex; align-items:end; gap:13px; margin:23px 0 19px; }
+    .agenda-filtro label { display:grid; gap:7px; font-size:11px; color:#496582; }
+    .agenda-filtro input { border:1px solid #d7e1ed; border-radius:10px; padding:8px 12px; background:white; color:#254362; min-width:0; }
+    .agenda-leyenda { display:flex; flex-wrap:wrap; gap:12px 23px; padding-bottom:20px; color:#536c87; font-size:10px; }
+    .agenda-leyenda span { display:flex; align-items:center; gap:8px; }
+    .agenda-punto { width:8px; height:8px; border-radius:50%; background:#b78439; }
+    .agenda-punto.confirmado { background:#3e8676; }
+    .agenda-scroll { overflow-x:auto; border:1px solid #dce5f0; border-radius:17px; }
+    .agenda-tabla { width:100%; min-width:680px; border-collapse:collapse; table-layout:fixed; font-size:11px; }
+    .agenda-tabla th { height:37px; background:#edf3fa; color:#526c89; font-size:10px; font-weight:600; }
+    .agenda-tabla td { border:1px solid #e3eaf3; vertical-align:top; height:119px; padding:7px; background:#fff; }
+    .agenda-tabla .agenda-otro-mes { background:#f5f7fb; }
+    .agenda-otro-mes .agenda-dia { color:#8c9eb3; }
+    .agenda-tabla .agenda-seleccionado { background:#edf3fc; box-shadow:inset 0 0 0 2px #7d9cbd; }
+    .agenda-dia { display:grid; place-items:center; width:27px; height:27px; margin-bottom:5px; border-radius:9px; color:#3f5978; font-weight:600; }
+    .agenda-hoy .agenda-dia { color:white; background:#325e88; }
+    .agenda-evento { display:block; background:#fbefd8; border-left:3px solid #b38239; border-radius:5px; padding:5px 6px; color:#705021; margin-bottom:4px; line-height:1.4; }
+    .agenda-evento.confirmado { background:#e4f1ed; border-left-color:#428775; color:#2c6657; }
+    .agenda-evento span,.agenda-evento small { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .agenda-evento span { font-weight:600; font-size:9px; }
+    .agenda-evento small { font-size:8px; }
+    .agenda-evento:hover { filter:brightness(.96); }
+    .agenda-mas { display:block; font-size:9px; color:#486889; padding:3px; }
+    .agenda-lista { scroll-margin-top:25px; }
+    .agenda-lista-titulo { display:flex; justify-content:space-between; align-items:center; gap:20px; margin:32px 0 18px; }
+    .agenda-lista-titulo h2 { font-size:19px; margin:0; }
+    .agenda-lista-titulo a { font-size:11px; color:#42698d; }
+    .agenda-reserva { display:flex; gap:24px; align-items:center; background:#fafcff; border:1px solid #e0e7f2; border-radius:20px; padding:23px; margin-bottom:12px; }
+    .agenda-fechas { display:grid; gap:5px; min-width:110px; color:#365b7a; }
+    .agenda-fechas strong { font-size:19px; }
+    .agenda-fechas span { font-size:10px; }
+    .agenda-reserva-datos { min-width:0; flex:1; overflow-wrap:anywhere; }
+    .agenda-reserva-datos h3 { font-size:15px; margin:0 0 6px; }
+    .agenda-reserva-datos p { font-size:11px; margin:0 0 9px; color:#5a718b; }
+    .agenda-vacio { text-align:center; padding:42px 22px; border:1px dashed #cbd9ea; border-radius:22px; background:#f7faff; }
+    .agenda-vacio .icon { width:32px; height:32px; color:#718fae; margin-bottom:15px; }
+    .agenda-vacio h3 { font-size:18px; margin:0 0 10px; }
+    .agenda-vacio p { font-size:12px; max-width:480px; margin:0 auto 17px; color:#5a718b; line-height:1.8; }
+    .agenda-vacio a { font-size:12px; color:#375f86; }
+    @media(max-width:760px) {
+        .agenda-calendario { padding:18px 13px; }
+        .agenda-cabecera { align-items:start; flex-wrap:wrap; }
+        .agenda-cabecera h2 { font-size:22px; }
+        .agenda-reserva { gap:16px; flex-wrap:wrap; padding:20px; }
+        .agenda-reserva-datos { flex-basis:55%; }
+        .agenda-lista-titulo { align-items:start; flex-wrap:wrap; }
+    }
+}

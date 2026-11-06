@@ -6,7 +6,9 @@ if (menuButton) {
         menuButton.setAttribute('aria-expanded', String(open));
         menu.classList.toggle('menu-abierto', open);
     };
-    toggle(!window.matchMedia('(max-width: 760px)').matches);
+    const pantallaCompacta = window.matchMedia('(max-width: 900px)');
+    toggle(!pantallaCompacta.matches);
+    pantallaCompacta.addEventListener('change', event => toggle(!event.matches));
     menuButton.addEventListener('click', () => toggle(menuButton.getAttribute('aria-expanded') !== 'true'));
 }
 const report = document.querySelector('body > .reporte-impresion');
@@ -30,9 +32,13 @@ document.querySelectorAll('form').forEach(form => {
             return;
         }
         form.dataset.submitting = 'true';
-        form.querySelectorAll('button[type="submit"]').forEach(button => {
+        form.querySelectorAll('button[type="submit"], button:not([type])').forEach(button => {
             button.disabled = true;
             button.setAttribute('aria-busy', 'true');
+            if (button.dataset.submittingLabel && !button.hasAttribute('data-chat-send')) {
+                button.dataset.originalLabel = button.textContent;
+                button.textContent = button.dataset.submittingLabel;
+            }
         });
     });
     window.addEventListener('pageshow', () => {
@@ -40,8 +46,64 @@ document.querySelectorAll('form').forEach(form => {
         form.querySelectorAll('button[aria-busy="true"]').forEach(button => {
             button.disabled = false;
             button.removeAttribute('aria-busy');
+            if (button.dataset.originalLabel) button.textContent = button.dataset.originalLabel;
         });
     });
+});
+document.querySelectorAll('[data-itinerario-editor]').forEach(editor => {
+    const lista = editor.querySelector('[data-dias-lista]');
+    const plantilla = editor.querySelector('[data-dia-template]');
+    const agregar = editor.querySelector('[data-dia-agregar]');
+    const cantidad = editor.querySelector('[data-dia-cantidad]');
+    const actualizar = () => {
+        const dias = [...lista.children];
+        dias.forEach((dia, indice) => {
+            dia.querySelector('[data-dia-titulo]').textContent = `Día ${indice + 1}`;
+            dia.querySelector('[data-dia-controles]').hidden = false;
+            dia.querySelector('[data-dia-accion="subir"]').disabled = indice === 0;
+            dia.querySelector('[data-dia-accion="bajar"]').disabled = indice === dias.length - 1;
+            dia.querySelector('[data-dia-accion="quitar"]').disabled = dias.length === 1;
+            dia.querySelectorAll('[data-dia-campo]').forEach(campo => {
+                const nombre = campo.dataset.diaCampo;
+                campo.name = `dias[${indice}][${nombre}]`;
+                campo.id = `dia-${indice}-${nombre}`;
+                dia.querySelector(`[data-dia-label="${nombre}"]`).htmlFor = campo.id;
+                const error = campo.parentElement.querySelector('.error-campo');
+                if (error) {
+                    error.id = `error-dias-${indice}-${nombre}`;
+                    campo.setAttribute('aria-describedby', error.id);
+                }
+            });
+        });
+        cantidad.textContent = `${dias.length} ${dias.length === 1 ? 'día' : 'días'} en el itinerario`;
+        agregar.disabled = dias.length >= 120;
+    };
+    agregar.hidden = false;
+    agregar.addEventListener('click', () => {
+        if (lista.children.length >= 120) return;
+        lista.append(plantilla.content.cloneNode(true));
+        actualizar();
+        lista.lastElementChild.querySelector('textarea').focus();
+    });
+    editor.addEventListener('click', event => {
+        const boton = event.target.closest('[data-dia-accion]');
+        if (!boton || boton.disabled) return;
+        const dia = boton.closest('[data-dia]');
+        const anterior = dia.previousElementSibling;
+        const siguiente = dia.nextElementSibling;
+        if (boton.dataset.diaAccion === 'subir' && anterior) lista.insertBefore(dia, anterior);
+        if (boton.dataset.diaAccion === 'bajar' && siguiente) lista.insertBefore(siguiente, dia);
+        if (boton.dataset.diaAccion === 'quitar' && lista.children.length > 1) {
+            dia.remove();
+            (siguiente || anterior)?.querySelector('textarea').focus();
+        }
+        actualizar();
+        if (dia.isConnected) {
+            const control = dia.querySelector(`[data-dia-accion="${boton.dataset.diaAccion}"]`);
+            (control?.disabled ? dia.querySelector('textarea') : control)?.focus();
+        }
+    });
+    actualizar();
 });
 const normalizar = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es');
 document.querySelectorAll('[data-table]').forEach(section => {

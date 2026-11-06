@@ -1,11 +1,51 @@
 @extends('layouts.portal')
 @section('titulo', 'Mi viaje')
+@section('portal-clase', 'viaje-con-chat')
 @section('portal')
-<div class="portal-titulo"><div><span class="etiqueta">TU ESPACIO, TU CAMINO</span><h1>Hola, {{ $perfil['nombres'] ?? session('usuario.nombre') }}.</h1><p>Aquí construimos tu próximo viaje, paso a paso.</p></div><a class="boton" href="{{ route('portal.solicitud') }}">Diseñar un viaje +</a></div>
-@if(!count($solicitudes) && !count($reservas))<section class="portal-bienvenida"><span class="etiqueta clara">TODO COMIENZA CON UNA IDEA</span><h2>Bolivia te espera.<br>Cuéntanos cómo quieres vivirla.</h2><p>Elige tus fechas, comparte tus intereses y deja que tu asesor prepare una propuesta para ti.</p><a class="boton" href="{{ route('portal.solicitud') }}">Crear mi primera solicitud ↗</a></section>@endif
-<div class="portal-paneles"><div class="pila">
-<section class="tarjeta"><h2>Tus propuestas</h2>@forelse($propuestas as $p)<article class="fila"><div><span class="estado">{{ str_replace('_', ' ', $p['estado']) }}</span><h3 class="espacio-superior">{{ $p['titulo'] }}</h3><p>{{ $p['dias'] }} días · Versión {{ $p['version'] }} · <x-print-value :value="$p['precio']" type="money" :currency="$p['moneda']"/></p></div><a class="boton secundario pequeno" href="{{ route('portal.propuesta', $p['codigo']) }}">Ver itinerario ↗</a></article>@empty<div class="vacio"><p>Tu propuesta aparecerá aquí cuando el asesor la prepare.</p><a class="enlace" href="{{ route('portal.mensajes') }}">Conversar con mi asesor</a></div>@endforelse</section>
-<section class="tarjeta"><h2>Solicitudes de viaje</h2>@forelse($solicitudes as $s)<article class="fila"><div><span class="estado">{{ str_replace('_', ' ', $s['estado']) }}</span><h3 class="espacio-superior"><x-print-value :value="$s['fechaInicio']" type="date"/> → <x-print-value :value="$s['fechaFin']" type="date"/></h3><p>{{ $s['personas'] }} viajeros · {{ $s['codigo'] }}</p><p class="texto-preservado">{{ $s['intereses'] }}</p></div></article>@empty<p>No has registrado solicitudes todavía.</p>@endforelse</section>
-<section class="tarjeta"><h2>Reservas y pagos registrados</h2>@forelse($reservas as $r)<article class="fila"><div style="width:100%"><span class="estado">{{ str_replace('_', ' ', $r['estado']) }}</span><h3 class="espacio-superior">Reserva {{ $r['codigo'] }}</h3><p><x-print-value :value="$r['fechaInicio']" type="date"/> → <x-print-value :value="$r['fechaFin']" type="date"/> · {{ $r['personas'] }} viajeros</p><dl class="datos">@foreach(['total' => 'Total', 'anticipo' => 'Anticipo requerido · 50 %', 'pagado' => 'Pagos verificados', 'saldo' => 'Saldo pendiente'] as $campo => $titulo)<div><dt>{{ $titulo }}</dt><dd><x-print-value :value="$r[$campo]" type="money" :currency="$r['moneda']"/></dd></div>@endforeach</dl><p>Coordina el pago externo con tu asesor. El personal debe verificar el anticipo para confirmar el viaje. El saldo se paga a la llegada.</p>@if(!in_array($r['estado'], ['CANCELADA','FINALIZADA']))<details><summary>Solicitar cancelación</summary><p>La solicitud se revisa con el administrativo. No se realizan devoluciones.</p><form class="formulario" method="POST" action="{{ route('portal.cancelacion', $r['codigo']) }}">@csrf<label>Motivo<textarea name="contenido" maxlength="2000" required></textarea></label><button class="boton secundario pequeno">Enviar solicitud al asesor</button></form></details>@endif</div></article>@empty<p>Aquí verás tus reservas y los pagos que haya verificado el personal.</p>@endforelse</section>
-</div><aside class="pila"><section class="tarjeta"><span class="etiqueta">CONTIGO EN EL CAMINO</span><h2>Tu asesor</h2>@if(count($asesor))<h3>{{ $asesor['nombre'] }}</h3><p>{{ $asesor['email'] }}</p><a class="boton secundario pequeno" href="{{ route('portal.mensajes') }}">Abrir conversación ↗</a>@else<p>Aún no tienes asesor asignado. Puedes enviar tu solicitud mientras el equipo prepara tu atención.</p><form method="POST" action="{{ route('portal.asignar') }}">@csrf<button class="boton secundario pequeno">Buscar asesor disponible</button></form>@endif</section><section class="tarjeta"><h2>Antes de partir</h2><p>1. Completa tu perfil.<br>2. Comparte tus preferencias.<br>3. Revisa y conversa tu propuesta.<br>4. Coordina el anticipo con el asesor.</p><a class="enlace" href="{{ route('portal.perfil') }}">Revisar mi perfil ↗</a></section><section class="tarjeta"><span class="etiqueta">NOVEDADES</span><h2>{{ count(array_filter($notificaciones, fn($n) => !$n['leida'])) }} sin leer</h2><a class="enlace" href="{{ route('portal.notificaciones') }}">Ver notificaciones ↗</a></section></aside></div>
+<x-chat-assets/>
+@php
+    $reservaActiva = collect($reservas)->first(fn($r) => in_array($r['estado'], ['PENDIENTE_ANTICIPO', 'CONFIRMADA']));
+    $propuestaPendiente = collect($propuestas)->firstWhere('estado', 'ENVIADA');
+    $propuestasActuales = array_values(array_filter($propuestas, fn($p) => in_array($p['estado'], ['ENVIADA', 'ACEPTADA'])));
+    $propuestasAnteriores = array_values(array_filter($propuestas, fn($p) => !in_array($p['estado'], ['ENVIADA', 'ACEPTADA'])));
+@endphp
+<div class="viaje-espacio">
+<div class="viaje-contenido">
+<div class="portal-titulo"><div><span class="etiqueta">TU ESPACIO, TU CAMINO</span><h1>Hola, {{ $perfil['nombres'] ?? session('usuario.nombre') }}.</h1><p>Aquí construimos tu próximo viaje, paso a paso.</p></div><a class="boton {{ count($solicitudes) || count($reservas) ? 'secundario' : '' }}" href="{{ route('portal.solicitud') }}">Diseñar un viaje +</a></div>
+<x-perfil-progreso :estado="$perfil['completitud'] ?? []"/>
+@if(!count($solicitudes) && !count($reservas))
+<section class="portal-bienvenida"><span class="etiqueta clara">TODO COMIENZA CON UNA IDEA</span><h2>Bolivia te espera.<br>Cuéntanos cómo quieres vivirla.</h2><p>Elige tus fechas, comparte tus intereses y deja que tu asesor prepare una propuesta para ti.</p><a class="boton" href="{{ route('portal.solicitud') }}">Crear mi primera solicitud ↗</a></section>
+@elseif($reservaActiva)
+<section class="siguiente-paso" aria-label="Siguiente paso de tu viaje"><span class="etiqueta">TU VIAJE, PASO A PASO</span>
+    @if($reservaActiva['estado'] === 'CONFIRMADA')<h2>Tu viaje está confirmado.</h2><p>El personal ya verificó el anticipo. @if((float)$reservaActiva['saldo'] > 0)Tu saldo pendiente es de <x-print-value :value="$reservaActiva['saldo']" type="money" :currency="$reservaActiva['moneda']"/>; coordina su pago a la llegada.@else Los pagos registrados cubren el total de esta reserva.@endif</p>
+    @else<h2>El siguiente paso es coordinar tu anticipo.</h2><p>Tu aceptación está registrada. Coordina con el asesor el anticipo de <x-print-value :value="$reservaActiva['anticipo']" type="money" :currency="$reservaActiva['moneda']"/>. El viaje se confirma después de que el personal verifique el pago externo.</p>@endif
+    <a class="enlace" href="{{ route('portal.mensajes') }}">Conversar con mi asesor ↗</a>
+</section>
+@elseif($propuestaPendiente)
+<section class="siguiente-paso"><span class="etiqueta">TIENES UNA PROPUESTA POR REVISAR</span><h2>{{ $propuestaPendiente['titulo'] }}</h2><p>Revisa el recorrido, los servicios y el precio. Puedes pedir ajustes antes de comunicar tu aceptación.</p><a class="boton pequeno" href="{{ route('portal.propuesta', $propuestaPendiente['codigo']) }}">Revisar mi propuesta ↗</a></section>
+@elseif(count($solicitudes))
+<section class="siguiente-paso"><span class="etiqueta">TU IDEA YA ESTÁ EN CAMINO</span><h2>Recibimos tus preferencias.</h2><p>Tu propuesta aparecerá aquí cuando el asesor la prepare. Mientras tanto puedes conversar sobre los detalles del viaje.</p><a class="enlace" href="{{ route('portal.mensajes') }}">Abrir conversación ↗</a></section>
+@endif
+<div class="viaje-detalles">
+    <div class="pila">
+        @if(count($reservas))@include('portal.partials.reservas')@endif
+        <section class="tarjeta"><h2>Tus propuestas</h2>
+            @forelse($propuestasActuales as $p)@include('portal.partials.propuesta-resumen')@empty<p>{{ count($propuestasAnteriores) ? 'No tienes propuestas pendientes de respuesta.' : 'Tu propuesta aparecerá aquí cuando el asesor la prepare.' }}</p>@endforelse
+            @if(count($propuestasAnteriores))<details class="propuestas-anteriores"><summary>Versiones anteriores ({{ count($propuestasAnteriores) }})</summary>@foreach($propuestasAnteriores as $p)@include('portal.partials.propuesta-resumen')@endforeach</details>@endif
+        </section>
+        <section class="tarjeta"><h2>Solicitudes de viaje</h2>
+            @forelse($solicitudes as $s)<article class="fila"><div><x-viaje-estado :value="$s['estado']"/><h3 class="espacio-superior"><x-print-value :value="$s['fechaInicio']" type="date"/> → <x-print-value :value="$s['fechaFin']" type="date"/></h3><p>{{ $s['personas'] }} {{ $s['personas'] == 1 ? 'viajero' : 'viajeros' }}</p><p class="texto-preservado">{{ $s['intereses'] }}</p><small class="referencia-viaje">Referencia: {{ $s['codigo'] }}</small></div></article>@empty<p>No has registrado solicitudes todavía.</p>@endforelse
+        </section>
+        @if(!count($reservas))@include('portal.partials.reservas')@endif
+    </div>
+</div>
+</div>
+<aside class="viaje-lateral" aria-label="Perfil y conversación con tu asesor">
+    <div class="viaje-chat-titulo"><div><span class="etiqueta">CONTIGO EN EL CAMINO</span><h2>Habla con tu asesor</h2></div><a class="enlace" href="{{ route('portal.mensajes') }}">Ampliar ↗</a></div>
+    <x-chat :messages="$mensajes" :contact="$asesor['nombre'] ?? 'Tu asesor de viaje'" :subtitle="count($asesor) ? 'Equipo Thaki · Conversación privada' : 'Pendiente de asignación'" :back="route('portal.inicio')" :action="route('portal.mensajes.enviar')" :enabled="count($asesor) > 0" label="Tu mensaje">
+        <p>Aún no tienes asesor asignado. El equipo te acompañará con tu viaje.</p><form method="POST" action="{{ route('portal.asignar') }}">@csrf<button class="boton secundario pequeno" type="submit">Buscar asesor disponible</button></form>
+    </x-chat>
+    <a class="viaje-novedades" href="{{ route('portal.notificaciones') }}">Notificaciones <span>{{ count(array_filter($notificaciones, fn($n) => !$n['leida'])) }} sin leer ↗</span></a>
+</aside>
+</div>
 @endsection

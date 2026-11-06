@@ -242,3 +242,52 @@ details summary { color: var(--navy); padding: 5px 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
 .check-tarjeta { display:flex !important; align-items:center; gap:12px; padding:16px; border:1px solid var(--line); border-radius:8px; background:#faf9f3; font-size:12px; color:var(--navy); } .check-tarjeta input[type="checkbox"] { display:inline-block; width:18px; height:18px; min-height:18px; margin:0; accent-color:var(--navy); } .ficha-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 28px; margin:0; } .ficha-grid > div { padding:17px 0; border-bottom:1px solid var(--line); min-width:0; } .ficha-grid dt { color:var(--muted); font-size:11px; } .ficha-grid dd { margin:6px 0 0; color:var(--navy); overflow-wrap:anywhere; white-space:pre-wrap; font-size:13px; } .campo-error { color:#a24e3f !important; } .panel-peligro { border-color:#e5bbaf; background:#fff8f3; } @media(max-width:760px) { .ficha-grid { grid-template-columns:1fr; } }
+.menu-gestion { margin-top: 19px; padding-top: 17px; border-top: 1px solid #ffffff1c; }
+.menu-gestion p { margin: 7px 13px 0; color: #95aeb6; font-size: 10px; }
+.sidebar-pie-simple { padding-top: 30px; }
+.sidebar-pie-simple small { display: block; margin-top: 8px; color: #c7d7da; font-size: 10px; }
+.inicio-operaciones .pagina, .gestion-operaciones .pagina { max-width: 1200px; }
+.operaciones-cabecera { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 5px 0 34px; }
+.operaciones-cabecera h1 { font-size: clamp(29px, 3vw, 38px); }
+.operaciones-enlace { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 600; color: var(--navy); text-decoration: none; }
+.operaciones-enlace:hover { color: var(--coral); }
+.operaciones-enlace .icon { width: 15px; height: 15px; }
+.operaciones-accesos { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; margin-bottom: 30px; }
+.operaciones-acceso { padding: 28px; background: #fffefa; border: 1px solid var(--line); border-radius: 13px; text-decoration: none; display: flex; flex-direction: column; align-items: start; transition: border-color .18s, transform .18s; }
+.operaciones-acceso:hover { border-color: #b9c4be; transform: translateY(-2px); }
+.operaciones-icono { display: inline-grid; place-items: center; width: 44px; height: 44px; background: #f2ebdf; border-radius: 12px; color: #82694f; margin-bottom: 25px; }
+.operaciones-acceso:first-child { border-color: #d4dbd6; background: linear-gradient(135deg,#fffefa,#f0f4ef); }
+.operaciones-acceso:first-child .operaciones-icono { background: #e4ece5; color: #486757; }
+.operaciones-acceso h2 { font-size: 17px; }
+.operaciones-acceso p { margin: 12px 0 26px; font-size: 12px; color: var(--muted); line-height: 1.8; }
+.operaciones-accion { display: inline-flex; align-items: center; justify-content: space-between; gap: 15px; width: 100%; margin-top: auto; color: var(--navy); font-size: 11px; font-weight: 600; }
+.operaciones-accion .icon { width: 16px; height: 16px; }
+.operaciones-resumen { padding: 26px 28px; border: 1px solid var(--line); border-radius: 12px; background: #fffefa; }
+.operaciones-seccion { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.operaciones-seccion h2 { font-size: 15px; }
+.operaciones-cifras { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 25px; margin: 26px 0 17px; }
+.operaciones-cifras > div + div { border-left: 1px solid var(--line); padding-left: 25px; }
+.operaciones-cifras dt { font-size: 11px; color: var(--muted); }
+.operaciones-cifras dd { margin: 8px 0 0; color: var(--navy); font-size: 28px; font-weight: 550; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.operaciones-cifras a { text-decoration: none; }
+.operaciones-cifras dd span { color: #8d9d94; font-size: 16px; }
+.operaciones-nota { margin: 0; font-size: 10px; color: var(--muted); }
+.operaciones-resumen .aviso { margin: 22px 0 0; }
+.operaciones-mas { display: flex; justify-content: space-between; align-items: center; gap: 25px; padding: 26px 2px; }
+.operaciones-mas h2 { font-size: 14px; }
+.operaciones-mas p { margin: 6px 0 0; font-size: 11px; color: var(--muted); }
+.gestion-secciones { display: grid; gap: 28px; }
+.gestion-seccion { padding: 26px 28px 8px; background: #fffefa; border: 1px solid var(--line); border-radius: 12px; }
+.gestion-seccion-titulo { margin-bottom: 7px; }
+.gestion-seccion-titulo h2 { font-size: 16px; }
+.gestion-seccion-titulo > p { margin: 7px 0 8px; font-size: 11px; color: var(--muted); }
+.gestion-enlaces { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 32px; }
+.gestion-enlace { display: flex; align-items: center; gap: 14px; padding: 22px 0; border-top: 1px solid var(--line); text-decoration: none; min-width: 0; }
+.gestion-icono { display: grid; place-items: center; width: 34px; height: 34px; color: #8d765c; background: #f4efe6; border-radius: 9px; flex-shrink: 0; }
+.gestion-icono .icon { width: 18px; height: 18px; }
+.gestion-enlace h3 { font-size: 12px; }
+.gestion-enlace p { margin: 5px 0 0; font-size: 11px; line-height: 1.6; color: var(--muted); }
+.gestion-enlace > .icon { margin-left: auto; width: 15px; height: 15px; color: #8d9d94; }
+.gestion-enlace:hover h3 { color: var(--coral); }
+@media(max-width:1000px) { .operaciones-accesos { gap: 14px; } .operaciones-acceso { padding: 23px 20px; } }
+@media(max-width:760px) { .operaciones-cabecera { align-items: start; flex-direction: column; gap: 15px; margin-bottom: 25px; } .operaciones-accesos { grid-template-columns: 1fr; gap: 14px; } .operaciones-acceso { display: grid; grid-template-columns: 40px 1fr; column-gap: 18px; padding: 22px; } .operaciones-icono { width: 40px; height: 40px; grid-row: span 3; margin: 0; } .operaciones-acceso h2 { font-size: 16px; } .operaciones-acceso p { margin: 7px 0 15px; font-size: 11px; } .operaciones-accion { font-size: 11px; } .operaciones-resumen { padding: 22px; } .operaciones-seccion h2 { font-size: 14px; } .operaciones-cifras { gap: 12px; } .operaciones-cifras > div + div { padding-left: 12px; } .operaciones-cifras dt { font-size: 10px; } .operaciones-cifras dd { font-size: 25px; } .operaciones-mas { align-items: start; flex-direction: column; gap: 17px; } .gestion-enlaces { grid-template-columns: 1fr; } .gestion-seccion { padding: 23px 22px 4px; } .menu-admin > .menu-gestion { grid-column: 1 / -1; } .menu-admin > .menu-gestion p { margin-bottom: 12px; } }

@@ -16,10 +16,15 @@ public class AtencionResource {
         return user;
     }
     @GET @Path("/panel") public Map<String,Object> panel(@HeaderParam("Authorization") String h){return service.panel(user(h));}
+    @GET @Path("/calendario") public java.util.List<Map<String,Object>> calendario(@HeaderParam("Authorization") String h,@QueryParam("desde") String desde,@QueryParam("hasta") String hasta){
+        var identidad=user(h);
+        try { return service.calendario(identidad,java.time.LocalDate.parse(desde==null?"":desde),java.time.LocalDate.parse(hasta==null?"":hasta)); }
+        catch(java.time.format.DateTimeParseException e){throw new BadRequestException("Indica fechas válidas para el calendario.");}
+    }
     @GET @Path("/conversaciones/{id}") public Map<String,Object> conversacion(@HeaderParam("Authorization") String h,@PathParam("id")long id){return service.conversacion(user(h),id);}
     @POST @Path("/conversaciones/{id}/mensajes") public void responder(@HeaderParam("Authorization")String h,@PathParam("id")long id,PortalService.Texto datos){service.responder(user(h),id,datos);}
     @GET @Path("/solicitudes/{codigo}") public Map<String,Object> solicitud(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo){return service.solicitud(user(h),codigo);}
-    @POST @Path("/propuestas") public Map<String,String> proponer(@HeaderParam("Authorization")String h,AtencionService.Propuesta datos){return service.proponer(user(h),datos);}
+    @POST @Path("/propuestas") public Map<String,Object> proponer(@HeaderParam("Authorization")String h,AtencionService.Propuesta datos){return service.proponer(user(h),datos);}
     @POST @Path("/propuestas/{codigo}/aceptacion") public Map<String,String> aceptar(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo){return service.aceptar(user(h),codigo);}
     @GET @Path("/reservas/{codigo}") public Map<String,Object> reserva(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo){return service.reserva(user(h),codigo);}
     @POST @Path("/reservas/{codigo}/pagos") public Map<String,String> pago(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo,AtencionService.Pago datos){return service.registrarPago(user(h),codigo,datos);}

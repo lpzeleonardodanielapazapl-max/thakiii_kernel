@@ -18,6 +18,28 @@ public class AtencionService {
 
     private boolean admin(AccesoService.Identidad user) { return user.rol().equals("ADMIN"); }
 
+    public List<Map<String,Object>> calendario(AccesoService.Identidad user, java.time.LocalDate desde, java.time.LocalDate hasta) {
+        if (desde == null || hasta == null || hasta.isBefore(desde) || java.time.temporal.ChronoUnit.DAYS.between(desde, hasta) > 41) {
+            throw new BadRequestException("Selecciona un intervalo válido de hasta 42 días.");
+        }
+        return db.lista("""
+            SELECT v.cod_viaje,r.cod_reserva,p.cod_propuesta,p.titulo,CONCAT(cper.nombres,' ',cper.apellidos),
+                   r.fecha_inicio,r.fecha_fin,r.num_personas,r.estado,p.version
+            FROM viaje_confirmado v JOIN reserva r ON r.cod_reserva=v.cod_reserva
+            JOIN propuesta_viaje p ON p.cod_propuesta=v.cod_propuesta
+            JOIN solicitud_viaje s ON s.cod_solicitud=p.cod_solicitud
+            JOIN cliente c ON c.cod_cliente=s.cod_cliente JOIN persona cper ON cper.cod_persona=c.cod_persona
+            WHERE p.estado='ACEPTADA' AND r.estado IN ('PENDIENTE_ANTICIPO','CONFIRMADA')
+              AND v.estado IN ('PENDIENTE_ANTICIPO','CONFIRMADO')
+              AND EXISTS(SELECT 1 FROM propuesta_aprobacion pa WHERE pa.cod_propuesta=p.cod_propuesta AND pa.aprobado=1)
+              AND r.fecha_inicio<=:hasta AND r.fecha_fin>=:desde
+              AND (:admin=1 OR EXISTS(SELECT 1 FROM usuario u JOIN asignacion_asesor a ON a.id_usuario_cli=u.id_usuario
+                  WHERE u.email=cper.email AND a.activa=1 AND a.id_usuario_ase=:usuario))
+            ORDER BY r.fecha_inicio,r.cod_reserva
+            """, Map.of("desde",desde,"hasta",hasta,"admin",admin(user)?1:0,"usuario",user.id()),
+            "codigo","reserva","propuesta","titulo","cliente","fechaInicio","fechaFin","personas","estado","version");
+    }
+
     public Map<String,Object> panel(AccesoService.Identidad user) {
         return valores("conversaciones",db.lista("""
             SELECT c.cod_conversacion,c.id_usuario_cliente,COALESCE(u.username,u.email),u.email,c.asunto,c.fecha_ultimo_msg,
@@ -36,7 +58,12 @@ public class AtencionService {
     }
 
     public Map<String,Object> conversacion(AccesoService.Identidad user,long id) {
-        var c=db.primero("SELECT cod_conversacion,id_usuario_cliente,id_usuario_asesor,asunto FROM conversacion WHERE cod_conversacion=:id AND (:admin=1 OR id_usuario_asesor=:usuario)",Map.of("id",id,"admin",admin(user)?1:0,"usuario",user.id()),"codigo","clienteId","asesorId","asunto");
+        var c=db.primero("""
+            SELECT c.cod_conversacion,c.id_usuario_cliente,c.id_usuario_asesor,c.asunto,
+                COALESCE((SELECT CONCAT(p.nombres,' ',p.apellidos) FROM persona p WHERE p.email=u.email ORDER BY p.cod_persona LIMIT 1),u.username,u.email),u.email,c.estado
+            FROM conversacion c JOIN usuario u ON u.id_usuario=c.id_usuario_cliente
+            WHERE c.cod_conversacion=:id AND (:admin=1 OR c.id_usuario_asesor=:usuario)
+            """,Map.of("id",id,"admin",admin(user)?1:0,"usuario",user.id()),"codigo","clienteId","asesorId","asunto","cliente","email","estado");
         if(c.isEmpty())throw new NotFoundException("Conversación no encontrada.");
         c.put("mensajes",db.lista("SELECT cod_mensaje,id_remitente,contenido,fecha_envio FROM mensaje WHERE cod_conversacion=:id ORDER BY fecha_envio DESC,cod_mensaje DESC LIMIT 100",Map.of("id",id),"id","remitente","contenido","fecha"));
         return c;
@@ -45,6 +72,7 @@ public class AtencionService {
     @Transactional
     public void responder(AccesoService.Identidad user,long id,PortalService.Texto datos) {
         var c=conversacion(user,id);
+        if(!"ABIERTA".equals(c.get("estado")))throw new ClientErrorException("La conversación está cerrada y no admite nuevas respuestas.",409);
         if(datos==null)throw new BadRequestException("Escribe un mensaje.");
         portal.insertarMensaje(id,user.id(),AccesoService.texto(datos.contenido(),"el mensaje",4000));
         portal.notificar(((Number)c.get("clienteId")).longValue(),"Tu asesor te escribió","Tienes un nuevo mensaje en tu espacio de viaje.");
@@ -60,32 +88,47 @@ public class AtencionService {
             """,Map.of("codigo",codigo,"admin",admin(user)?1:0,"usuario",user.id()),"codigo","clienteCodigo","nombres","apellidos","email","fechaInicio","fechaFin","personas","presupuesto","moneda","intereses","estado","clienteId");
         if(s.isEmpty())throw new NotFoundException("Solicitud no encontrada.");
         s.put("preferencias",db.lista("SELECT tipo,valor FROM solicitud_preferencia WHERE cod_solicitud=:codigo ORDER BY id_preferencia",Map.of("codigo",codigo),"tipo","valor"));
-        s.put("propuestas",db.lista("SELECT cod_propuesta,titulo,precio_total,moneda,estado,version FROM propuesta_viaje WHERE cod_solicitud=:codigo ORDER BY version DESC",Map.of("codigo",codigo),"codigo","titulo","precio","moneda","estado","version"));
+        var propuestas=db.lista("SELECT cod_propuesta,titulo,precio_total,moneda,estado,version,descripcion,duracion_dias,fecha_envio FROM propuesta_viaje WHERE cod_solicitud=:codigo ORDER BY version DESC",Map.of("codigo",codigo),"codigo","titulo","precio","moneda","estado","version","descripcion","dias","fechaEnvio");
+        var detalles=db.lista("SELECT d.cod_propuesta,d.dia,d.descripcion,d.servicios FROM propuesta_detalle d JOIN propuesta_viaje p ON p.cod_propuesta=d.cod_propuesta WHERE p.cod_solicitud=:codigo ORDER BY p.version DESC,d.dia,d.id_detalle",Map.of("codigo",codigo),"propuesta","dia","descripcion","servicios");
+        for(var propuesta:propuestas) propuesta.put("itinerario",detalles.stream().filter(d->Objects.equals(d.get("propuesta"),propuesta.get("codigo"))).toList());
+        s.put("propuestas",propuestas);
         s.put("reservas",db.lista("SELECT r.cod_reserva,r.estado,r.total,r.moneda FROM reserva r JOIN viaje_confirmado v ON v.cod_reserva=r.cod_reserva JOIN propuesta_viaje p ON p.cod_propuesta=v.cod_propuesta WHERE p.cod_solicitud=:codigo",Map.of("codigo",codigo),"codigo","estado","total","moneda"));
         return s;
     }
 
     @Transactional
-    public Map<String,String> proponer(AccesoService.Identidad user,Propuesta datos) {
+    public Map<String,Object> proponer(AccesoService.Identidad user,Propuesta datos) {
         if(datos==null)throw new BadRequestException("Completa la propuesta.");
         var s=solicitud(user,AccesoService.texto(datos.solicitud(),"la solicitud",20));
         String titulo=AccesoService.texto(datos.titulo(),"el título",200);
         String descripcion=AccesoService.texto(datos.descripcion(),"la descripción",4000);
         if(datos.precio()==null || datos.precio().signum()<=0 || datos.precio().scale()>2 || datos.precio().compareTo(new BigDecimal("9999999999.99"))>0)throw new BadRequestException("Introduce un precio válido.");
         if(!Set.of("BOB","USD","EUR").contains(datos.moneda()==null?"":datos.moneda()))throw new BadRequestException("Selecciona la moneda.");
-        if(datos.dias()==null || datos.dias().isEmpty() || datos.dias().size()>120)throw new BadRequestException("Incluye entre 1 y 120 días en el itinerario.");
+        var dias=validarDias(datos.dias());
         db.lista("SELECT cod_solicitud FROM solicitud_viaje WHERE cod_solicitud=:codigo FOR UPDATE",Map.of("codigo",datos.solicitud()),"codigo");
         if (!db.lista("SELECT cod_propuesta FROM propuesta_viaje WHERE cod_solicitud=:codigo AND estado='ACEPTADA'",Map.of("codigo",datos.solicitud()),"codigo").isEmpty()) throw new ClientErrorException("La solicitud ya tiene una propuesta aceptada.",409);
         var version=db.primero("SELECT COALESCE(MAX(version),0)+1 FROM propuesta_viaje WHERE cod_solicitud=:codigo",Map.of("codigo",datos.solicitud()),"numero");
         String codigo=GestionValidationService.codigo("PRP");
         db.ejecutar("UPDATE propuesta_viaje SET estado='REEMPLAZADA' WHERE cod_solicitud=:codigo AND estado='ENVIADA'",Map.of("codigo",datos.solicitud()));
-        db.ejecutar("INSERT INTO propuesta_viaje (cod_propuesta,cod_solicitud,version,titulo,descripcion,duracion_dias,precio_total,moneda,estado) VALUES (:codigo,:solicitud,:version,:titulo,:descripcion,:dias,:precio,:moneda,'ENVIADA')",valores("codigo",codigo,"solicitud",datos.solicitud(),"version",version.get("numero"),"titulo",titulo,"descripcion",descripcion,"dias",datos.dias().size(),"precio",datos.precio(),"moneda",datos.moneda()));
-        for(int i=0;i<datos.dias().size();i++) {
-            Dia dia=datos.dias().get(i);
-            db.ejecutar("INSERT INTO propuesta_detalle (cod_propuesta,dia,descripcion,servicios) VALUES (:codigo,:dia,:descripcion,:servicios)",valores("codigo",codigo,"dia",i+1,"descripcion",AccesoService.texto(dia.descripcion(),"el detalle del día",4000),"servicios",dia.servicios()==null?null:AccesoService.texto(dia.servicios(),"los servicios",2000)));
+        db.ejecutar("INSERT INTO propuesta_viaje (cod_propuesta,cod_solicitud,version,titulo,descripcion,duracion_dias,precio_total,moneda,estado) VALUES (:codigo,:solicitud,:version,:titulo,:descripcion,:dias,:precio,:moneda,'ENVIADA')",valores("codigo",codigo,"solicitud",datos.solicitud(),"version",version.get("numero"),"titulo",titulo,"descripcion",descripcion,"dias",dias.size(),"precio",datos.precio(),"moneda",datos.moneda()));
+        for(Dia dia:dias) {
+            db.ejecutar("INSERT INTO propuesta_detalle (cod_propuesta,dia,descripcion,servicios) VALUES (:codigo,:dia,:descripcion,:servicios)",valores("codigo",codigo,"dia",dia.dia(),"descripcion",dia.descripcion(),"servicios",dia.servicios()));
         }
         portal.notificar(((Number)s.get("clienteId")).longValue(),"Tu propuesta está lista","Revisa la propuesta y su itinerario en Mi viaje.");
-        return Map.of("codigo",codigo);
+        return Map.of("codigo",codigo,"version",((Number)version.get("numero")).intValue());
+    }
+
+    static List<Dia> validarDias(List<Dia> recibidos) {
+        if(recibidos==null || recibidos.isEmpty() || recibidos.size()>120)throw new BadRequestException("Incluye entre 1 y 120 días en el itinerario.");
+        List<Dia> dias=new ArrayList<>();
+        for(int i=0;i<recibidos.size();i++) {
+            Dia dia=recibidos.get(i);
+            if(dia==null)throw new BadRequestException("Completa el día "+(i+1)+" del itinerario.");
+            String descripcion=AccesoService.texto(dia.descripcion(),"la descripción del día "+(i+1),4000);
+            String servicios=dia.servicios()==null || dia.servicios().isBlank()?null:AccesoService.texto(dia.servicios(),"los servicios del día "+(i+1),2000);
+            dias.add(new Dia(i+1,descripcion,servicios));
+        }
+        return dias;
     }
 
     @Transactional

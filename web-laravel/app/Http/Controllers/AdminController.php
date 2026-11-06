@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $resumen = null;
         $error = null;

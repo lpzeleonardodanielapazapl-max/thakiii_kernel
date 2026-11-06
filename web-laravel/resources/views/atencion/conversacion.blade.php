@@ -1,7 +1,12 @@
 @extends('layouts.admin')
-@section('titulo', 'Conversación con cliente')
+@section('titulo', 'Mensajes')
+@section('clase-pagina', 'chat-pagina-personal')
 @section('contenido')
-<x-page-header :title="$conversacion['asunto']" description="Conversación privada con el cliente." eyebrow="ATENCIÓN A CLIENTES"><a class="boton boton-secundario" href="{{ route('atencion.index') }}">← Atención a clientes</a></x-page-header>
-@include('components.avisos-publicos')
-<section class="panel"><h2>Últimos 100 mensajes</h2>@forelse(array_reverse($conversacion['mensajes']) as $m)<article style="padding:16px 0;border-bottom:1px solid #ddd"><strong>{{ (string)$m['remitente'] === (string)$conversacion['clienteId'] ? 'Cliente' : 'Equipo Thaki' }}</strong><p style="white-space:pre-wrap;overflow-wrap:anywhere">{{ $m['contenido'] }}</p><small><x-print-value :value="$m['fecha']" type="datetime"/></small></article>@empty<p>La conversación aún no tiene mensajes.</p>@endforelse</section><section class="panel formulario-panel"><h2>Responder al cliente</h2><form method="POST" action="{{ route('atencion.responder', $conversacion['codigo']) }}" class="formulario-grid">@csrf<div class="campo ancho-completo"><label for="contenido">Mensaje</label><textarea id="contenido" name="contenido" rows="5" maxlength="4000" required>{{ old('contenido') }}</textarea></div><div class="formulario-acciones"><button class="boton">Enviar respuesta</button></div></form></section>
+<x-chat-assets/>
+<div class="chat-pagina-titulo"><div><h1>Mensajes</h1><p>Conversa los detalles del viaje con tu cliente.</p></div></div>
+@include('components.avisos-publicos', ['compacto' => true])
+<x-chat :messages="$conversacion['mensajes']" :contact="$conversacion['cliente'] ?? 'Cliente'" :subtitle="$conversacion['asunto'] ?: 'Conversación privada'" :back="route('atencion.index')" :action="route('atencion.responder', $conversacion['codigo'])" :client-id="$conversacion['clienteId']" :enabled="($conversacion['estado'] ?? 'ABIERTA') === 'ABIERTA'" label="Responder al cliente">
+    <p>Esta conversación está cerrada. Puedes consultar el historial de mensajes.</p>
+    <a class="enlace-registro" href="{{ route('atencion.index') }}">Volver a Atención a clientes →</a>
+</x-chat>
 @endsection

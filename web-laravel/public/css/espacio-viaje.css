@@ -1,0 +1,48 @@
+@media screen {
+    .estilo-liquid.viaje-con-chat .portal-cuerpo { max-width:1500px; padding-left:4%; padding-right:4%; }
+    .viaje-espacio { display:grid; grid-template-columns:minmax(0,1fr) minmax(340px,390px); gap:30px; align-items:start; }
+    .viaje-contenido,.viaje-lateral { min-width:0; }
+    .viaje-contenido .portal-titulo { flex-wrap:wrap; gap:17px; margin-bottom:28px; }
+    .estilo-liquid .viaje-contenido .portal-titulo h1 { font-size:clamp(29px,3vw,42px); overflow-wrap:anywhere; }
+    .viaje-contenido .portal-titulo p { margin-bottom:0; }
+    .viaje-contenido .portal-titulo .boton { font-size:11px; padding:12px 18px; }
+    .viaje-detalles { margin-top:26px; }
+    .viaje-detalles .pila { display:grid; gap:23px; }
+    .viaje-contenido .portal-bienvenida { padding:30px; }
+    .estilo-liquid .viaje-contenido .portal-bienvenida h2 { font-size:29px; }
+    .viaje-lateral { position:sticky; top:22px; }
+    .perfil-progreso { padding:22px 24px; background:#f9fbff; border:1px solid #e0e8f3; border-radius:23px; margin-bottom:24px; }
+    .perfil-progreso-titulo { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .estilo-liquid .perfil-progreso h2 { font:600 16px/1.3 var(--liquid-font); margin:0; }
+    .perfil-progreso strong { color:#2b5b82; font-size:17px; white-space:nowrap; }
+    .perfil-progreso progress { display:block; appearance:none; width:100%; height:7px; margin:14px 0; border:0; border-radius:20px; overflow:hidden; background:#e0e8f3; accent-color:#46769e; }
+    .perfil-progreso progress::-webkit-progress-bar { background:#e0e8f3; }
+    .perfil-progreso progress::-webkit-progress-value { background:linear-gradient(90deg,#4c759b,#6eaaa9); border-radius:20px; }
+    .perfil-progreso progress::-moz-progress-bar { background:#46769e; }
+    .perfil-progreso p,.perfil-progreso a { font-size:11px; }
+    .perfil-progreso p { line-height:1.7; margin:0 0 10px; color:#526b85; }
+    .perfil-progreso ul { display:flex; flex-wrap:wrap; gap:8px 20px; padding-left:17px; margin:10px 0; }
+    .viaje-chat-titulo { display:flex; justify-content:space-between; align-items:center; gap:14px; margin:0 3px 15px; }
+    .viaje-chat-titulo .etiqueta { margin-bottom:6px; font-size:8px; }
+    .estilo-liquid .viaje-chat-titulo h2 { font-size:17px; margin:0; }
+    .viaje-chat-titulo a { font-size:10px; white-space:nowrap; }
+    .estilo-liquid .viaje-lateral .thaki-chat { height:clamp(420px,calc(100dvh - 320px),680px); width:100%; border-radius:24px; }
+    .viaje-lateral .chat-cabecera { gap:9px; padding:15px 14px; }
+    .viaje-lateral .chat-volver { display:none; }
+    .viaje-lateral .chat-historial { padding:18px 14px; }
+    .viaje-lateral .chat-burbuja { max-width:90%; }
+    .viaje-lateral .chat-compositor { padding:13px 12px; }
+    .viaje-lateral .chat-escritura { gap:7px; }
+    .viaje-lateral .chat-teclado { font-size:8px; }
+    .viaje-novedades { display:flex; justify-content:space-between; gap:12px; padding:18px 6px; font-size:11px; color:#4e6987; }
+    .viaje-novedades span { font-weight:600; }
+    @media(max-width:1100px) {
+        .viaje-espacio { grid-template-columns:minmax(0,1fr) 340px; gap:22px; }
+    }
+    @media(max-width:900px) {
+        .viaje-espacio { grid-template-columns:minmax(0,1fr); }
+        .viaje-lateral { position:static; }
+        .viaje-lateral .thaki-chat { height:600px; max-height:80dvh; min-height:420px; }
+        .perfil-progreso { padding:22px; }
+    }
+}
