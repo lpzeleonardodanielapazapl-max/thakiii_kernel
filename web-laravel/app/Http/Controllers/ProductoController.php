@@ -14,7 +14,7 @@ class ProductoController extends Controller
 {
     private function api(): PendingRequest
     {
-        return Http::baseUrl(config('services.quarkus.url'))->acceptJson()->timeout(15);
+        return Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))->acceptJson()->timeout(15);
     }
 
     private function producto(string $codigo): array

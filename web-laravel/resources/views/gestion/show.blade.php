@@ -3,7 +3,7 @@
 @section('contenido')
     <x-page-header :title="($confirmDelete ? 'Eliminar ' : 'Detalle de ').$meta['singular']" :description="'Código: '.$registro[$meta['key']]" eyebrow="GESTIÓN · FICHA DEL REGISTRO">
         <a class="boton boton-secundario" href="{{ route($meta['modulo'].'.index') }}"><x-icon name="back"/> {{ $meta['title'] }}</a>
-        @if (! $confirmDelete)<a class="boton" href="{{ route($meta['modulo'].'.edit', ['codigo' => $registro[$meta['key']]]) }}">Editar datos</a>@endif
+        @if (! $confirmDelete && ($meta['canEdit'] ?? true))<a class="boton" href="{{ route($meta['modulo'].'.edit', ['codigo' => $registro[$meta['key']]]) }}">Editar datos</a>@endif
     </x-page-header>
     @if (session('exito'))<div class="aviso" role="status">{{ session('exito') }}</div>@endif
     @if ($errors->any())<div class="aviso error" role="alert"><ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
@@ -38,5 +38,28 @@
         <div class="acciones-pagina"><button type="button" class="boton boton-secundario" data-print><x-icon name="print"/> Imprimir ficha</button>
             @if ($meta['canDelete'] ?? true)<a class="accion-enlace" href="{{ route($meta['modulo'].'.delete', ['codigo' => $registro[$meta['key']]]) }}">Eliminar registro</a>@endif
         </div>
+    @endif
+    @if (! $confirmDelete)
+        <x-print-report :title="'Ficha de '.$meta['singular']" :reference="(string) $registro[$meta['key']]" :subtitle="$meta['modulo'] === 'empleados' ? ($catalogos['personas'][$registro['codPersona']] ?? '') : ''">
+            <h2>Datos del registro</h2>
+            <table class="reporte-tabla reporte-ficha"><tbody>
+                @foreach ($meta['fields'] as $nombre => $campo)
+                    @continue($campo['type'] === 'password')
+                    @php($valor = $registro[$nombre] ?? null)
+                    <tr><th scope="row">{{ $campo['label'] }}</th><td>
+                        @if (isset($campo['catalogo'])){{ $catalogos[$campo['catalogo']][$valor] ?? $valor ?? '—' }}
+                        @elseif (isset($campo['options'])){{ $campo['options'][$valor] ?? $valor ?? '—' }}
+                        @else<x-print-value :value="$valor" :type="$nombre === 'salario' ? 'money' : ($campo['type'] === 'checkbox' ? 'boolean' : $campo['type'])"/>@endif
+                    </td></tr>
+                @endforeach
+            </tbody></table>
+            @if (($registro['createdAt'] ?? null) || ($registro['updatedAt'] ?? null))
+                <h2>Control del registro</h2><table class="reporte-tabla reporte-ficha"><tbody>
+                    @foreach (['createdAt' => 'Registrado el', 'updatedAt' => 'Última actualización'] as $nombre => $etiqueta)
+                        @if ($registro[$nombre] ?? null)<tr><th scope="row">{{ $etiqueta }}</th><td><x-print-value :value="$registro[$nombre]" type="datetime"/></td></tr>@endif
+                    @endforeach
+                </tbody></table>
+            @endif
+        </x-print-report>
     @endif
 @endsection

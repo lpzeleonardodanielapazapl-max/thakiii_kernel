@@ -1,0 +1,6 @@
+@extends('layouts.publico')
+@section('titulo', $destino['nombre'])
+@section('contenido')
+<section class="detalle-hero" style="--foto:url('{{ $editorial ? asset('images/thaki/'.$destino['imagen']) : asset('images/thaki/illimani.jpg') }}')"><div><a href="{{ route('publico.inicio') }}#inspiraciones">← Explora Bolivia</a><span class="etiqueta clara">{{ $destino['region'] ?? 'BOLIVIA' }}</span><h1>{{ $destino['nombre'] }}</h1></div></section>
+<section class="seccion lectura"><span class="etiqueta">{{ $editorial ? 'UNA IDEA PARA INSPIRARTE' : 'DESCUBRE EL DESTINO' }}</span><h2>El comienzo de <em>tu propia ruta.</em></h2><p>{{ $destino['descripcion'] ?? $destino['descripcionCorta'] ?? '' }}</p>@foreach(['historia' => 'El lugar', 'experiencia' => 'Cómo explorarlo', 'recomendaciones' => 'Antes de viajar', 'temporada' => 'Cuándo viajar'] as $campo => $titulo)@if(!empty($destino[$campo]))<h3>{{ $titulo }}</h3><p class="texto-preservado">{{ $destino[$campo] }}</p>@endif @endforeach<p>Comparte esta idea con tu asesor. La ruta y los servicios se definen en tu propuesta personalizada.</p><a class="boton" href="{{ route(session('usuario.rol') === 'CLIENTE' ? 'portal.solicitud' : 'acceso.registro') }}">Añadir a mi idea de viaje ↗</a></section>
+@endsection

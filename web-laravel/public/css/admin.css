@@ -240,25 +240,5 @@ details summary { color: var(--navy); padding: 5px 0; }
     .hero-texto { max-width: 100%; } .hero-thaki h2 { font-size: 31px; }
     .breadcrumb { gap: 7px; font-size: 10px; } .barra-detalle { display: none; }
 }
-@media print {
-    @page { size: A4; margin: 14mm; }
-    body { background: white !important; color: #111; font-size: 10pt; }
-    .sidebar, .barra-superior, .pie-pagina, .no-imprimir, .table-tools, .enlaces-contexto, .hero-thaki, .saltar-contenido { display: none !important; }
-    .admin-shell, .contenido { display: block; }
-    .pagina { max-width: none; padding: 0; margin: 0; }
-    .panel, .formulario-panel, .herramientas, .cabecera { box-shadow: none; border-color: #ddd; padding: 12px; break-inside: auto; }
-    .tabla-scroll { overflow: visible; }
-    .tabla-inventario { font-size: 8pt; } .tabla-inventario th, .tabla-inventario td { padding: 7px 5px; color: #111; }
-    .tabla-inventario thead { display: table-header-group; } .tabla-inventario tr { break-inside: avoid; }
-    .tabla-inventario th { font-size: 7pt; } h1 { font-size: 24pt; } h2 { font-size: 14pt; }
-    .resumen-abc { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .pagina-eoq main > :not(#informe-impresion) { display: none !important; }
-    .pagina-eoq #informe-impresion { display: block !important; }
-    #informe-impresion table { width: 100%; border-collapse: collapse; }
-    #informe-impresion td { padding: 8px; border: 1px solid #ddd; }
-    #informe-impresion td:last-child { text-align: right; }
-    #informe-impresion h3 { margin: 17px 0 8px; }
-    .nota-informe { font-size: 8pt; }
-}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
 .check-tarjeta { display:flex !important; align-items:center; gap:12px; padding:16px; border:1px solid var(--line); border-radius:8px; background:#faf9f3; font-size:12px; color:var(--navy); } .check-tarjeta input[type="checkbox"] { display:inline-block; width:18px; height:18px; min-height:18px; margin:0; accent-color:var(--navy); } .ficha-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 28px; margin:0; } .ficha-grid > div { padding:17px 0; border-bottom:1px solid var(--line); min-width:0; } .ficha-grid dt { color:var(--muted); font-size:11px; } .ficha-grid dd { margin:6px 0 0; color:var(--navy); overflow-wrap:anywhere; white-space:pre-wrap; font-size:13px; } .campo-error { color:#a24e3f !important; } .panel-peligro { border-color:#e5bbaf; background:#fff8f3; } @media(max-width:760px) { .ficha-grid { grid-template-columns:1fr; } }

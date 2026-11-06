@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SesionPrivada;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias(['sesion' => SesionPrivada::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ConnectionException|RequestException $e, Request $request) {
@@ -26,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return back()->withInput()->withErrors(['api' => 'No pudimos completar la consulta. Inténtalo nuevamente.']);
             }
 
-            return response()->view('errors.api', [], 503);
+            return response()->view($request->is('mi-viaje*', 'destinos/*') ? 'acceso.error' : 'errors.api', [], 503);
         });
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),

@@ -2,12 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\SesionPrivada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class PanelNavigationTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(SesionPrivada::class);
+    }
+
     private function prepararApi(): void
     {
         Http::preventStrayRequests();
@@ -43,7 +50,7 @@ class PanelNavigationTest extends TestCase
     {
         $this->prepararApi();
 
-        foreach (['/', '/admin', '/inventario', '/inventario/abc', '/investigacion-operativa',
+        foreach (['/admin', '/inventario', '/inventario/abc', '/investigacion-operativa',
             '/inventario/PRO-1/reposicion', '/inventario/productos/nuevo',
             '/personas', '/empleados', '/clientes', '/usuarios', '/roles'] as $ruta) {
             $this->get($ruta)->assertOk()->assertSee('id="navegacion-admin"', false)

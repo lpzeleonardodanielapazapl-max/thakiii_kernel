@@ -16,7 +16,7 @@ class QuarkusClient
 
     protected function client()
     {
-        return Http::baseUrl($this->baseUrl)
+        return Http::baseUrl($this->baseUrl)->withToken((string) session('api_token', ''))
             ->acceptJson()
             ->timeout(15);
     }

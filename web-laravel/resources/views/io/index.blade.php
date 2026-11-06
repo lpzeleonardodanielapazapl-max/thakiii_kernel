@@ -348,153 +348,42 @@
         </section>
     @endisset
 @isset($resultado)
-    @php
-        $monedaInforme = 'BOB';
-
-        $numeroInforme = fn ($valor) =>
-            number_format($valor, 2, ',', '.');
-    @endphp
-
-    <article id="informe-impresion">
-        <h1>THAKI VOYAGE</h1>
-        <h2>Informe de planificación de reposición</h2>
-
-        <p>
-            <strong>Producto:</strong>
-            {{ $producto['nombre'] ?? 'Escenario académico sin producto vinculado' }}
-
-            @isset($producto)
-                <br>
-                <strong>Código:</strong> {{ $producto['codigo'] }}
-            @endisset
-
-            <br>
-            <strong>Fecha de emisión:</strong>
-            {{ now()->timezone('America/La_Paz')->format('d/m/Y H:i') }}
-
-            <br>
-            <strong>Moneda:</strong> {{ $monedaInforme }}
-        </p>
-
-        <h3>Datos utilizados</h3>
-
-        <table class="tabla-inventario">
-            <tbody>
-                <tr>
-                    <td>Necesidad anual de adquisición</td>
-                    <td>
-                        {{ $numeroInforme($datos['demandaAnual']) }}
-                        unidades/año
-                    </td>
-                </tr>
-                <tr>
-                    <td>Precio unitario</td>
-                    <td>
-                        {{ $numeroInforme($datos['costoUnitario']) }}
-                        {{ $monedaInforme }}/unidad
-                    </td>
-                </tr>
-                <tr>
-                    <td>Costo por pedido</td>
-                    <td>
-                        {{ $numeroInforme($datos['costoPedido']) }}
-                        {{ $monedaInforme }}/pedido
-                    </td>
-                </tr>
-                <tr>
-                    <td>Costo de mantener una unidad por año</td>
-                    <td>
-                        {{ $numeroInforme($datos['costoMantenimientoAnual']) }}
-                        {{ $monedaInforme }}/unidad/año
-                    </td>
-                </tr>
-                <tr>
-                    <td>Plazo de entrega / Base anual</td>
-                    <td>
-                        {{ $datos['plazoEntregaDias'] }} días /
-                        {{ $datos['diasAnuales'] }} días
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>Resultados</h3>
-
-        <table class="tabla-inventario">
-            <tbody>
-                <tr>
-                    <td>EOQ teórico</td>
-                    <td>
-                        {{ $numeroInforme($resultado['loteTeorico']) }}
-                        unidades
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Lote recomendado por pedido</strong></td>
-                    <td>
-                        <strong>
-                            {{ $resultado['loteRecomendado'] }} unidades
-                        </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Pedidos anuales / Intervalo promedio</td>
-                    <td>
-                        {{ $numeroInforme($resultado['pedidosAnuales']) }}
-                        pedidos/año /
-                        {{ $numeroInforme($resultado['diasEntrePedidos']) }}
-                        días
-                    </td>
-                </tr>
-                <tr>
-                    <td>Punto de reorden teórico</td>
-                    <td>
-                        {{ $numeroInforme($resultado['puntoReorden']) }}
-                        unidades
-                    </td>
-                </tr>
-                <tr>
-                    <td>Costo anual de compra</td>
-                    <td>
-                        {{ $numeroInforme($resultado['costoCompraAnual']) }}
-                        {{ $monedaInforme }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Costo anual de ordenar / mantener</td>
-                    <td>
-                        {{ $numeroInforme($resultado['costoOrdenarAnual']) }}
-                        /
-                        {{ $numeroInforme($resultado['costoMantenerAnual']) }}
-                        {{ $monedaInforme }}
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Costo total anual estimado</strong></td>
-                    <td>
-                        <strong>
-                            {{ $numeroInforme($resultado['costoTotalAnual']) }}
-                            {{ $monedaInforme }}
-                        </strong>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>Recomendación</h3>
-
-        <p>
-            Bajo los parámetros ingresados, se recomienda un lote de
-            <strong>{{ $resultado['loteRecomendado'] }} unidades por pedido</strong>.
-            La decisión de comprar debe considerar las existencias utilizables,
-            los equipos que regresarán y las compras pendientes.
-        </p>
-
-        <p class="nota-informe">
-            Modelo EOQ clásico: demanda y costos constantes, plazo conocido,
-            recepción del lote completo y ausencia de faltantes.
-            Este informe no constituye una orden de compra.
-        </p>
-    </article>
+    <x-print-report title="Planificación de reposición · EOQ" :reference="$producto['codigo'] ?? null" :subtitle="$producto['nombre'] ?? 'Escenario de reposición sin producto vinculado'">
+        <div class="reporte-resumen"><p><strong>Lote recomendado:</strong> {{ $resultado['loteRecomendado'] }} {{ $resultado['loteRecomendado'] == 1 ? 'unidad' : 'unidades' }} por pedido.</p><p><strong>Costo total anual estimado:</strong> {{ $formato($resultado['costoTotalAnual']) }} BOB.</p></div>
+        <h2>1. Datos utilizados</h2>
+        <table class="reporte-tabla reporte-ficha"><tbody>
+            @foreach ([
+                ['Necesidad anual de adquisición', $datos['demandaAnual'], 'unidades/año'],
+                ['Precio unitario', $datos['costoUnitario'], 'BOB/unidad'],
+                ['Costo por pedido', $datos['costoPedido'], 'BOB/pedido'],
+                ['Costo anual de mantener una unidad', $datos['costoMantenimientoAnual'], 'BOB/unidad/año'],
+                ['Plazo de entrega', $datos['plazoEntregaDias'], 'días'],
+                ['Días considerados por año', $datos['diasAnuales'], 'días'],
+            ] as [$label, $valor, $unidad])
+                <tr><th scope="row">{{ $label }}</th><td class="numero-informe">{{ $formato($valor) }} {{ $unidad }}</td></tr>
+            @endforeach
+        </tbody></table>
+        <h2>2. Cantidades y frecuencia estimadas</h2>
+        <table class="reporte-tabla reporte-ficha"><tbody>
+            @foreach ([
+                ['Lote teórico EOQ', $resultado['loteTeorico'], 'unidades'],
+                ['Lote recomendado por pedido', $resultado['loteRecomendado'], 'unidades'],
+                ['Pedidos por año', $resultado['pedidosAnuales'], 'pedidos/año'],
+                ['Intervalo promedio entre pedidos', $resultado['diasEntrePedidos'], 'días'],
+                ['Demanda diaria', $resultado['demandaDiaria'] ?? $datos['demandaAnual'] / $datos['diasAnuales'], 'unidades/día'],
+                ['Punto de reorden teórico', $resultado['puntoReorden'], 'unidades'],
+            ] as [$label, $valor, $unidad])
+                <tr><th scope="row">{{ $label }}</th><td class="numero-informe">{{ $formato($valor) }} {{ $unidad }}</td></tr>
+            @endforeach
+        </tbody></table>
+        <h2>3. Costos anuales estimados · BOB</h2>
+        <table class="reporte-tabla reporte-ficha"><tbody>
+            @foreach (['costoCompraAnual' => 'Compra de unidades', 'costoOrdenarAnual' => 'Realización de pedidos', 'costoMantenerAnual' => 'Mantenimiento del inventario', 'costoGestionAnual' => 'Gestión (pedidos + mantenimiento)', 'costoTotalAnual' => 'TOTAL ANUAL ESTIMADO'] as $campo => $label)
+                <tr><th scope="row">{{ $label }}</th><td class="numero-informe">{{ $formato($resultado[$campo]) }} BOB</td></tr>
+            @endforeach
+        </tbody></table>
+        <p class="reporte-nota"><strong>Supuestos:</strong> demanda y costos constantes, plazo conocido, recepción del lote completo y ausencia de faltantes. Fórmula: Q* = √(2 × D × S / H).</p>
+        <p class="reporte-nota"><strong>Uso del resultado:</strong> contrasta la recomendación con las existencias utilizables, los equipos que regresarán y las compras pendientes. Las salidas temporales de equipos reutilizables no son consumo definitivo. Este informe no modifica el stock ni constituye una orden de compra.</p>
+    </x-print-report>
 @endisset
 @endsection

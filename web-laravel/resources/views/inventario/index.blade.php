@@ -10,7 +10,7 @@
     <div><strong>El equipo detrás de cada experiencia.</strong><p>Abre un producto para consultar o registrar sus unidades físicas.</p></div>
     <a class="accion-enlace" href="{{ route('io.index') }}">Planificar compras <x-icon name="arrow"/></a>
 </div>
-<section class="panel panel-tabla" data-table>
+<section class="panel panel-tabla" data-table data-print-target="tabla-impresion">
     <form class="table-tools no-imprimir" method="GET" action="{{ route('inventario.index') }}">
         <label class="selector-filtro">Estado del catálogo <select name="estado"><option value="ACTIVO" @selected(request('estado', 'ACTIVO') === 'ACTIVO')>Productos activos</option><option value="INACTIVO" @selected(request('estado') === 'INACTIVO')>Productos inactivos</option><option value="TODOS" @selected(request('estado') === 'TODOS')>Todos los productos</option></select></label><button type="submit" class="boton boton-secundario boton-pequeno">Consultar</button>
     </form>
@@ -21,7 +21,7 @@
         <thead><tr><th scope="col">Producto</th><th scope="col">Categoría</th><th scope="col">Unidades</th><th scope="col">Para arreglo</th><th scope="col">Bajas</th><th scope="col" class="no-imprimir">Acciones</th></tr></thead>
         <tbody>
         @forelse ($productos as $producto)
-            <tr data-row data-tags="{{ $producto['unidadesRequierenArreglo'] > 0 ? 'arreglo' : '' }} {{ $producto['unidadesConBaja'] > 0 ? 'bajas' : '' }} {{ $producto['unidadesRegistradas'] == 0 ? 'sin-unidades' : '' }}">
+            <tr data-row data-print-key="{{ $loop->index }}" data-tags="{{ $producto['unidadesRequierenArreglo'] > 0 ? 'arreglo' : '' }} {{ $producto['unidadesConBaja'] > 0 ? 'bajas' : '' }} {{ $producto['unidadesRegistradas'] == 0 ? 'sin-unidades' : '' }}">
                 <td><div class="producto-celda"><span class="mini-producto"><x-icon name="box"/></span><div><strong>{{ $producto['nombre'] }}</strong><small>{{ $producto['codigo'] }} · {{ $producto['marca'] }}</small></div></div></td>
                 <td><span class="badge badge-azul">{{ $producto['categoria'] }}</span></td>
                 <td class="cifra-tabla">{{ $producto['unidadesRegistradas'] }}</td>
@@ -41,4 +41,14 @@
     </table></div>
     <p class="nota nota-tabla">Las unidades registradas no equivalen a disponibilidad. Para utilizar un equipo también deben comprobarse sus salidas, recepciones y condición.</p>
 </section>
+<x-print-report title="Inventario de equipos" :landscape="true" :subtitle="'Catálogo: '.(['ACTIVO' => 'productos activos', 'INACTIVO' => 'productos inactivos', 'TODOS' => 'todos los productos'][request('estado') ?: 'ACTIVO'])">
+    <p class="reporte-alcance"><span data-report-count>{{ count($productos) }} de {{ count($productos) }} registros</span> · <span data-report-filters>Sin filtros adicionales.</span></p>
+    <table id="tabla-impresion" class="reporte-tabla"><colgroup><col style="width:32%"><col style="width:16%"><col style="width:12%"><col style="width:10%"><col style="width:10%"><col style="width:8%"><col style="width:12%"></colgroup>
+        <thead><tr><th scope="col">Producto / código</th><th scope="col">Marca</th><th scope="col">Categoría</th><th scope="col">Unidades registradas</th><th scope="col">Requieren arreglo</th><th scope="col">Con baja</th><th scope="col">Estado</th></tr></thead><tbody>
+            @foreach ($productos as $producto)<tr data-print-key="{{ $loop->index }}"><td><strong>{{ $producto['nombre'] }}</strong><small>{{ $producto['codigo'] }}</small></td><td>{{ $producto['marca'] }}</td><td>{{ $producto['categoria'] }}</td><td class="numero-informe">{{ $producto['unidadesRegistradas'] }}</td><td class="numero-informe">{{ $producto['unidadesRequierenArreglo'] }}</td><td class="numero-informe">{{ $producto['unidadesConBaja'] }}</td><td>{{ $producto['estado'] ?? 'ACTIVO' }}</td></tr>@endforeach
+            <tr data-report-empty @if (count($productos)) hidden @endif><td colspan="7">No hay productos para el alcance seleccionado.</td></tr>
+        </tbody>
+    </table>
+    <p class="reporte-nota">Las cantidades reflejan unidades registradas. No equivalen a disponibilidad: deben comprobarse salidas, recepciones y condición física. Los registros identificados como [DEMO] corresponden a datos de demostración.</p>
+</x-print-report>
 @endsection

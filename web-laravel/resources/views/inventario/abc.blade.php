@@ -65,7 +65,7 @@
         </section>
     </div>
 
-    <section class="panel" data-table>
+    <section class="panel" data-table data-print-target="tabla-impresion">
         <h2>Productos ordenados por valor</h2>
         <x-table-tools label="Buscar producto o código" :filters="['A' => 'Clase A', 'B' => 'Clase B', 'C' => 'Clase C']"/>
 
@@ -86,7 +86,7 @@
 
                 <tbody>
                     @forelse ($abc['productos'] as $p)
-                        <tr data-row data-tags="{{ $p['clasificacion'] }}">
+                        <tr data-row data-print-key="{{ $loop->index }}" data-tags="{{ $p['clasificacion'] }}">
                             <td>
                                 <strong>{{ $p['nombre'] }}</strong><br>
                                 <small>
@@ -198,4 +198,16 @@
             aunque pertenezca al grupo C.
         </p>
     </section>
+    <x-print-report title="Clasificación ABC del inventario" subtitle="Valoración de unidades sin baja · Moneda: bolivianos (BOB)" :landscape="true">
+        <div class="reporte-resumen"><p><strong>Valor total del análisis:</strong> {{ $formato($abc['valorTotal']) }} BOB · <strong>Productos valorados:</strong> {{ $productos->count() }}</p><p>Clase A: {{ $productos->where('clasificacion', 'A')->count() }} · Clase B: {{ $productos->where('clasificacion', 'B')->count() }} · Clase C: {{ $productos->where('clasificacion', 'C')->count() }}</p></div>
+        <p class="reporte-alcance"><span data-report-count>{{ $productos->count() }} de {{ $productos->count() }} registros</span> · <span data-report-filters>Sin filtros adicionales.</span></p>
+        <table id="tabla-impresion" class="reporte-tabla reporte-abc"><thead><tr><th scope="col">Producto / código</th><th scope="col">Unidades</th><th scope="col">Precio unitario BOB</th><th scope="col">Valor BOB</th><th scope="col">% del total</th><th scope="col">% acumulado</th><th scope="col">Fecha del precio</th><th scope="col">Clase</th></tr></thead><tbody>
+            @foreach ($abc['productos'] as $p)<tr data-print-key="{{ $loop->index }}"><td><strong>{{ $p['nombre'] }}</strong><small>{{ $p['codigo'] }}</small></td><td class="numero-informe">{{ $p['unidades'] }}</td><td class="numero-informe">{{ $formato($p['precioUnitario']) }}</td><td class="numero-informe">{{ $formato($p['valorTotal']) }}</td><td class="numero-informe">{{ $formato($p['porcentaje']) }} %</td><td class="numero-informe">{{ $formato($p['porcentajeAcumulado']) }} %</td><td><x-print-value :value="$p['fechaPrecio']" type="date"/></td><td>{{ $p['clasificacion'] }}</td></tr>@endforeach
+            <tr data-report-empty @if ($productos->count()) hidden @endif><td colspan="8">No hay productos valorados para el alcance seleccionado.</td></tr>
+        </tbody></table>
+        <p class="reporte-nota">El total y los porcentajes corresponden al análisis completo, incluso si el listado está filtrado. Valor = unidades sin baja × último precio válido en BOB. No equivale a depreciación ni disponibilidad. Los precios [DEMO] son simulados.</p>
+        <p class="reporte-nota">Criterio: el producto que alcanza o supera el 80 % permanece en A; el que alcanza o supera el 95 % permanece en B. ABC mide concentración de valor, no importancia para la seguridad.</p>
+        @if (count($abc['sinPrecio']))<h2>Excluidos del análisis: sin precio válido ({{ count($abc['sinPrecio']) }})</h2><ul>@foreach ($abc['sinPrecio'] as $nombre)<li>{{ $nombre }}</li>@endforeach</ul>@endif
+        @if (count($abc['sinUnidades']))<h2>Excluidos del análisis: sin unidades sin baja ({{ count($abc['sinUnidades']) }})</h2><ul>@foreach ($abc['sinUnidades'] as $nombre)<li>{{ $nombre }}</li>@endforeach</ul>@endif
+    </x-print-report>
 @endsection

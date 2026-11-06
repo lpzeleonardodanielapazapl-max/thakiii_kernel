@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -10,7 +12,7 @@ class InventarioController extends Controller
     private function productos(string $estado = 'ACTIVO'): array
     {
         // Si la API falla, no mostramos el error como inventario vacío.
-        return Http::baseUrl(config('services.quarkus.url'))
+        return Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))
             ->acceptJson()
             ->timeout(15)
             ->get('/api/inventario/productos', $estado === 'ACTIVO' ? [] : ['estado' => $estado])
@@ -31,6 +33,7 @@ class InventarioController extends Controller
     public function index(Request $request)
     {
         $request->validate(['estado' => ['nullable', 'in:ACTIVO,INACTIVO,TODOS']]);
+
         return view('inventario.index', [
             'productos' => $this->productos($request->query('estado') ?: 'ACTIVO'),
         ]);
@@ -59,7 +62,7 @@ class InventarioController extends Controller
         $datos = array_map(fn ($valor) => (float) $valor, $datos);
 
         try {
-            $respuesta = Http::baseUrl(config('services.quarkus.url'))
+            $respuesta = Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))
                 ->acceptJson()
                 ->timeout(15)
                 ->post('/api/io/eoq', $datos)
@@ -70,101 +73,100 @@ class InventarioController extends Controller
                 'datos' => $datos,
                 'resultado' => $respuesta->json(),
             ]);
-        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+        } catch (ConnectionException $e) {
             return back()->withInput()->withErrors([
                 'api' => 'No se pudo conectar con Quarkus.',
             ]);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
+        } catch (RequestException $e) {
             return back()->withInput()->withErrors([
                 'api' => 'No se pudo calcular. Revisa la consola de Quarkus.',
             ]);
         }
     }
 
-
     public function abc()
-{
-    $respuesta = Http::baseUrl(config('services.quarkus.url'))
-        ->acceptJson()
-        ->timeout(15)
-        ->get('/api/abc')
-        ->throw();
-
-    return view('inventario.abc', [
-        'abc' => $respuesta->json(),
-    ]);
-}
-
-public function crearProducto()
-{
-    $catalogos = Http::baseUrl(config('services.quarkus.url'))
-        ->acceptJson()
-        ->timeout(15)
-        ->get('/api/registro-productos/catalogos')
-        ->throw()
-        ->json();
-
-    return view('inventario.crear', [
-        'catalogos' => $catalogos,
-    ]);
-}
-
-public function guardarProducto(Request $request)
-{
-    $datos = $request->validate([
-        'nombre' => ['required', 'string', 'max:200'],
-        'codClase' => ['required', 'string', 'max:20'],
-        'codMarca' => ['nullable', 'string', 'max:20'],
-        'codUm' => ['required', 'string', 'max:10'],
-        'modelo' => ['nullable', 'string', 'max:100'],
-        'color' => ['nullable', 'string', 'max:80'],
-    ]);
-
-    try {
-        $respuesta = Http::baseUrl(config('services.quarkus.url'))
+    {
+        $respuesta = Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))
             ->acceptJson()
             ->timeout(15)
-            ->post('/api/registro-productos', $datos);
+            ->get('/api/abc')
+            ->throw();
 
-        if ($respuesta->status() === 422) {
+        return view('inventario.abc', [
+            'abc' => $respuesta->json(),
+        ]);
+    }
+
+    public function crearProducto()
+    {
+        $catalogos = Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))
+            ->acceptJson()
+            ->timeout(15)
+            ->get('/api/registro-productos/catalogos')
+            ->throw()
+            ->json();
+
+        return view('inventario.crear', [
+            'catalogos' => $catalogos,
+        ]);
+    }
+
+    public function guardarProducto(Request $request)
+    {
+        $datos = $request->validate([
+            'nombre' => ['required', 'string', 'max:200'],
+            'codClase' => ['required', 'string', 'max:20'],
+            'codMarca' => ['nullable', 'string', 'max:20'],
+            'codUm' => ['required', 'string', 'max:10'],
+            'modelo' => ['nullable', 'string', 'max:100'],
+            'color' => ['nullable', 'string', 'max:80'],
+        ]);
+
+        try {
+            $respuesta = Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))
+                ->acceptJson()
+                ->timeout(15)
+                ->post('/api/registro-productos', $datos);
+
+            if ($respuesta->status() === 422) {
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'api' => $respuesta->json('mensaje')
+                            ?? 'Revisa los datos del producto.',
+                    ]);
+            }
+
+            $respuesta->throw();
+
+            return redirect()
+                ->route('inventario.unidades', ['codigo' => $respuesta->json('codigo')])
+                ->with(
+                    'exito',
+                    'Producto registrado. Código: '
+                    .$respuesta->json('codigo')
+                    .'. Ahora puedes registrar sus unidades físicas.'
+                );
+
+        } catch (ConnectionException $e) {
+            report($e);
+
             return back()
                 ->withInput()
                 ->withErrors([
-                    'api' => $respuesta->json('mensaje')
-                        ?? 'Revisa los datos del producto.',
+                    'api' => 'No hubo respuesta de Quarkus. '
+                        .'Comprueba el inventario antes de reenviar el formulario.',
+                ]);
+
+        } catch (RequestException $e) {
+            report($e);
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'api' => 'La API no pudo completar el registro. '
+                        .'Revisa la consola de Quarkus.',
                 ]);
         }
-
-        $respuesta->throw();
-
-        return redirect()
-            ->route('inventario.unidades', ['codigo' => $respuesta->json('codigo')])
-            ->with(
-                'exito',
-                'Producto registrado. Código: '
-                . $respuesta->json('codigo')
-                . '. Ahora puedes registrar sus unidades físicas.'
-            );
-
-    } catch (\Illuminate\Http\Client\ConnectionException $e) {
-        report($e);
-
-        return back()
-            ->withInput()
-            ->withErrors([
-                'api' => 'No hubo respuesta de Quarkus. '
-                    . 'Comprueba el inventario antes de reenviar el formulario.',
-            ]);
-
-    } catch (\Illuminate\Http\Client\RequestException $e) {
-        report($e);
-
-        return back()
-            ->withInput()
-            ->withErrors([
-                'api' => 'La API no pudo completar el registro. '
-                    . 'Revisa la consola de Quarkus.',
-            ]);
     }
-}
 }

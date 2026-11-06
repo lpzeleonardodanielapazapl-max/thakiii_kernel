@@ -16,4 +16,16 @@
         @if ($producto['estado'] === 'ACTIVO')<a class="boton boton-secundario" href="{{ route('inventario.analizar', ['codigo' => $producto['codigo']]) }}">Analizar reposición</a>@endif
         <button class="boton boton-secundario" data-print type="button"><x-icon name="print"/> Imprimir ficha</button></div>
     <p class="nota">Para retirar un producto del catálogo activo, edítalo y cambia su estado a inactivo. Sus unidades y documentos se conservan.</p>
+    <x-print-report title="Ficha de producto" :reference="$producto['codigo']" :subtitle="$producto['nombre']">
+        <h2>Identificación del producto</h2><table class="reporte-tabla reporte-ficha"><tbody>
+            <tr><th scope="row">Nombre</th><td>{{ $producto['nombre'] }}</td></tr>
+            @foreach (['codClase' => ['clases', 'Clase'], 'codMarca' => ['marcas', 'Marca'], 'codUm' => ['unidadesMedida', 'Unidad de medida']] as $campo => [$lista, $label])
+                <tr><th scope="row">{{ $label }}</th><td>{{ collect($catalogos[$lista])->firstWhere('codigo', $producto[$campo])['nombre'] ?? 'Sin registrar' }}</td></tr>
+            @endforeach
+            @foreach (['modelo' => 'Modelo', 'color' => 'Color', 'stockMinimo' => 'Stock mínimo de referencia', 'estado' => 'Estado'] as $campo => $label)
+                <tr><th scope="row">{{ $label }}</th><td>{{ $producto[$campo] ?? '—' }}</td></tr>
+            @endforeach
+        </tbody></table>
+        <p class="reporte-nota">La ficha describe el producto. Sus unidades físicas se consultan en el listado de unidades correspondiente.</p>
+    </x-print-report>
 @endsection

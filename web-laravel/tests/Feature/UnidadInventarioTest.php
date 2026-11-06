@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\SesionPrivada;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -11,6 +12,7 @@ class UnidadInventarioTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withoutMiddleware(SesionPrivada::class);
         config(['services.quarkus.url' => 'http://localhost:8080']);
         Http::preventStrayRequests();
     }

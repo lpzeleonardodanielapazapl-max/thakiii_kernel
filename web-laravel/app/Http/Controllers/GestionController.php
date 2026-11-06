@@ -17,13 +17,18 @@ class GestionController extends Controller
         $modulo = $request->route('modulo');
         $meta = config('gestion.'.$modulo);
         abort_unless(is_array($meta), 404);
+        if (in_array($modulo, ['usuarios', 'roles'], true) && session('usuario.rol') === 'ADMINISTRATIVO') {
+            $meta['canCreate'] = false;
+            $meta['canEdit'] = false;
+            $meta['canDelete'] = false;
+        }
 
         return ['modulo' => $modulo, ...$meta];
     }
 
     private function api(): PendingRequest
     {
-        return Http::baseUrl(config('services.quarkus.url'))->acceptJson()->timeout(15);
+        return Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))->acceptJson()->timeout(15);
     }
 
     private function endpoint(string $modulo, ?string $codigo = null): string
@@ -94,6 +99,7 @@ class GestionController extends Controller
     public function edit(Request $request): View
     {
         $meta = $this->meta($request);
+        abort_unless($meta['canEdit'] ?? true, 403);
 
         return view('gestion.form', ['meta' => $meta, 'registro' => $this->registro($request, $meta), 'catalogos' => $this->catalogos($meta), 'editing' => true]);
     }
@@ -120,6 +126,7 @@ class GestionController extends Controller
     {
         $meta = $this->meta($request);
         abort_unless($editing || ($meta['canCreate'] ?? true), 405);
+        abort_unless(! $editing || ($meta['canEdit'] ?? true), 403);
         $rules = [];
         $labels = [];
         foreach ($meta['fields'] as $campo => $opciones) {

@@ -28,6 +28,8 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
     @Inject
+    com.thakivoyage.service.AccesoService acceso;
+    @Inject
     GestionValidationService validacion;
 
     @Inject
@@ -104,6 +106,7 @@ public class UsuarioResource {
         if (request.password != null && !request.password.isEmpty()) {
             user.passwordHash = passwords.hash(request.password);
         }
+        acceso.protegerAdministrador(id,request.codRol,Boolean.TRUE.equals(request.activo),false);
         user.username = request.username;
         user.email = request.email;
         user.codRol = request.codRol;
@@ -118,6 +121,7 @@ public class UsuarioResource {
     @Path("/{id}")
     @Transactional
     public Response eliminar(@PathParam("id") Long id) {
+        acceso.protegerAdministrador(id,null,false,true);
         boolean eliminado = usuarioRepository.deleteById(id);
         if (!eliminado) {
             return Response.status(Response.Status.NOT_FOUND)

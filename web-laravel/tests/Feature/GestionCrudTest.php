@@ -2,11 +2,18 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\SesionPrivada;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class GestionCrudTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(SesionPrivada::class);
+    }
+
     private function registros(): array
     {
         return [

@@ -30,7 +30,7 @@
     @endif
 
     @if ($producto)
-        <section class="formulario-panel" data-table>
+        <section class="formulario-panel" data-table data-print-target="tabla-impresion">
             <h2>Unidades registradas ({{ count($unidades) }})</h2>
             <p class="nota">Este listado muestra la condición de los equipos. La disponibilidad depende también de sus salidas y recepciones.</p>
             <div class="acciones-pagina no-imprimir"><button class="boton boton-secundario boton-pequeno" type="button" data-print><x-icon name="print"/> Imprimir listado</button><a class="enlace-icono" href="{{ url()->current() }}"><x-icon name="refresh"/> Actualizar</a></div>
@@ -45,7 +45,7 @@
                     </tr></thead>
                     <tbody>
                         @forelse ($unidades as $unidad)
-                            <tr data-row data-tags="{{ $unidad['requiereArreglo'] ? 'arreglo' : '' }} {{ $unidad['requiereCambio'] ? 'cambio' : '' }} {{ $unidad['requiereBaja'] ? 'baja-solicitada' : '' }} {{ $unidad['fechaBaja'] ? 'baja' : '' }}">
+                            <tr data-row data-print-key="{{ $loop->index }}" data-tags="{{ $unidad['requiereArreglo'] ? 'arreglo' : '' }} {{ $unidad['requiereCambio'] ? 'cambio' : '' }} {{ $unidad['requiereBaja'] ? 'baja-solicitada' : '' }} {{ $unidad['fechaBaja'] ? 'baja' : '' }}">
                                 <td><strong>{{ $unidad['codigoUnico'] ?? 'Sin código' }}</strong></td>
                                 <td>{{ $unidad['almacen'] ?? 'Sin almacén' }}</td>
                                 <td>{{ $unidad['estadoFisico'] ?? 'Sin evaluar' }}</td>
@@ -130,5 +130,20 @@
                 </form>
             </section>
         @endif
+    @endif
+    @if ($producto)
+        <x-print-report title="Unidades físicas del producto" :reference="$producto['codigo']" :subtitle="$producto['nombre']" :landscape="true">
+            <p class="reporte-alcance"><span data-report-count>{{ count($unidades) }} de {{ count($unidades) }} registros</span> · <span data-report-filters>Sin filtros adicionales.</span></p>
+            <table id="tabla-impresion" class="reporte-tabla reporte-unidades"><thead><tr><th scope="col">Código único</th><th scope="col">Almacén</th><th scope="col">Condición</th><th scope="col">Calificación</th><th scope="col">Atención requerida</th><th scope="col">Fechas</th><th scope="col">Observaciones</th></tr></thead><tbody>
+                @foreach ($unidades as $unidad)
+                    <tr data-print-key="{{ $loop->index }}"><td>{{ $unidad['codigoUnico'] ?? 'Sin código' }}</td><td>{{ $unidad['almacen'] ?? 'Sin almacén' }}</td><td>{{ $unidad['estadoFisico'] ?? 'Sin evaluar' }}</td><td>{{ $unidad['calificacion'] ?? 'Sin evaluar' }}</td>
+                        <td>@if ($unidad['fechaBaja'])Baja registrada @else{{ collect(['requiereArreglo' => 'Arreglo', 'requiereCambio' => 'Cambio', 'requiereBaja' => 'Baja solicitada'])->filter(fn ($label, $flag) => $unidad[$flag])->implode(' · ') ?: 'Sin pendientes registrados' }}@endif</td>
+                        <td>Alta: <x-print-value :value="$unidad['fechaAlta']" type="date"/>@if ($unidad['fechaBaja'])<br>Baja: <x-print-value :value="$unidad['fechaBaja']" type="date"/>@endif</td><td><span class="reporte-texto">{{ $unidad['observaciones'] ?? '—' }}</span></td>
+                    </tr>
+                @endforeach
+                <tr data-report-empty @if (count($unidades)) hidden @endif><td colspan="7">No hay unidades para el alcance seleccionado.</td></tr>
+            </tbody></table>
+            <p class="reporte-nota">El informe describe la condición registrada. La disponibilidad debe verificarse con las salidas y recepciones. Una solicitud de baja no equivale a una baja definitiva.</p>
+        </x-print-report>
     @endif
 @endsection

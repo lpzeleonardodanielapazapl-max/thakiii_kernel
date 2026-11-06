@@ -1,0 +1,69 @@
+.reporte-impresion { display: none; }
+
+@page {
+    size: A4 portrait;
+    margin: 15mm 15mm 19mm;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: "THAKI VOYAGE · Bolivia"; font: 8pt Arial, sans-serif; color: #53636c; }
+    @bottom-right { content: "Página " counter(page) " de " counter(pages); font: 8pt Arial, sans-serif; color: #53636c; }
+}
+@page informe-horizontal {
+    size: A4 landscape;
+    margin: 14mm 13mm 18mm;
+}
+
+@media print {
+    html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; color: #182f3b !important; }
+    body > .admin-shell, body > .sitio, .no-imprimir, .saltar-contenido, .saltar { display: none !important; }
+    body > .reporte-impresion { display: block !important; }
+    .reporte-horizontal { page: informe-horizontal; }
+    .reporte-impresion { font: 9.5pt/1.5 Arial, sans-serif; width: 100%; max-width: none; margin: 0; color: #182f3b; }
+    .reporte-impresion, .reporte-impresion * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .reporte-impresion [hidden] { display: none !important; }
+    .reporte-cabecera { display: table; width: 100%; padding-bottom: 5mm; border-bottom: 1.3pt solid #193d50; margin-bottom: 6mm; break-inside: avoid; }
+    .reporte-marca, .reporte-emision { display: table-cell; vertical-align: middle; }
+    .reporte-marca > .icon { width: 12mm; height: 12mm; padding: 2mm; border: 1pt solid #b49778; border-radius: 50%; color: #846a4c; vertical-align: middle; }
+    .reporte-marca > div { display: inline-block; vertical-align: middle; padding-left: 3mm; }
+    .reporte-marca strong { display: block; font: 15pt Georgia, serif; letter-spacing: 1.2pt; }
+    .reporte-marca span { display: block; margin-top: 1mm; font-size: 8pt; color: #626e70; }
+    .reporte-emision { width: 70mm; text-align: right; font-size: 8pt; color: #53636c; }
+    .reporte-emision strong, .reporte-emision span { display: block; }
+    .reporte-emision strong { font-size: 7pt; letter-spacing: 1pt; margin-bottom: 1.5mm; }
+    .reporte-titulo { margin-bottom: 4mm; break-inside: avoid; break-after: avoid; }
+    .reporte-titulo > p { margin: 0 0 2mm; font-size: 7pt; letter-spacing: 1.4pt; color: #896a50; }
+    .reporte-titulo h1 { font: 23pt/1.15 Georgia, serif; letter-spacing: -.4pt; margin: 0 0 2mm; color: #173c4f; }
+    .reporte-titulo > div { font-size: 9pt; color: #53636c; overflow-wrap: anywhere; }
+    .reporte-referencia { margin: 0 0 5mm; font-size: 9pt; overflow-wrap: anywhere; }
+    .reporte-impresion h2 { font: bold 11pt/1.35 Arial, sans-serif; margin: 6mm 0 3mm; color: #173c4f; break-after: avoid; }
+    .reporte-impresion h3 { font: bold 9.5pt/1.35 Arial, sans-serif; margin: 5mm 0 2mm; break-after: avoid; }
+    .reporte-impresion p { orphans: 3; widows: 3; }
+    .reporte-tabla { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 0 0 4mm; font-size: 8.5pt; }
+    .reporte-tabla thead { display: table-header-group; }
+    .reporte-tabla tfoot { display: table-row-group; }
+    .reporte-tabla tr { break-inside: avoid; page-break-inside: avoid; }
+    .reporte-tabla th, .reporte-tabla td { padding: 2.5mm 2.3mm; border: .5pt solid #d3dadb; text-align: left; vertical-align: top; overflow-wrap: anywhere; white-space: normal; }
+    .reporte-tabla th { background: #edf0ed; color: #173c4f; font-size: 7.5pt; font-weight: bold; line-height: 1.4; }
+    .reporte-tabla tbody tr:nth-child(even) { background: #fafbf8; }
+    .reporte-tabla small { display: block; font-size: 7pt; line-height: 1.4; color: #53636c; margin-top: 1mm; }
+    .reporte-tabla .numero-informe { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .reporte-ficha th { width: 34%; font-size: 9pt; text-transform: none; letter-spacing: 0; }
+    .reporte-ficha td { font-size: 9.5pt; }
+    .reporte-resumen { padding: 3mm 4mm; border-left: 2pt solid #a77c58; background: #f5f0e7; margin: 4mm 0 5mm; break-inside: avoid; }
+    .reporte-resumen p { margin: 1mm 0; }
+    .reporte-alcance { margin: 2mm 0 4mm; color: #53636c; font-size: 8pt; }
+    .reporte-nota { font-size: 8pt; color: #53636c; line-height: 1.5; margin: 3mm 0; }
+    .reporte-impresion ul { padding-left: 5mm; }
+    .reporte-impresion li { margin: 1mm 0; }
+    .reporte-cierre { display: flex; justify-content: space-between; gap: 5mm; margin-top: 7mm; padding-top: 3mm; border-top: .5pt solid #b5c1c5; font-size: 7pt; color: #53636c; break-inside: avoid; }
+    .reporte-texto { white-space: pre-line; overflow-wrap: anywhere; }
+    .reporte-abc th:first-child { width: 29%; }
+    .reporte-abc th:last-child { width: 7%; }
+    .reporte-unidades th:nth-child(1) { width: 11%; }
+    .reporte-unidades th:nth-child(2) { width: 12%; }
+    .reporte-unidades th:nth-child(3) { width: 10%; }
+    .reporte-unidades th:nth-child(4) { width: 7%; }
+    .reporte-unidades th:nth-child(5) { width: 13%; }
+    .reporte-unidades th:nth-child(6) { width: 13%; }
+    .reporte-unidades th:nth-child(7) { width: 34%; }
+}

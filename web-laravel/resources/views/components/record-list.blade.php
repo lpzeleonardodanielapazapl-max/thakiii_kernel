@@ -1,4 +1,4 @@
-@props(['title', 'description', 'records', 'columns', 'recordKey', 'related' => [], 'module' => null, 'canCreate' => true])
+@props(['title', 'description', 'records', 'columns', 'recordKey', 'related' => [], 'module' => null, 'canCreate' => true, 'canEdit' => true, 'canDelete' => true])
 <x-page-header :title="$title" :description="$description" eyebrow="PERSONAS Y ACCESOS">
     <a class="boton boton-secundario" href="{{ route('admin.index') }}"><x-icon name="back"/> Panel</a>
     <button class="boton" type="button" data-print><x-icon name="print"/> Imprimir</button>
@@ -7,7 +7,7 @@
 <div class="enlaces-contexto no-imprimir" aria-label="Secciones relacionadas">
     @foreach ($related as $ruta => $texto)<a href="{{ route($ruta) }}">{{ $texto }} <x-icon name="arrow"/></a>@endforeach
 </div>
-<section class="panel panel-tabla" data-table>
+<section class="panel panel-tabla" data-table data-print-target="tabla-impresion">
     <div class="titulo-tabla"><div><span class="sobre-titulo">DIRECTORIO</span><h2>{{ $title }} <span class="total-badge">{{ count($records) }}</span></h2></div><a class="enlace-icono no-imprimir" href="{{ url()->current() }}"><x-icon name="refresh"/> Actualizar</a></div>
     <x-table-tools :label="'Buscar en '.mb_strtolower($title)"/>
     <div class="tabla-scroll">
@@ -16,7 +16,7 @@
             <thead><tr>@foreach ($columns as $column)<th scope="col">{{ $column['label'] }}</th>@endforeach @if ($module)<th scope="col" class="no-imprimir">Acciones</th>@endif</tr></thead>
             <tbody>
                 @forelse ($records as $record)
-                    <tr data-row id="registro-{{ $record[$recordKey] }}">
+                    <tr data-row data-print-key="{{ $loop->index }}" id="registro-{{ $record[$recordKey] }}">
                         @foreach ($columns as $column)
                             @php($value = $record[$column['key']] ?? null)
                             <td>
@@ -37,7 +37,7 @@
                                 @endif
                             </td>
                         @endforeach
-                        @if ($module)<td class="no-imprimir"><div class="acciones-fila"><a class="accion-enlace" href="{{ route($module.'.show', ['codigo' => $record[$recordKey]]) }}">Ver detalles ↗</a><a class="accion-enlace" href="{{ route($module.'.edit', ['codigo' => $record[$recordKey]]) }}">Editar</a>@if (config('gestion.'.$module.'.canDelete', true))<a class="accion-enlace" href="{{ route($module.'.delete', ['codigo' => $record[$recordKey]]) }}">Eliminar</a>@endif</div></td>@endif
+                        @if ($module)<td class="no-imprimir"><div class="acciones-fila"><a class="accion-enlace" href="{{ route($module.'.show', ['codigo' => $record[$recordKey]]) }}">Ver detalles ↗</a>@if($canEdit)<a class="accion-enlace" href="{{ route($module.'.edit', ['codigo' => $record[$recordKey]]) }}">Editar</a>@endif @if ($canDelete && config('gestion.'.$module.'.canDelete', true))<a class="accion-enlace" href="{{ route($module.'.delete', ['codigo' => $record[$recordKey]]) }}">Eliminar</a>@endif</div></td>@endif
                     </tr>
                 @empty
                     <tr><td class="estado-vacio" colspan="{{ count($columns) + ($module ? 1 : 0) }}"><x-icon name="users"/><strong>Aún no hay registros</strong><span>Los registros de {{ mb_strtolower($title) }} aparecerán aquí.</span>@if ($module && $canCreate)<a class="boton" href="{{ route($module.'.create') }}">Añadir {{ config('gestion.'.$module.'.singular') }}</a>@endif</td></tr>
@@ -47,3 +47,23 @@
         </table>
     </div>
 </section>
+<x-print-report :title="'Directorio de '.mb_strtolower($title)" :landscape="count($columns) > 5" subtitle="Listado de registros del sistema">
+    <p class="reporte-alcance"><span data-report-count>{{ count($records) }} de {{ count($records) }} registros</span> · <span data-report-filters>Sin filtros adicionales.</span></p>
+    <table id="tabla-impresion" class="reporte-tabla reporte-datoslargos"><thead><tr>@foreach ($columns as $column)<th scope="col">{{ $column['label'] }}</th>@endforeach</tr></thead><tbody>
+        @foreach ($records as $record)
+            <tr data-print-key="{{ $loop->index }}">
+                @foreach ($columns as $column)
+                    @php($valor = $record[$column['key']] ?? null)
+                    <td>
+                        @if (($column['type'] ?? '') === 'functions')
+                            {{ collect(['esGuia' => 'Guía', 'esAsesor' => 'Asesor', 'esConductor' => 'Conductor'])->filter(fn ($label, $flag) => $record[$flag] ?? false)->implode(' · ') ?: 'Sin funciones adicionales' }}
+                        @elseif (($column['type'] ?? '') === 'boolean'){{ $valor ? 'Activo' : 'Inactivo' }}
+                        @else<span class="reporte-texto">{{ $valor ?? '—' }}</span>@endif
+                    </td>
+                @endforeach
+            </tr>
+        @endforeach
+        <tr data-report-empty @if (count($records)) hidden @endif><td colspan="{{ count($columns) }}">No hay registros para el alcance seleccionado.</td></tr>
+    </tbody></table>
+    <p class="reporte-nota">El documento incluye únicamente los registros visibles al momento de imprimir.</p>
+</x-print-report>

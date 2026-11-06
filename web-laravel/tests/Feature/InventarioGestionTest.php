@@ -2,11 +2,18 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\SesionPrivada;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class InventarioGestionTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(SesionPrivada::class);
+    }
+
     private function producto(): array
     {
         return ['codigo' => 'PRO-1', 'nombre' => 'Carpa Doite', 'codClase' => 'CLA-1', 'codMarca' => null,

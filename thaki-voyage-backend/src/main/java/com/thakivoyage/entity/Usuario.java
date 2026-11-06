@@ -18,6 +18,7 @@ public class Usuario extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.INTEGER)
     public Long idUsuario;
 
     @Column(name = "username", length = 60, unique = true)

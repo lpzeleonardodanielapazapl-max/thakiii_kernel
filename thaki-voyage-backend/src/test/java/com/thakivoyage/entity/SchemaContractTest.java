@@ -15,6 +15,11 @@ import jakarta.persistence.Table;
 
 class SchemaContractTest {
     @Test
+    void identificadorDeUsuarioRespetaElTipoIntDeLaBaseExistente() throws Exception {
+        assertEquals(org.hibernate.type.SqlTypes.INTEGER,Usuario.class.getDeclaredField("idUsuario")
+            .getAnnotation(org.hibernate.annotations.JdbcTypeCode.class).value());
+    }
+    @Test
     void losDirectoriosSoloMapeanColumnasDelEsquemaExistente() throws Exception {
         String sql = Files.readString(Path.of("..", "thaki.sql"));
         for (Class<?> entidad : new Class<?>[] {
