@@ -13,9 +13,17 @@ import jakarta.ws.rs.*;
 public class PortalService {
     @Inject PortalQuery db;
     @Inject GestionValidationService validacion;
+    @Inject OfertaService oferta;
     public record Texto(String contenido) {}
     public record Viaje(LocalDate fechaInicio, LocalDate fechaFin, Integer personas, BigDecimal presupuesto,
-        String moneda, String destinos, String intereses, String hotel, String alimentacion, String transporte) {}
+        String moneda, String destinos, String intereses, String hotel, String alimentacion, String transporte,
+        String hotelCodigo, String habitacionCodigo, String transporteCodigo, String tipoHotel, String tipoTransporte) {}
+
+    static String tipoPreferencia(String valor, Set<String> opciones) {
+        if(valor==null || valor.isBlank()) return null;
+        if(!opciones.contains(valor)) throw new BadRequestException("Selecciona un tipo válido de alojamiento o traslado.");
+        return valor;
+    }
 
     private Map<String, Object> persona(AccesoService.Identidad user) {
         var personas = db.lista("""
@@ -132,7 +140,12 @@ public class PortalService {
     public Map<String, Object> resumen(AccesoService.Identidad user) {
         var c = cliente(user, false);
         Object codigo = c.getOrDefault("codigo", "");
-        var solicitudes = db.lista("SELECT cod_solicitud,fecha_inicio,fecha_fin,num_personas,presupuesto,moneda,intereses,estado FROM solicitud_viaje WHERE cod_cliente=:cliente ORDER BY fecha_solicitud DESC LIMIT 20", Map.of("cliente", codigo), "codigo", "fechaInicio", "fechaFin", "personas", "presupuesto", "moneda", "intereses", "estado");
+        var solicitudes = db.lista("""
+            SELECT cod_solicitud,fecha_inicio,fecha_fin,num_personas,presupuesto,moneda,intereses,estado,
+                CAST(COALESCE((SELECT GROUP_CONCAT(CONCAT(tipo, ': ', valor) ORDER BY id_preferencia SEPARATOR ' · ')
+                    FROM solicitud_preferencia sp WHERE sp.cod_solicitud = solicitud_viaje.cod_solicitud), '') AS CHAR)
+            FROM solicitud_viaje WHERE cod_cliente=:cliente ORDER BY fecha_solicitud DESC LIMIT 20
+            """, Map.of("cliente", codigo), "codigo", "fechaInicio", "fechaFin", "personas", "presupuesto", "moneda", "intereses", "estado", "preferencias");
         var propuestas = db.lista("""
             SELECT p.cod_propuesta,p.titulo,p.descripcion,p.duracion_dias,p.precio_total,p.moneda,p.estado,p.version,s.fecha_inicio,s.fecha_fin
             FROM propuesta_viaje p JOIN solicitud_viaje s ON s.cod_solicitud=p.cod_solicitud
@@ -179,12 +192,23 @@ public class PortalService {
         String intereses = AccesoService.texto(datos.intereses(), "tus intereses", 4000);
         String destinos = datos.destinos()==null?"":datos.destinos().strip();
         if (destinos.length()>200) throw new BadRequestException("Indica hasta 200 caracteres para los destinos.");
+        String tipoHotel=tipoPreferencia(datos.tipoHotel(),Set.of("Económico","Turista / 3 estrellas","Superior / 4 estrellas","Lujo / 5 estrellas","Lodge o refugio"));
+        String tipoTransporte=tipoPreferencia(datos.tipoTransporte(),Set.of("Privado","Compartido","Turístico","Fluvial","Aéreo"));
         String codigo = GestionValidationService.codigo("SOL");
         db.ejecutar("""
             INSERT INTO solicitud_viaje (cod_solicitud,cod_cliente,fecha_inicio,fecha_fin,num_personas,presupuesto,moneda,intereses,estado)
             VALUES (:codigo,:cliente,:inicio,:fin,:personas,:presupuesto,:moneda,:intereses,'RECIBIDA')
             """, valores("codigo",codigo,"cliente",c.get("codigo"),"inicio",datos.fechaInicio(),"fin",datos.fechaFin(),"personas",datos.personas(),"presupuesto",datos.presupuesto(),"moneda",datos.moneda(),"intereses",(destinos.isBlank()?"":"Destinos: "+destinos+"\n")+intereses));
-        preferencias(codigo,"HOTEL",datos.hotel()); preferencias(codigo,"ALIMENTACION",datos.alimentacion()); preferencias(codigo,"TRANSPORTE",datos.transporte());
+        String hotel = datos.hotel();
+        String transporte = datos.transporte();
+        if (oferta != null) {
+            String elegido = oferta.etiquetaHotel(datos.hotelCodigo(), datos.habitacionCodigo());
+            if (elegido != null) hotel = elegido;
+            String traslado = oferta.etiquetaTransporte(datos.transporteCodigo());
+            if (traslado != null) transporte = traslado;
+        }
+        preferencias(codigo,"HOTEL",hotel); preferencias(codigo,"ALIMENTACION",datos.alimentacion()); preferencias(codigo,"TRANSPORTE",transporte);
+        preferencias(codigo,"HOTEL_TIPO",tipoHotel); preferencias(codigo,"TRANSPORTE_TIPO",tipoTransporte);
         var asesor = asignar(user);
         if (!asesor.isEmpty()) notificar(((Number)asesor.get("id")).longValue(),"Nueva solicitud de viaje", "El cliente envió la solicitud "+codigo+".");
         return Map.of("codigo",codigo,"estado","RECIBIDA");

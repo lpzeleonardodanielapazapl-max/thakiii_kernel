@@ -993,3 +993,34 @@ INSERT INTO configuracion (clave, valor, descripcion, modulo) VALUES
 ('IDIOMA_DEFAULT',   'es',               'Idioma por defecto',     'general'),
 ('ZONA_HORARIA',     'America/La_Paz',   'Zona horaria',           'general'),
 ('GOOGLE_CLIENT_ID', '',                 'Google OAuth Client ID', 'auth');
+
+-- Alojamientos y traslados que el cliente puede ver y elegir
+INSERT INTO hotel (cod_hotel, nombre, descripcion, categoria, direccion, ciudad, pais, servicios, check_in, check_out, estado) VALUES
+('HOT-UYU', 'Hotel Luna Salada', 'Hotel de sal junto al Salar de Uyuni. Habitaciones tranquilas y desayuno con vista al salar.', 4, 'Salar de Uyuni', 'Uyuni', 'Bolivia', 'Desayuno, wifi, calefacción', '14:00:00', '10:00:00', 'ACTIVO'),
+('HOT-LPZ', 'Hotel Sagarnaga', 'Hotel céntrico en La Paz, a pocos minutos del teleférico y de la calle Sagárnaga.', 3, 'Calle Sagárnaga 120', 'La Paz', 'Bolivia', 'Desayuno, wifi, recepción 24 h', '13:00:00', '11:00:00', 'ACTIVO'),
+('HOT-AMA', 'Refugio de la Selva', 'Bungalows de madera cerca del río, pensados para salir al parque Madidi.', 3, 'Ribera del río Beni', 'Rurrenabaque', 'Bolivia', 'Mosquiteros, desayuno, hamacas', '12:00:00', '10:00:00', 'ACTIVO');
+
+INSERT INTO hotel_tipo_habitacion (cod_tipo_hab, cod_hotel, nombre, descripcion, capacidad, num_camas, tipo_camas, estado) VALUES
+('HAB-UYU-DBL', 'HOT-UYU', 'Doble', 'Cama matrimonial y baño privado.', 2, 1, 'Matrimonial', 'ACTIVO'),
+('HAB-UYU-FAM', 'HOT-UYU', 'Familiar', 'Dos camas y espacio para una familia.', 4, 2, 'Matrimonial y litera', 'ACTIVO'),
+('HAB-LPZ-SGL', 'HOT-LPZ', 'Individual', 'Cama simple, ideal para un viajero.', 1, 1, 'Simple', 'ACTIVO'),
+('HAB-LPZ-DBL', 'HOT-LPZ', 'Doble', 'Cama matrimonial con desayuno incluido.', 2, 1, 'Matrimonial', 'ACTIVO'),
+('HAB-AMA-BUN', 'HOT-AMA', 'Bungalow', 'Bungalow para tres personas, con mosquitero.', 3, 2, 'Matrimonial y simple', 'ACTIVO');
+
+INSERT INTO hotel_tarifa (cod_tarifa, cod_tipo_hab, fecha_inicio, fecha_fin, moneda, precio_noche, incluye_desayuno) VALUES
+('TAR-UYU-DBL', 'HAB-UYU-DBL', '2026-01-01', NULL, 'BOB', 350.00, 1),
+('TAR-UYU-FAM', 'HAB-UYU-FAM', '2026-01-01', NULL, 'BOB', 520.00, 1),
+('TAR-LPZ-SGL', 'HAB-LPZ-SGL', '2026-01-01', NULL, 'BOB', 180.00, 0),
+('TAR-LPZ-DBL', 'HAB-LPZ-DBL', '2026-01-01', NULL, 'BOB', 260.00, 1),
+('TAR-AMA-BUN', 'HAB-AMA-BUN', '2026-01-01', NULL, 'BOB', 310.00, 1);
+
+INSERT INTO vehiculo (cod_vehiculo, placa, marca, modelo, anio, color, capacidad, tipo, estado) VALUES
+('VEH-001', '1845ABC', 'Toyota', 'Hiace', 2022, 'Blanco', 8, 'Van', 'DISPONIBLE'),
+('VEH-002', '3921DEF', 'Toyota', 'Land Cruiser', 2021, 'Gris', 4, 'Vagoneta', 'DISPONIBLE'),
+('VEH-003', '7704GHI', 'Hyundai', 'County', 2019, 'Blanco', 12, 'Minibús', 'DISPONIBLE');
+
+INSERT INTO servicio_transporte (cod_servicio, nombre, descripcion, tipo, origen, destino, distancia_km, duracion_min, precio_base, moneda, capacidad_max, estado) VALUES
+('TRS-AER', 'Aeropuerto a tu hotel en La Paz', 'Recogida en El Alto y traslado al hotel, con espacio para equipaje.', 'Privado', 'Aeropuerto El Alto', 'Hotel en La Paz', 12.00, 45, 80.00, 'BOB', 4, 'ACTIVO'),
+('TRS-UYU', 'La Paz al Salar de Uyuni', 'Traslado privado de un día, con paradas cortas en el camino.', 'Privado', 'La Paz', 'Uyuni', 550.00, 600, 900.00, 'BOB', 6, 'ACTIVO'),
+('TRS-SAL', 'Recorrido compartido por el salar', 'Salida de grupo desde Uyuni. El guía acompaña el recorrido.', 'Compartido', 'Uyuni', 'Salar de Uyuni', 40.00, 480, 280.00, 'BOB', 12, 'ACTIVO'),
+('TRS-AMA', 'Navegación a Rurrenabaque', 'Bote por el río Beni para entrar o salir de la selva.', 'Fluvial', 'Rurrenabaque', 'Parque Madidi', 35.00, 120, 250.00, 'BOB', 8, 'ACTIVO');

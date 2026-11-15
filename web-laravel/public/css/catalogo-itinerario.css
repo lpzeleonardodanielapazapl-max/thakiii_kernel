@@ -1,0 +1,10 @@
+@media screen {
+    .itinerario-opciones { padding:17px; background:#eef4fb; border:1px solid #dae5f2; border-radius:16px; margin-top:16px; }
+    .itinerario-opciones summary { color:#355d82; font-size:12px; font-weight:600; cursor:pointer; }
+    .itinerario-opciones p { font-size:11px; line-height:1.8; color:#56718e; margin:13px 0; }
+    .itinerario-opciones-campos { display:grid; grid-template-columns:minmax(0,1fr); gap:14px; margin:16px 0; }
+    .itinerario-opciones label { display:grid; gap:8px; }
+    .itinerario-opciones select { width:100%; min-width:0; text-overflow:ellipsis; }
+    .itinerario-opciones .boton { font-size:11px; padding:10px 16px; }
+    .itinerario-opciones [data-opcion-estado]:empty { display:none; }
+}

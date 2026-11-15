@@ -70,6 +70,7 @@ public class InventarioService {
             LEFT JOIN marca m ON m.cod_mar = p.cod_mar
             LEFT JOIN inventario_unidad u ON u.cod_pro = p.cod_pro
             WHERE (:estado = 'TODOS' OR p.estado = :estado)
+              AND p.cod_pro NOT LIKE 'DEMO-%' AND p.des_pro NOT LIKE '[DEMO]%'
             GROUP BY
                 p.cod_pro,
                 p.des_pro,

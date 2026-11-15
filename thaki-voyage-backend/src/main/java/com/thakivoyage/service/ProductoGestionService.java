@@ -45,7 +45,8 @@ public class ProductoGestionService {
 
     @Transactional
     public Producto actualizar(String codigo, Datos datos) {
-        consultar(codigo);
+        em.createNativeQuery("SELECT cod_pro FROM producto WHERE cod_pro=:codigo FOR UPDATE").setParameter("codigo",codigo).getResultList();
+        Producto anterior = consultar(codigo);
         if (datos == null) throw new BadRequestException("Debes enviar los datos del producto.");
         String nombre = texto(datos.nombre(), "El nombre", 200, true);
         String clase = texto(datos.codClase(), "La clase", 20, true);
@@ -58,6 +59,15 @@ public class ProductoGestionService {
         if (minimo.signum() < 0 || minimo.scale() > 2 || minimo.compareTo(new BigDecimal("9999999999.99")) > 0) throw new BadRequestException("El stock mínimo debe ser positivo o cero, con hasta dos decimales.");
         referencia("clase_producto", "cod_clase", clase);
         referencia("unidad_medida", "cod_um", um);
+        Number referencias = (Number) em.createNativeQuery("SELECT (SELECT COUNT(*) FROM inventario_unidad WHERE cod_pro=:codigo)+(SELECT COUNT(*) FROM inventario_stock WHERE cod_pro=:codigo)+(SELECT COUNT(*) FROM prestamo_detalle WHERE cod_pro=:codigo)").setParameter("codigo",codigo).getSingleResult();
+        if (referencias.longValue() > 0) {
+            if (!java.util.Objects.equals(um,anterior.codUm())) throw new BadRequestException("El producto ya tiene inventario o historial. Conserva su unidad de medida para no alterar cantidades anteriores.");
+            if (!clase.equals(anterior.codClase())) {
+                var modos = em.createNativeQuery("SELECT es_serializado,es_consumible FROM clase_producto WHERE cod_clase IN (:actual,:nueva)").setParameter("actual",anterior.codClase()).setParameter("nueva",clase).getResultList();
+                Object[] a=(Object[])modos.get(0), b=(Object[])modos.get(1);
+                if (!java.util.Objects.equals(a[0],b[0]) || !java.util.Objects.equals(a[1],b[1])) throw new BadRequestException("La nueva clase usa otra forma de control. Conserva el modo individual, por cantidad o consumible de este producto.");
+            }
+        }
         if (marca != null) referencia("marca", "cod_mar", marca);
         em.createNativeQuery("""
             UPDATE producto SET des_pro = :nombre, cod_clase = :clase, cod_mar = :marca,

@@ -1,6 +1,7 @@
 package com.thakivoyage.resource;
 
 import java.util.*;
+import com.thakivoyage.service.OfertaService;
 import com.thakivoyage.service.PortalQuery;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -10,6 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class PublicoResource {
     @Inject PortalQuery db;
+    @Inject OfertaService oferta;
 
     @GET @Path("/inicio")
     public Map<String,Object> inicio() {
@@ -28,4 +30,10 @@ public class PublicoResource {
         if(destino.isEmpty())throw new NotFoundException("Destino no encontrado.");
         return destino;
     }
+
+    @GET @Path("/hospedaje")
+    public List<Map<String, Object>> hospedaje() { return oferta.hoteles(); }
+
+    @GET @Path("/transporte")
+    public Map<String, Object> transporte() { return oferta.transporte(); }
 }

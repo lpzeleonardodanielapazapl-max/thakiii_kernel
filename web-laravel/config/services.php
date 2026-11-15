@@ -36,7 +36,7 @@ return [
     ],
 
     'quarkus' => [
-        'url' => env('QUARKUS_URL', 'HTTP://localhost:8080')
-    ]
+        'url' => env('QUARKUS_URL', 'http://localhost:8080'),
+    ],
 
 ];

@@ -6,6 +6,16 @@ import org.junit.jupiter.api.Test;
 import jakarta.ws.rs.BadRequestException;
 
 class GestionExceptionMapperTest {
+    @Test void conservaCabecerasDeAutenticacionYMetodosPermitidos() {
+        var mapper = new GestionExceptionMapper();
+        try (var unauthorized = mapper.toResponse(new jakarta.ws.rs.NotAuthorizedException("Bearer"));
+             var notAllowed = mapper.toResponse(new jakarta.ws.rs.NotAllowedException("GET", new String[]{"HEAD"}))) {
+            assertEquals(401, unauthorized.getStatus());
+            assertEquals("Bearer", unauthorized.getHeaderString("WWW-Authenticate"));
+            assertTrue(notAllowed.getAllowedMethods().containsAll(java.util.Set.of("GET", "HEAD")));
+        }
+    }
+
     @Test void lasReferenciasYDuplicadosTienenRespuestaClara() {
         var mapper = new GestionExceptionMapper();
         try (var duplicate = mapper.toResponse(new RuntimeException(new SQLException("private SQL", "23000", 1062)));

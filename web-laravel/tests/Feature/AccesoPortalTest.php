@@ -75,6 +75,20 @@ class AccesoPortalTest extends TestCase
         $this->withSession(['api_token' => 'token', 'usuario' => $this->identidad('ADMIN')])->get('/mi-viaje')->assertForbidden();
     }
 
+    public function test_todos_los_apartados_del_cliente_son_exclusivos_para_clientes(): void
+    {
+        foreach (['ADMIN', 'ADMINISTRATIVO'] as $rol) {
+            Http::fake(['*/api/acceso/sesion' => Http::response($this->identidad($rol))]);
+            foreach (['/mi-viaje', '/mi-viaje/perfil', '/mi-viaje/solicitar', '/mi-viaje/mensajes', '/mi-viaje/notificaciones', '/mi-viaje/propuestas/PRP-1'] as $ruta) {
+                $this->withSession(['api_token' => 'token', 'usuario' => $this->identidad($rol)])->get($ruta)->assertForbidden();
+            }
+            foreach (['/mi-viaje/solicitudes', '/mi-viaje/mensajes', '/mi-viaje/preferencias', '/mi-viaje/propuestas/PRP-1/aceptar'] as $ruta) {
+                $this->post($ruta, [])->assertForbidden();
+            }
+        }
+        Http::assertNotSent(fn ($r) => str_contains($r->url(), '/api/cliente/'));
+    }
+
     public function test_sesion_vencida_se_elimina_y_fallo_de_servicio_no_aparenta_datos_vacios(): void
     {
         Http::fake(['*/api/acceso/sesion' => Http::sequence()->push([], 401)->pushStatus(503)]);

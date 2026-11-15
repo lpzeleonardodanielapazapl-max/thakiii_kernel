@@ -11,9 +11,13 @@
             ['cargos.index', 'Cargos', 'Trabajos y responsabilidades del equipo.', 'briefcase'],
             ['departamentos.index', 'Departamentos', 'Áreas de trabajo y organización.', 'grid'],
         ]],
-        ['titulo' => 'Análisis del inventario', 'descripcion' => 'Herramientas para revisar prioridades y reposición.', 'enlaces' => [
-            ['inventario.abc', 'Clasificación ABC', 'Consulta qué productos concentran el valor del inventario.', 'chart'],
-            ['io.index', 'Reposición · EOQ', 'Calcula cantidades y costos para planificar compras.', 'calculator'],
+        ['titulo' => 'Alojamientos y movilidad', 'descripcion' => 'Catálogos del equipo para preparar las opciones del viaje.', 'enlaces' => [
+            ['hoteles.index', 'Hoteles y alojamientos', 'Registrar, editar y desactivar alojamientos.', 'mountain'],
+            ['habitaciones.index', 'Habitaciones', 'Capacidad, camas y detalles de cada hotel.', 'grid'],
+            ['tarifas-hotel.index', 'Tarifas de alojamiento', 'Precios por noche, temporadas y desayuno.', 'calendar'],
+            ['servicios-transporte.index', 'Servicios de traslado', 'Rutas, tipos de servicio y precios base.', 'briefcase'],
+            ['vehiculos.index', 'Vehículos', 'Flota, capacidades y estado de los vehículos.', 'box'],
+            ['conductores.index', 'Conductores', 'Personal vinculado y vigencia de las licencias.', 'users'],
         ]],
         ['titulo' => 'Usuarios y accesos', 'descripcion' => session('usuario.rol') === 'ADMINISTRATIVO' ? 'Consulta de cuentas y roles. Los cambios corresponden al administrador.' : 'Administración de las cuentas y los roles del sistema.', 'enlaces' => [
             ['usuarios.index', 'Usuarios', 'Cuentas, roles asignados y estado del acceso.', 'users'],

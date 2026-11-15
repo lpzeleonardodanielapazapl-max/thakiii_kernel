@@ -13,6 +13,9 @@
 <div class="viaje-contenido">
 <div class="portal-titulo"><div><span class="etiqueta">TU ESPACIO, TU CAMINO</span><h1>Hola, {{ $perfil['nombres'] ?? session('usuario.nombre') }}.</h1><p>Aquí construimos tu próximo viaje, paso a paso.</p></div><a class="boton {{ count($solicitudes) || count($reservas) ? 'secundario' : '' }}" href="{{ route('portal.solicitud') }}">Diseñar un viaje +</a></div>
 <x-perfil-progreso :estado="$perfil['completitud'] ?? []"/>
+@if(session('viaje_borrador.hotelCodigo') || session('viaje_borrador.transporteCodigo'))
+<section class="siguiente-paso"><span class="etiqueta">TU ELECCIÓN ESTÁ GUARDADA</span><h2>Alojamiento y traslado listos para la solicitud.</h2>@if(session('viaje_borrador.hotel'))<p>{{ session('viaje_borrador.hotel') }}</p>@endif @if(session('viaje_borrador.transporte'))<p>{{ session('viaje_borrador.transporte') }}</p>@endif<a class="boton pequeno" href="{{ route('portal.solicitud') }}">Incluirlos en mi solicitud ↗</a></section>
+@endif
 @if(!count($solicitudes) && !count($reservas))
 <section class="portal-bienvenida"><span class="etiqueta clara">TODO COMIENZA CON UNA IDEA</span><h2>Bolivia te espera.<br>Cuéntanos cómo quieres vivirla.</h2><p>Elige tus fechas, comparte tus intereses y deja que tu asesor prepare una propuesta para ti.</p><a class="boton" href="{{ route('portal.solicitud') }}">Crear mi primera solicitud ↗</a></section>
 @elseif($reservaActiva)
@@ -34,7 +37,7 @@
             @if(count($propuestasAnteriores))<details class="propuestas-anteriores"><summary>Versiones anteriores ({{ count($propuestasAnteriores) }})</summary>@foreach($propuestasAnteriores as $p)@include('portal.partials.propuesta-resumen')@endforeach</details>@endif
         </section>
         <section class="tarjeta"><h2>Solicitudes de viaje</h2>
-            @forelse($solicitudes as $s)<article class="fila"><div><x-viaje-estado :value="$s['estado']"/><h3 class="espacio-superior"><x-print-value :value="$s['fechaInicio']" type="date"/> → <x-print-value :value="$s['fechaFin']" type="date"/></h3><p>{{ $s['personas'] }} {{ $s['personas'] == 1 ? 'viajero' : 'viajeros' }}</p><p class="texto-preservado">{{ $s['intereses'] }}</p><small class="referencia-viaje">Referencia: {{ $s['codigo'] }}</small></div></article>@empty<p>No has registrado solicitudes todavía.</p>@endforelse
+            @forelse($solicitudes as $s)<article class="fila"><div><x-viaje-estado :value="$s['estado']"/><h3 class="espacio-superior"><x-print-value :value="$s['fechaInicio']" type="date"/> → <x-print-value :value="$s['fechaFin']" type="date"/></h3><p>{{ $s['personas'] }} {{ $s['personas'] == 1 ? 'viajero' : 'viajeros' }}</p><p class="texto-preservado">{{ $s['intereses'] }}</p>@if(!empty($s['preferencias'] ?? null))<p>{{ $s['preferencias'] }}</p>@endif<small class="referencia-viaje">Referencia: {{ $s['codigo'] }}</small></div></article>@empty<p>No has registrado solicitudes todavía.</p>@endforelse
         </section>
         @if(!count($reservas))@include('portal.partials.reservas')@endif
     </div>

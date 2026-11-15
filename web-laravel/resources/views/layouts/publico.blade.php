@@ -21,7 +21,7 @@
     <a class="marca-publica" href="{{ route('publico.inicio') }}"><span>THAKI<small>V O Y A G E</small></span></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-publico">Menú ☰</button>
     <nav id="menu-publico" aria-label="Navegación principal">
-        <div class="nav-publica-explorar"><a href="{{ route('publico.inicio') }}#inspiraciones">Explora Bolivia</a><a href="{{ route('publico.inicio') }}#nosotros">Nuestra esencia</a><a href="{{ route('publico.inicio') }}#como-viajar">Cómo viajamos</a></div>
+        <div class="nav-publica-explorar"><a href="{{ route('publico.inicio') }}#inspiraciones">Explora Bolivia</a><a href="{{ route('publico.alojamientos') }}">Alojamientos</a><a href="{{ route('publico.transporte') }}">Traslados</a><a href="{{ route('publico.inicio') }}#como-viajar">Cómo viajamos</a></div>
         <div class="nav-publica-acceso">
         @if(session('usuario'))
             <a class="boton pequeno" href="{{ route(session('usuario.rol') === 'CLIENTE' ? 'portal.inicio' : 'admin.index') }}">Mi espacio ↗</a>

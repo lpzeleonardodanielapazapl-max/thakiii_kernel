@@ -1,0 +1,928 @@
+[Fri Nov 13 22:44:21 2026] PHP 8.5.6 Development Server (http://127.0.0.1:18000) started
+[Fri Nov 13 22:47:32 2026] 127.0.0.1:54856 Accepted
+[Fri Nov 13 22:47:34 2026] 127.0.0.1:54856 [200]: GET /
+[Fri Nov 13 22:47:34 2026] 127.0.0.1:54856 Closing
+[Fri Nov 13 22:47:34 2026] 127.0.0.1:54879 Accepted
+[Fri Nov 13 22:47:34 2026] 127.0.0.1:54879 [302]: GET /planificar-viaje
+[Fri Nov 13 22:47:34 2026] 127.0.0.1:54879 Closing
+[Fri Nov 13 22:47:34 2026] 127.0.0.1:54880 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54880 [200]: GET /ingresar
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54880 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54885 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54885 [200]: GET /registro
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54885 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54887 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54887 [200]: GET /alojamientos
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54887 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54890 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54890 [200]: GET /traslados
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54890 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54893 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54893 [200]: GET /inspiracion/uyuni
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54893 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54894 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54894 [200]: GET /up
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54894 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54896 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54896 [302]: GET /admin
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54896 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54897 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54897 [302]: GET /inventario
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54897 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54898 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54898 [302]: GET /usuarios
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54898 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54900 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54900 [302]: GET /atencion
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54900 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54901 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54901 [302]: GET /mi-viaje
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54901 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54902 Accepted
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54902 [404]: GET /no-existe
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54902 Closing
+[Fri Nov 13 22:47:35 2026] 127.0.0.1:54903 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54903 [419]: POST /ingresar
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54903 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54905 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54905 [200]: GET /css/admin.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54905 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54906 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54906 [200]: GET /css/calendario.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54906 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54907 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54907 [200]: GET /css/catalogo-itinerario.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54907 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54908 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54908 [200]: GET /css/chat.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54908 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54909 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54909 [200]: GET /css/escaparate.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54909 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54910 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54910 [200]: GET /css/espacio-viaje.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54910 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54911 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54911 [200]: GET /css/inventario-operaciones.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54911 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54912 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54912 [200]: GET /css/liquid.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54912 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54913 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54913 [200]: GET /css/print.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54913 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54914 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54914 [200]: GET /css/publico.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54914 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54915 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54915 [200]: GET /css/thaki-admin.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54915 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54916 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54916 [200]: GET /css/viajes.css
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54916 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54917 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54917 [200]: GET /js/admin.js
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54917 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54918 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54918 [200]: GET /js/catalogo-itinerario.js
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54918 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54919 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54919 [200]: GET /js/chat.js
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54919 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54920 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54920 [200]: GET /js/escaparate.js
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54920 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54921 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54921 [200]: GET /js/liquid.js
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54921 Closing
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54922 Accepted
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54922 [200]: GET /js/publico.js
+[Fri Nov 13 22:47:36 2026] 127.0.0.1:54922 Closing
+[Fri Nov 13 22:47:39 2026] 127.0.0.1:55028 Accepted
+[Fri Nov 13 22:47:39 2026] 127.0.0.1:55028 [200]: GET /ingresar
+[Fri Nov 13 22:47:39 2026] 127.0.0.1:55028 Closing
+[Fri Nov 13 22:47:39 2026] 127.0.0.1:55030 Accepted
+[Fri Nov 13 22:47:40 2026] 127.0.0.1:55030 [302]: POST /ingresar
+[Fri Nov 13 22:47:40 2026] 127.0.0.1:55030 Closing
+[Fri Nov 13 22:47:40 2026] 127.0.0.1:55032 Accepted
+[Fri Nov 13 22:47:42 2026] 127.0.0.1:55032 [200]: GET /admin
+[Fri Nov 13 22:47:42 2026] 127.0.0.1:55032 Closing
+[Fri Nov 13 22:47:42 2026] 127.0.0.1:55035 Accepted
+[Fri Nov 13 22:47:42 2026] 127.0.0.1:55035 [200]: GET /admin/gestion
+[Fri Nov 13 22:47:42 2026] 127.0.0.1:55035 Closing
+[Fri Nov 13 22:47:42 2026] 127.0.0.1:55037 Accepted
+[Fri Nov 13 22:47:43 2026] 127.0.0.1:55037 [200]: GET /inventario
+[Fri Nov 13 22:47:43 2026] 127.0.0.1:55037 Closing
+[Fri Nov 13 22:47:43 2026] 127.0.0.1:59575 Accepted
+[Fri Nov 13 22:47:44 2026] 127.0.0.1:59575 [200]: GET /inventario/abc
+[Fri Nov 13 22:47:44 2026] 127.0.0.1:59575 Closing
+[Fri Nov 13 22:47:44 2026] 127.0.0.1:59578 Accepted
+[Fri Nov 13 22:47:44 2026] 127.0.0.1:59578 [200]: GET /inventario/catalogos
+[Fri Nov 13 22:47:44 2026] 127.0.0.1:59578 Closing
+[Fri Nov 13 22:47:44 2026] 127.0.0.1:59581 Accepted
+[Fri Nov 13 22:47:45 2026] 127.0.0.1:59581 [200]: GET /inventario/operaciones
+[Fri Nov 13 22:47:45 2026] 127.0.0.1:59581 Closing
+[Fri Nov 13 22:47:45 2026] 127.0.0.1:59584 Accepted
+[Fri Nov 13 22:47:46 2026] 127.0.0.1:59584 [200]: GET /investigacion-operativa
+[Fri Nov 13 22:47:46 2026] 127.0.0.1:59584 Closing
+[Fri Nov 13 22:47:46 2026] 127.0.0.1:59586 Accepted
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59586 [200]: GET /atencion
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59586 Closing
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59589 Accepted
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59589 [200]: GET /atencion/calendario
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59589 Closing
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59592 Accepted
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59592 [200]: GET /atencion/catalogo
+[Fri Nov 13 22:47:47 2026] 127.0.0.1:59592 Closing
+[Fri Nov 13 22:47:48 2026] 127.0.0.1:59596 Accepted
+[Fri Nov 13 22:47:50 2026] 127.0.0.1:59596 [200]: GET /personas
+[Fri Nov 13 22:47:50 2026] 127.0.0.1:59596 Closing
+[Fri Nov 13 22:47:50 2026] 127.0.0.1:54868 Accepted
+[Fri Nov 13 22:47:52 2026] 127.0.0.1:54868 [200]: GET /personas/nuevo
+[Fri Nov 13 22:47:52 2026] 127.0.0.1:54868 Closing
+[Fri Nov 13 22:47:52 2026] 127.0.0.1:54872 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54872 [200]: GET /empleados
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54872 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54878 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54878 [200]: GET /empleados/nuevo
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54878 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54885 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54885 [200]: GET /clientes
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54885 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54890 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54890 [200]: GET /clientes/nuevo
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54890 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54894 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54894 [200]: GET /usuarios
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54894 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54899 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54899 [200]: GET /usuarios/nuevo
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54899 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54902 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54902 [200]: GET /roles
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54902 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54929 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54929 [200]: GET /cargos
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:54929 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55030 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55030 [200]: GET /cargos/nuevo
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55030 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55035 Accepted
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55035 [200]: GET /departamentos
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55035 Closing
+[Fri Nov 13 22:47:53 2026] 127.0.0.1:55041 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55041 [200]: GET /departamentos/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55041 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55043 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55043 [200]: GET /hoteles
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55043 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55046 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55046 [200]: GET /hoteles/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55046 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55049 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55049 [200]: GET /habitaciones
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55049 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55053 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55053 [200]: GET /habitaciones/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55053 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55056 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55056 [200]: GET /tarifas-hotel
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55056 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55061 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55061 [200]: GET /tarifas-hotel/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55061 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55065 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55065 [200]: GET /vehiculos
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55065 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55068 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55068 [200]: GET /vehiculos/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55068 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55070 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55070 [200]: GET /conductores
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55070 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55075 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55075 [200]: GET /conductores/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55075 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55079 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55079 [200]: GET /servicios-transporte
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55079 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55082 Accepted
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55082 [200]: GET /servicios-transporte/nuevo
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55082 Closing
+[Fri Nov 13 22:47:54 2026] 127.0.0.1:55084 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55084 [200]: GET /inventario/operaciones?ver=existencias
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55084 Closing
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55087 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55087 [200]: GET /inventario/operaciones?ver=referencias
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55087 Closing
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55090 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55090 [200]: GET /inventario/operaciones?ver=documentos
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55090 Closing
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55093 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55093 [200]: GET /inventario/operaciones?ver=precios
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55093 Closing
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55096 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55096 [200]: GET /inventario/operaciones?ver=prestamos
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55096 Closing
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55099 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55099 [200]: GET /inventario/operaciones?ver=movimientos
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55099 Closing
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55102 Accepted
+[Fri Nov 13 22:47:55 2026] 127.0.0.1:55102 [200]: GET /inventario/productos/PRO-54812D8487AC4ED899D6
+[Fri Nov 13 22:47:56 2026] 127.0.0.1:55102 Closing
+[Fri Nov 13 22:47:56 2026] 127.0.0.1:55106 Accepted
+[Fri Nov 13 22:47:56 2026] 127.0.0.1:55106 [200]: GET /inventario/productos/PRO-54812D8487AC4ED899D6/editar
+[Fri Nov 13 22:47:56 2026] 127.0.0.1:55106 Closing
+[Fri Nov 13 22:47:56 2026] 127.0.0.1:55110 Accepted
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:55110 [200]: GET /inventario/PRO-54812D8487AC4ED899D6/unidades
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:55110 Closing
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49667 Accepted
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49667 [200]: GET /inventario/PRO-54812D8487AC4ED899D6/unidades/1/editar
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49667 Closing
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49673 Accepted
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49673 [200]: GET /inventario/PRO-54812D8487AC4ED899D6/reposicion
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49673 Closing
+[Fri Nov 13 22:47:57 2026] 127.0.0.1:49677 Accepted
+[Fri Nov 13 22:48:00 2026] 127.0.0.1:49677 [200]: GET /atencion/solicitudes/SOL-71B0C4E4B8E84B53
+[Fri Nov 13 22:48:00 2026] 127.0.0.1:49677 Closing
+[Fri Nov 13 22:48:00 2026] 127.0.0.1:49376 Accepted
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49376 [200]: GET /atencion/reservas/RES-3E8F379473E44FD3
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49376 Closing
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49379 Accepted
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49379 [200]: GET /cargos/nuevo
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49379 Closing
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49381 Accepted
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49381 [302]: POST /cargos
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49381 Closing
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49384 Accepted
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49384 [200]: GET /ingresar
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49384 Closing
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49386 Accepted
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49386 [302]: POST /ingresar
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49386 Closing
+[Fri Nov 13 22:48:01 2026] 127.0.0.1:49388 Accepted
+[Fri Nov 13 22:48:05 2026] 127.0.0.1:49388 [200]: GET /mi-viaje
+[Fri Nov 13 22:48:05 2026] 127.0.0.1:49388 Closing
+[Fri Nov 13 22:48:05 2026] 127.0.0.1:54640 Accepted
+[Fri Nov 13 22:48:07 2026] 127.0.0.1:54640 [200]: GET /mi-viaje/perfil
+[Fri Nov 13 22:48:07 2026] 127.0.0.1:54640 Closing
+[Fri Nov 13 22:48:07 2026] 127.0.0.1:54643 Accepted
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54643 [200]: GET /mi-viaje/solicitar
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54643 Closing
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54646 Accepted
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54646 [200]: GET /mi-viaje/mensajes
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54646 Closing
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54650 Accepted
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54650 [200]: GET /mi-viaje/notificaciones
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54650 Closing
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54653 Accepted
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54653 [200]: GET /alojamientos
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54653 Closing
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54655 Accepted
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54655 [200]: GET /traslados
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54655 Closing
+[Fri Nov 13 22:48:08 2026] 127.0.0.1:54657 Accepted
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54657 [200]: GET /mi-viaje/propuestas/PRP-F48F18B09F1C4FE2
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54657 Closing
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54661 Accepted
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54661 [403]: GET /admin
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54661 Closing
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54663 Accepted
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54663 [403]: GET /mi-viaje
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54663 Closing
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54665 Accepted
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54665 [200]: GET /mi-viaje/perfil
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54665 Closing
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54668 Accepted
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54668 [302]: POST /salir
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54668 Closing
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54670 Accepted
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54670 [302]: GET /mi-viaje
+[Fri Nov 13 22:48:09 2026] 127.0.0.1:54670 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58973 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58973 [200]: GET /
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58973 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58975 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58975 [200]: GET /ingresar
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58975 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58977 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58977 [200]: GET /registro
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58977 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58978 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58978 [200]: GET /alojamientos
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58978 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58980 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58980 [200]: GET /traslados
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58980 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58982 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58982 [200]: GET /inspiracion/uyuni
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58982 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58983 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58983 [200]: GET /up
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58983 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58984 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58984 [302]: GET /planificar-viaje
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58984 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58985 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58985 [302]: GET /planificar-viaje?destinos=Uyuni&personas=2&moneda=BOB
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58985 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58986 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58986 [302]: GET /admin
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58986 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58987 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58987 [302]: GET /inventario
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58987 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58988 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58988 [302]: GET /usuarios
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58988 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58989 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58989 [302]: GET /atencion
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58989 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58990 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58990 [302]: GET /mi-viaje
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58990 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58991 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58991 [404]: GET /no-existe
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58991 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58992 Accepted
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58992 [419]: POST /ingresar
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58992 Closing
+[Fri Nov 13 22:49:48 2026] 127.0.0.1:58993 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58993 [200]: GET /css/admin.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58993 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58994 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58994 [200]: GET /css/calendario.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58994 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58995 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58995 [200]: GET /css/catalogo-itinerario.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58995 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58996 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58996 [200]: GET /css/chat.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58996 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58997 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58997 [200]: GET /css/escaparate.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58997 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58998 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58998 [200]: GET /css/espacio-viaje.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58998 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58999 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58999 [200]: GET /css/inventario-operaciones.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:58999 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59000 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59000 [200]: GET /css/liquid.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59000 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59001 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59001 [200]: GET /css/print.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59001 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59002 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59002 [200]: GET /css/publico.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59002 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59003 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59003 [200]: GET /css/thaki-admin.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59003 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59004 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59004 [200]: GET /css/viajes.css
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59004 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59005 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59005 [200]: GET /js/admin.js
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59005 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59006 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59006 [200]: GET /js/catalogo-itinerario.js
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59006 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59007 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59007 [200]: GET /js/chat.js
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59007 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59008 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59008 [200]: GET /js/escaparate.js
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59008 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59009 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59009 [200]: GET /js/liquid.js
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59009 Closing
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59010 Accepted
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59010 [200]: GET /js/publico.js
+[Fri Nov 13 22:49:49 2026] 127.0.0.1:59010 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59110 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59110 [200]: GET /ingresar
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59110 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59112 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59112 [302]: POST /ingresar
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59112 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59114 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59114 [200]: GET /admin
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59114 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59117 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59117 [200]: GET /admin/gestion
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59117 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59119 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59119 [200]: GET /inventario
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59119 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59122 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59122 [200]: GET /inventario/abc
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59122 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59125 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59125 [200]: GET /inventario/catalogos
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59125 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59128 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59128 [200]: GET /inventario/operaciones
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59128 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59131 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59131 [200]: GET /investigacion-operativa
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59131 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59133 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59133 [200]: GET /atencion
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59133 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59136 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59136 [200]: GET /atencion/calendario
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59136 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59140 Accepted
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59140 [200]: GET /atencion/catalogo
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59140 Closing
+[Fri Nov 13 22:49:51 2026] 127.0.0.1:59144 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59144 [200]: GET /personas
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59144 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59147 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59147 [200]: GET /personas/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59147 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59149 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59149 [200]: GET /empleados
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59149 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59155 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59155 [200]: GET /empleados/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59155 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59160 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59160 [200]: GET /clientes
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59160 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59164 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59164 [200]: GET /clientes/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59164 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59167 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59167 [200]: GET /usuarios
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59167 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59171 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59171 [200]: GET /usuarios/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59171 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59174 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59174 [200]: GET /roles
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59174 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59177 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59177 [200]: GET /cargos
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59177 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59180 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59180 [200]: GET /cargos/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59180 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59182 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59182 [200]: GET /departamentos
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59182 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59185 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59185 [200]: GET /departamentos/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59185 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59187 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59187 [200]: GET /hoteles
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59187 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59190 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59190 [200]: GET /hoteles/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59190 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59192 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59192 [200]: GET /habitaciones
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59192 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59196 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59196 [200]: GET /habitaciones/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59196 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59199 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59199 [200]: GET /tarifas-hotel
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59199 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59204 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59204 [200]: GET /tarifas-hotel/nuevo
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59204 Closing
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59208 Accepted
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59208 [200]: GET /vehiculos
+[Fri Nov 13 22:49:52 2026] 127.0.0.1:59208 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59211 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59211 [200]: GET /vehiculos/nuevo
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59211 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59213 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59213 [200]: GET /conductores
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59213 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59218 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59218 [200]: GET /conductores/nuevo
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59218 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59222 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59222 [200]: GET /servicios-transporte
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59222 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59225 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59225 [200]: GET /servicios-transporte/nuevo
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59225 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59227 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59227 [200]: GET /inventario/operaciones?ver=existencias
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59227 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59230 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59230 [200]: GET /inventario/operaciones?ver=referencias
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59230 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59233 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59233 [200]: GET /inventario/operaciones?ver=documentos
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59233 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59236 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59236 [200]: GET /inventario/operaciones?ver=precios
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59236 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59239 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59239 [200]: GET /inventario/operaciones?ver=prestamos
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59239 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59242 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59242 [200]: GET /inventario/operaciones?ver=movimientos
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59242 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59245 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59245 [200]: GET /inventario/productos/PRO-35C16553EA2B485F81B6
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59245 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59249 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59249 [200]: GET /inventario/productos/PRO-35C16553EA2B485F81B6/editar
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59249 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59253 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59253 [200]: GET /inventario/PRO-35C16553EA2B485F81B6/unidades
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59253 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59256 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59256 [200]: GET /inventario/PRO-35C16553EA2B485F81B6/unidades/2/editar
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59256 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59260 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59260 [200]: GET /inventario/PRO-35C16553EA2B485F81B6/reposicion
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59260 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59263 Accepted
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59263 [200]: GET /atencion/solicitudes/SOL-883DF5CBB4C34C14
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59263 Closing
+[Fri Nov 13 22:49:53 2026] 127.0.0.1:59266 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59266 [200]: GET /atencion/reservas/RES-6D93A6559D1349DC
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59266 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59269 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59269 [200]: GET /cargos/nuevo
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59269 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59271 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59271 [302]: POST /cargos
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59271 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59274 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59274 [200]: GET /ingresar
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59274 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59276 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59276 [302]: POST /ingresar
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59276 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59278 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59278 [200]: GET /mi-viaje
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59278 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59282 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59282 [200]: GET /mi-viaje/perfil
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59282 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59285 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59285 [200]: GET /mi-viaje/solicitar
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59285 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59288 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59288 [200]: GET /mi-viaje/mensajes
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59288 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59292 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59292 [200]: GET /mi-viaje/notificaciones
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59292 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59295 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59295 [200]: GET /alojamientos
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59295 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59297 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59297 [200]: GET /traslados
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59297 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59299 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59299 [200]: GET /mi-viaje/propuestas/PRP-FA63AF2AB5224DEE
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59299 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59303 Accepted
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59303 [403]: GET /admin
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59303 Closing
+[Fri Nov 13 22:49:54 2026] 127.0.0.1:59305 Accepted
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59305 [403]: GET /mi-viaje
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59305 Closing
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59307 Accepted
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59307 [200]: GET /mi-viaje/perfil
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59307 Closing
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59310 Accepted
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59310 [302]: POST /salir
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59310 Closing
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59312 Accepted
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59312 [302]: GET /mi-viaje
+[Fri Nov 13 22:49:55 2026] 127.0.0.1:59312 Closing
+[Fri Nov 13 22:51:44 2026] 127.0.0.1:64537 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64537 [200]: GET /
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64537 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64539 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64539 [200]: GET /ingresar
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64539 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64541 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64541 [200]: GET /registro
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64541 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64542 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64542 [200]: GET /alojamientos
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64542 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64544 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64544 [200]: GET /traslados
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64544 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64546 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64546 [200]: GET /inspiracion/uyuni
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64546 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64547 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64547 [200]: GET /up
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64547 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64548 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64548 [302]: GET /planificar-viaje
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64548 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64549 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64549 [302]: GET /planificar-viaje?destinos=Uyuni&personas=2&moneda=BOB
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64549 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64550 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64550 [302]: GET /admin
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64550 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64551 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64551 [302]: GET /inventario
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64551 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64552 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64552 [302]: GET /usuarios
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64552 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64553 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64553 [302]: GET /atencion
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64553 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64554 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64554 [302]: GET /mi-viaje
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64554 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64555 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64555 [404]: GET /no-existe
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64555 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64556 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64556 [419]: POST /ingresar
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64556 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64557 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64557 [200]: GET /css/admin.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64557 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64558 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64558 [200]: GET /css/calendario.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64558 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64559 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64559 [200]: GET /css/catalogo-itinerario.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64559 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64560 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64560 [200]: GET /css/chat.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64560 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64561 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64561 [200]: GET /css/escaparate.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64561 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64562 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64562 [200]: GET /css/espacio-viaje.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64562 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64563 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64563 [200]: GET /css/inventario-operaciones.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64563 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64564 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64564 [200]: GET /css/liquid.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64564 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64565 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64565 [200]: GET /css/print.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64565 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64566 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64566 [200]: GET /css/publico.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64566 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64567 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64567 [200]: GET /css/thaki-admin.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64567 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64568 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64568 [200]: GET /css/viajes.css
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64568 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64569 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64569 [200]: GET /js/admin.js
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64569 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64570 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64570 [200]: GET /js/catalogo-itinerario.js
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64570 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64571 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64571 [200]: GET /js/chat.js
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64571 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64572 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64572 [200]: GET /js/escaparate.js
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64572 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64573 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64573 [200]: GET /js/liquid.js
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64573 Closing
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64574 Accepted
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64574 [200]: GET /js/publico.js
+[Fri Nov 13 22:51:45 2026] 127.0.0.1:64574 Closing
+[Fri Nov 13 22:51:47 2026] 127.0.0.1:64709 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64709 [200]: GET /ingresar
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64709 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64711 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64711 [302]: POST /ingresar
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64711 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64713 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64713 [200]: GET /admin
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64713 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64716 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64716 [200]: GET /admin/gestion
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64716 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64718 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64718 [200]: GET /inventario
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64718 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64721 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64721 [200]: GET /inventario/abc
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64721 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64724 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64724 [200]: GET /inventario/catalogos
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64724 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64727 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64727 [200]: GET /inventario/operaciones
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64727 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64730 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64730 [200]: GET /investigacion-operativa
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64730 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64732 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64732 [200]: GET /atencion
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:64732 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:51177 Accepted
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:51177 [200]: GET /atencion/calendario
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:51177 Closing
+[Fri Nov 13 22:51:48 2026] 127.0.0.1:51180 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51180 [200]: GET /atencion/catalogo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51180 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51184 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51184 [200]: GET /personas
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51184 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51187 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51187 [200]: GET /personas/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51187 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51189 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51189 [200]: GET /empleados
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51189 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51195 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51195 [200]: GET /empleados/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51195 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51200 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51200 [200]: GET /clientes
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51200 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51204 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51204 [200]: GET /clientes/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51204 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51207 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51207 [200]: GET /usuarios
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51207 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51211 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51211 [200]: GET /usuarios/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51211 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51214 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51214 [200]: GET /roles
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51214 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51217 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51217 [200]: GET /cargos
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51217 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51220 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51220 [200]: GET /cargos/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51220 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51222 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51222 [200]: GET /departamentos
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51222 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51225 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51225 [200]: GET /departamentos/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51225 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51227 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51227 [200]: GET /hoteles
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51227 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51231 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51231 [200]: GET /hoteles/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51231 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51233 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51233 [200]: GET /habitaciones
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51233 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51237 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51237 [200]: GET /habitaciones/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51237 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51240 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51240 [200]: GET /tarifas-hotel
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51240 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51245 Accepted
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51245 [200]: GET /tarifas-hotel/nuevo
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51245 Closing
+[Fri Nov 13 22:51:49 2026] 127.0.0.1:51249 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51249 [200]: GET /vehiculos
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51249 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51252 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51252 [200]: GET /vehiculos/nuevo
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51252 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51254 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51254 [200]: GET /conductores
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51254 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51259 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51259 [200]: GET /conductores/nuevo
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51259 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51263 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51263 [200]: GET /servicios-transporte
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51263 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51266 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51266 [200]: GET /servicios-transporte/nuevo
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51266 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51268 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51268 [200]: GET /inventario/operaciones?ver=existencias
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51268 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51271 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51271 [200]: GET /inventario/operaciones?ver=referencias
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51271 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51274 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51274 [200]: GET /inventario/operaciones?ver=documentos
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51274 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51277 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51277 [200]: GET /inventario/operaciones?ver=precios
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51277 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51280 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51280 [200]: GET /inventario/operaciones?ver=prestamos
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51280 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51283 Accepted
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51283 [200]: GET /inventario/operaciones?ver=movimientos
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51283 Closing
+[Fri Nov 13 22:51:50 2026] 127.0.0.1:51286 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51286 [200]: GET /inventario/productos/PRO-AD6C3344F337460A94BC
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51286 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51290 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51290 [200]: GET /inventario/productos/PRO-AD6C3344F337460A94BC/editar
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51290 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51294 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51294 [200]: GET /inventario/PRO-AD6C3344F337460A94BC/unidades
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51294 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51297 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51297 [200]: GET /inventario/PRO-AD6C3344F337460A94BC/unidades/3/editar
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51297 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51301 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51301 [200]: GET /inventario/PRO-AD6C3344F337460A94BC/reposicion
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51301 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51304 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51304 [200]: GET /atencion/solicitudes/SOL-F8498A0B09F2442D
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51304 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51307 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51307 [200]: GET /atencion/reservas/RES-201ABFEADDCD4A64
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51307 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51310 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51310 [200]: GET /cargos/nuevo
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51310 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51312 Accepted
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51312 [302]: POST /cargos
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51312 Closing
+[Fri Nov 13 22:51:51 2026] 127.0.0.1:51315 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51315 [200]: GET /cargos/CAR-2EDA487B2DEF480E
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51315 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51318 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51318 [200]: GET /cargos/CAR-2EDA487B2DEF480E/editar
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51318 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51321 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51321 [302]: POST /cargos/CAR-2EDA487B2DEF480E
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51321 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51324 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51324 [200]: GET /cargos/CAR-2EDA487B2DEF480E
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51324 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51327 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51327 [200]: GET /cargos/CAR-2EDA487B2DEF480E/eliminar
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51327 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51330 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51330 [302]: POST /cargos/CAR-2EDA487B2DEF480E
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51330 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51333 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51333 [404]: GET /cargos/CAR-2EDA487B2DEF480E
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51333 Closing
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51336 Accepted
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51336 [200]: GET /ingresar
+[Fri Nov 13 22:51:53 2026] 127.0.0.1:51336 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51338 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51338 [302]: POST /ingresar
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51338 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51340 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51340 [200]: GET /mi-viaje
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51340 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51344 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51344 [200]: GET /mi-viaje/perfil
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51344 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51347 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51347 [200]: GET /mi-viaje/solicitar
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51347 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51350 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51350 [200]: GET /mi-viaje/mensajes
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51350 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51354 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51354 [200]: GET /mi-viaje/notificaciones
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51354 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51357 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51357 [200]: GET /alojamientos
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51357 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51359 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51359 [200]: GET /traslados
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51359 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51361 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51361 [200]: GET /mi-viaje/propuestas/PRP-47454E8987134411
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51361 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51364 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51364 [403]: GET /admin
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51364 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51366 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51366 [403]: GET /mi-viaje
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51366 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51368 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51368 [200]: GET /mi-viaje/perfil
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51368 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51371 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51371 [302]: POST /salir
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51371 Closing
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51373 Accepted
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51373 [302]: GET /mi-viaje
+[Fri Nov 13 22:51:54 2026] 127.0.0.1:51373 Closing

@@ -1,5 +1,5 @@
 @props(['title', 'description', 'records', 'columns', 'recordKey', 'related' => [], 'module' => null, 'canCreate' => true, 'canEdit' => true, 'canDelete' => true])
-<x-page-header :title="$title" :description="$description" eyebrow="PERSONAS Y ACCESOS">
+<x-page-header :title="$title" :description="$description" :eyebrow="config('gestion.'.$module.'.eyebrow', 'PERSONAS Y ACCESOS')">
     <a class="boton boton-secundario" href="{{ route('admin.index') }}"><x-icon name="back"/> Panel</a>
     <button class="boton" type="button" data-print><x-icon name="print"/> Imprimir</button>
     @if ($module && $canCreate)<a class="boton boton-navy" href="{{ route($module.'.create') }}"><x-icon name="plus"/> Añadir {{ config('gestion.'.$module.'.singular') }}</a>@endif
@@ -32,6 +32,8 @@
                                     <a class="enlace-registro" href="{{ route($column['route']) }}#registro-{{ rawurlencode($value) }}">{{ $value }} <span aria-hidden="true">↗</span></a>
                                 @elseif (($column['type'] ?? '') === 'status')
                                     <span class="badge badge-azul">{{ $value ?? 'Sin definir' }}</span>
+                                @elseif (($column['type'] ?? '') === 'date')
+                                    <x-print-value :value="$value" type="date"/>
                                 @else
                                     <span @class(['codigo' => $column['key'] === $recordKey])>{{ $value ?? '—' }}</span>
                                 @endif

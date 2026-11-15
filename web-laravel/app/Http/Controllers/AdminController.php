@@ -28,7 +28,8 @@ class AdminController extends Controller
                 );
             }
 
-            $coleccion = collect($productos);
+            $coleccion = collect($productos)->reject(fn (array $producto): bool => str_starts_with((string) ($producto['codigo'] ?? ''), 'DEMO-')
+                || str_starts_with((string) ($producto['nombre'] ?? ''), '[DEMO]'));
 
             $resumen = [
                 'productos' => $coleccion->count(),

@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -51,6 +52,16 @@ return [
     */
 
     'channels' => [
+
+        'actividad' => [
+            'driver' => 'daily',
+            'path' => storage_path(env('LOG_ACTIVIDAD_PATH', 'logs/actividad.log')),
+            'level' => 'info',
+            'max_files' => 14,
+            'locking' => true,
+            'formatter' => LineFormatter::class,
+            'formatter_with' => ['dateFormat' => 'Y-m-d H:i:sP', 'ignoreEmptyContextAndExtra' => true],
+        ],
 
         'stack' => [
             'driver' => 'stack',

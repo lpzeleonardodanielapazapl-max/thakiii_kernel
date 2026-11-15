@@ -8,18 +8,17 @@ import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 
 @ApplicationScoped
 public class AbcService {
 
     @Inject
-    EntityManager entityManager;
+    PortalQuery db;
 
     private record ProductoBase(
         String codigo,
         String nombre,
-        long unidades,
+        BigDecimal unidades,
         BigDecimal precio,
         String fechaPrecio
     ) {}
@@ -27,7 +26,7 @@ public class AbcService {
     public record ProductoAbc(
         String codigo,
         String nombre,
-        long unidades,
+        BigDecimal unidades,
         BigDecimal precioUnitario,
         String fechaPrecio,
         BigDecimal valorTotal,
@@ -45,6 +44,7 @@ public class AbcService {
     ) {}
 
     public ResultadoAbc calcular() {
+        String custodia = "SELECT d.cod_pro,SUM(d.cantidad) AS cantidad FROM prestamo_detalle d JOIN prestamo_concesion p ON p.cod_prestamo=d.cod_prestamo WHERE d.id_unidad IS NULL AND COALESCE(d.devuelto,0)=0 AND p.estado='ACTIVO' GROUP BY d.cod_pro";
 
         String sql = """
             SELECT
@@ -57,10 +57,13 @@ public class AbcService {
             FROM producto p
 
             LEFT JOIN (
-                SELECT cod_pro, COUNT(*) AS cantidad
-                FROM inventario_unidad
-                WHERE fecha_baja IS NULL
-                GROUP BY cod_pro
+                SELECT cod_pro,SUM(cantidad) AS cantidad FROM (
+                    SELECT cod_pro,COUNT(*) AS cantidad FROM inventario_unidad WHERE fecha_baja IS NULL GROUP BY cod_pro
+                    UNION ALL
+                    SELECT cod_pro,SUM(cantidad) AS cantidad FROM inventario_stock GROUP BY cod_pro
+                    UNION ALL
+                    /*CUSTODIA*/
+                ) existencias GROUP BY cod_pro
             ) u ON u.cod_pro = p.cod_pro
 
             LEFT JOIN (
@@ -79,35 +82,32 @@ public class AbcService {
                 AND pr.posicion = 1
 
             WHERE p.estado = 'ACTIVO'
+              AND p.cod_pro NOT LIKE 'DEMO-%' AND p.des_pro NOT LIKE '[DEMO]%'
             ORDER BY p.cod_pro
-            """;
+            """.replace("/*CUSTODIA*/",custodia);
 
-        List<?> filas = entityManager
-            .createNativeQuery(sql)
-            .getResultList();
+        var filas = db.lista(sql,java.util.Map.of(),"codigo","nombre","cantidad","precio","fecha");
 
         List<ProductoBase> productos = new ArrayList<>();
         List<String> sinPrecio = new ArrayList<>();
         List<String> sinUnidades = new ArrayList<>();
 
-        for (Object fila : filas) {
-            Object[] valores = (Object[]) fila;
+        for (var fila : filas) {
+            String codigo = (String) fila.get("codigo");
+            String nombre = (String) fila.get("nombre");
+            BigDecimal unidades = new BigDecimal(fila.get("cantidad").toString());
 
-            String codigo = (String) valores[0];
-            String nombre = (String) valores[1];
-            long unidades = ((Number) valores[2]).longValue();
-
-            if (unidades == 0) {
+            if (unidades.signum() == 0) {
                 sinUnidades.add(codigo + " · " + nombre);
                 continue;
             }
 
-            if (valores[3] == null) {
+            if (fila.get("precio") == null) {
                 sinPrecio.add(codigo + " · " + nombre);
                 continue;
             }
 
-            BigDecimal precio = new BigDecimal(valores[3].toString());
+            BigDecimal precio = new BigDecimal(fila.get("precio").toString());
 
             if (precio.signum() <= 0) {
                 sinPrecio.add(codigo + " · " + nombre);
@@ -119,7 +119,7 @@ public class AbcService {
                 nombre,
                 unidades,
                 precio,
-                valores[4].toString()
+                fila.get("fecha").toString()
             ));
         }
 
@@ -128,7 +128,7 @@ public class AbcService {
                 .comparing(
                     (ProductoBase p) ->
                         p.precio().multiply(
-                            BigDecimal.valueOf(p.unidades())
+                            p.unidades()
                         )
                 )
                 .reversed()
@@ -139,7 +139,7 @@ public class AbcService {
 
         for (ProductoBase p : productos) {
             total = total.add(
-                p.precio().multiply(BigDecimal.valueOf(p.unidades()))
+                p.precio().multiply(p.unidades())
             );
         }
 
@@ -157,7 +157,7 @@ public class AbcService {
                 : acumulado.compareTo(limiteB) < 0 ? "B" : "C";
 
             BigDecimal valor = p.precio().multiply(
-                BigDecimal.valueOf(p.unidades())
+                p.unidades()
             );
 
             acumulado = acumulado.add(valor);

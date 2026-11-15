@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -41,6 +42,11 @@ class AtencionController extends Controller
     public function conversacion(string $id): View
     {
         return view('atencion.conversacion', ['conversacion' => $this->consultarApi('GET', '/api/atencion/conversaciones/'.rawurlencode($id))]);
+    }
+
+    public function catalogo(): JsonResponse
+    {
+        return response()->json(['hoteles' => $this->consultarApi('GET', '/api/publico/hospedaje'), ...$this->consultarApi('GET', '/api/publico/transporte')]);
     }
 
     public function solicitud(Request $request, string $codigo): View

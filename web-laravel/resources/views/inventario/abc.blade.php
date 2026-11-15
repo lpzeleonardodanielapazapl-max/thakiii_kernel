@@ -19,14 +19,14 @@
         </span>
 
         <p>
-            {{ $productos->count() }} productos con unidades y precio
+            {{ $productos->count() }} productos con cantidad y precio
             válido en bolivianos.
         </p>
 
         <small>
-            Valor = unidades sin baja × último precio registrado en BOB.
+            Valor = equipos sin baja y material por cantidad en almacén o custodia × último precio registrado en BOB.
             No representa depreciación contable ni disponibilidad inmediata.
-            Los registros [DEMO] utilizan precios simulados.
+            Se excluyen los registros de demostración.
         </small>
     </section>
 
@@ -74,7 +74,7 @@
                 <thead>
                     <tr>
                         <th>Producto</th>
-                        <th>Unidades</th>
+                        <th>Cantidad</th>
                         <th>Precio BOB</th>
                         <th>Valor BOB</th>
                         <th>% del total</th>
@@ -119,7 +119,7 @@
                             </td>
 
                             <td>
-                                <a class="accion-enlace" href="{{ route('inventario.unidades', ['codigo' => $p['codigo']]) }}">Ver unidades ↗</a><br>
+                                <a class="accion-enlace" href="{{ route('inventario.producto', ['codigo' => $p['codigo']]) }}">Ver producto ↗</a><br>
                                 <a class="accion-enlace" href="{{ route('inventario.analizar', [
                                     'codigo' => $p['codigo']
                                 ]) }}">
@@ -130,7 +130,7 @@
                     @empty
                         <tr>
                             <td colspan="8">
-                                No hay productos con unidades y precios
+                                No hay productos con cantidad y precios
                                 válidos para realizar la clasificación.
                             </td>
                         </tr>
@@ -173,7 +173,7 @@
 
     @if (count($abc['sinUnidades']) > 0)
         <section class="panel">
-            <h2>Productos sin unidades sin baja</h2>
+            <h2>Productos sin cantidad registrada</h2>
 
             <ul>
                 @foreach ($abc['sinUnidades'] as $nombre)
@@ -198,16 +198,16 @@
             aunque pertenezca al grupo C.
         </p>
     </section>
-    <x-print-report title="Clasificación ABC del inventario" subtitle="Valoración de unidades sin baja · Moneda: bolivianos (BOB)" :landscape="true">
+    <x-print-report title="Clasificación ABC del inventario" subtitle="Valoración de equipos y material por cantidad · Moneda: bolivianos (BOB)" :landscape="true">
         <div class="reporte-resumen"><p><strong>Valor total del análisis:</strong> {{ $formato($abc['valorTotal']) }} BOB · <strong>Productos valorados:</strong> {{ $productos->count() }}</p><p>Clase A: {{ $productos->where('clasificacion', 'A')->count() }} · Clase B: {{ $productos->where('clasificacion', 'B')->count() }} · Clase C: {{ $productos->where('clasificacion', 'C')->count() }}</p></div>
         <p class="reporte-alcance"><span data-report-count>{{ $productos->count() }} de {{ $productos->count() }} registros</span> · <span data-report-filters>Sin filtros adicionales.</span></p>
-        <table id="tabla-impresion" class="reporte-tabla reporte-abc"><thead><tr><th scope="col">Producto / código</th><th scope="col">Unidades</th><th scope="col">Precio unitario BOB</th><th scope="col">Valor BOB</th><th scope="col">% del total</th><th scope="col">% acumulado</th><th scope="col">Fecha del precio</th><th scope="col">Clase</th></tr></thead><tbody>
+        <table id="tabla-impresion" class="reporte-tabla reporte-abc"><thead><tr><th scope="col">Producto / código</th><th scope="col">Cantidad</th><th scope="col">Precio unitario BOB</th><th scope="col">Valor BOB</th><th scope="col">% del total</th><th scope="col">% acumulado</th><th scope="col">Fecha del precio</th><th scope="col">Clase</th></tr></thead><tbody>
             @foreach ($abc['productos'] as $p)<tr data-print-key="{{ $loop->index }}"><td><strong>{{ $p['nombre'] }}</strong><small>{{ $p['codigo'] }}</small></td><td class="numero-informe">{{ $p['unidades'] }}</td><td class="numero-informe">{{ $formato($p['precioUnitario']) }}</td><td class="numero-informe">{{ $formato($p['valorTotal']) }}</td><td class="numero-informe">{{ $formato($p['porcentaje']) }} %</td><td class="numero-informe">{{ $formato($p['porcentajeAcumulado']) }} %</td><td><x-print-value :value="$p['fechaPrecio']" type="date"/></td><td>{{ $p['clasificacion'] }}</td></tr>@endforeach
             <tr data-report-empty @if ($productos->count()) hidden @endif><td colspan="8">No hay productos valorados para el alcance seleccionado.</td></tr>
         </tbody></table>
-        <p class="reporte-nota">El total y los porcentajes corresponden al análisis completo, incluso si el listado está filtrado. Valor = unidades sin baja × último precio válido en BOB. No equivale a depreciación ni disponibilidad. Los precios [DEMO] son simulados.</p>
+        <p class="reporte-nota">El total y los porcentajes corresponden al análisis completo, incluso si el listado está filtrado. Valor = equipos sin baja y material por cantidad en almacén o custodia × último precio válido en BOB. No equivale a depreciación ni disponibilidad. Se excluyen los registros de demostración.</p>
         <p class="reporte-nota">Criterio: el producto que alcanza o supera el 80 % permanece en A; el que alcanza o supera el 95 % permanece en B. ABC mide concentración de valor, no importancia para la seguridad.</p>
         @if (count($abc['sinPrecio']))<h2>Excluidos del análisis: sin precio válido ({{ count($abc['sinPrecio']) }})</h2><ul>@foreach ($abc['sinPrecio'] as $nombre)<li>{{ $nombre }}</li>@endforeach</ul>@endif
-        @if (count($abc['sinUnidades']))<h2>Excluidos del análisis: sin unidades sin baja ({{ count($abc['sinUnidades']) }})</h2><ul>@foreach ($abc['sinUnidades'] as $nombre)<li>{{ $nombre }}</li>@endforeach</ul>@endif
+        @if (count($abc['sinUnidades']))<h2>Excluidos del análisis: sin cantidad registrada ({{ count($abc['sinUnidades']) }})</h2><ul>@foreach ($abc['sinUnidades'] as $nombre)<li>{{ $nombre }}</li>@endforeach</ul>@endif
     </x-print-report>
 @endsection

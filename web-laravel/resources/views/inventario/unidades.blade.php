@@ -107,7 +107,7 @@
                         </div>
                         <div>
                             <label for="calificacion">Calificación (opcional)</label>
-                            <input id="calificacion" name="calificacion" type="number" min="0" max="2147483647" step="1" value="{{ old('calificacion') }}" aria-describedby="ayuda-calificacion">
+                            <input id="calificacion" name="calificacion" type="number" min="1" max="10" step="1" value="{{ old('calificacion') }}" aria-describedby="ayuda-calificacion">
                             <small id="ayuda-calificacion">Déjala vacía si el equipo aún no tiene una calificación acordada.</small>
                         </div>
                         <div>

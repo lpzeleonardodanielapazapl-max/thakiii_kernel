@@ -6,4 +6,10 @@
         <div><label for="dia-{{ $index }}-descripcion" data-dia-label="descripcion">Actividades y recorrido *</label><textarea id="dia-{{ $index }}-descripcion" name="dias[{{ $index }}][descripcion]" data-dia-campo="descripcion" rows="4" maxlength="4000" required @if($errors->has('dias.'.$index.'.descripcion')) aria-invalid="true" aria-describedby="error-dias-{{ $index }}-descripcion" @endif>{{ $dia['descripcion'] ?? '' }}</textarea><x-error-campo :name="'dias.'.$index.'.descripcion'"/></div>
         <div><label for="dia-{{ $index }}-servicios" data-dia-label="servicios">Servicios incluidos (opcional)</label><textarea id="dia-{{ $index }}-servicios" name="dias[{{ $index }}][servicios]" data-dia-campo="servicios" rows="2" maxlength="2000" placeholder="Por ejemplo: traslado, alojamiento y desayuno" @if($errors->has('dias.'.$index.'.servicios')) aria-invalid="true" aria-describedby="error-dias-{{ $index }}-servicios" @endif>{{ $dia['servicios'] ?? '' }}</textarea><x-error-campo :name="'dias.'.$index.'.servicios'"/></div>
     </div>
+    <details class="itinerario-opciones" data-itinerario-catalogo data-catalogo-url="{{ route('atencion.catalogo') }}"><summary>Ofrecer alojamiento o traslado del catálogo</summary>
+        <p>Incluye una opción en los servicios de este día y revisa su detalle antes de enviar. Los precios son de referencia; la reserva se confirma con el cliente.</p>
+        <div class="itinerario-opciones-campos"><label>Qué quieres ofrecer<select data-opcion-tipo><option value="hoteles">Alojamiento y habitación</option><option value="servicios">Servicio de traslado</option><option value="vehiculos">Vehículo sugerido</option></select></label><label>Opción del catálogo<select data-opcion-catalogo disabled><option value="">Cargando opciones…</option></select></label></div>
+        <button type="button" class="boton boton-secundario" data-opcion-incluir disabled>Incluir en este día</button><p data-opcion-estado role="status" aria-live="polite"></p>
+        <noscript><p>Consulta los catálogos del equipo y escribe la opción en «Servicios incluidos».</p></noscript>
+    </details>
 </fieldset>

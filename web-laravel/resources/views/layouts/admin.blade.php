@@ -26,12 +26,13 @@
         <button class="boton-menu" type="button" aria-expanded="true" aria-controls="navegacion-admin"><x-icon name="menu"/> Menú de navegación</button>
         <nav class="menu-admin" id="navegacion-admin" aria-label="Menú de administración">
             @php
-                $gestionActiva = request()->routeIs('admin.gestion') || request()->is('personas*', 'empleados*', 'cargos*', 'departamentos*', 'usuarios*', 'roles*', 'inventario/abc', 'investigacion-operativa*', 'inventario/*/reposicion');
+                $gestionActiva = request()->routeIs('admin.gestion') || request()->is('personas*', 'empleados*', 'cargos*', 'departamentos*', 'usuarios*', 'roles*', 'hoteles*', 'habitaciones*', 'tarifas-hotel*', 'vehiculos*', 'conductores*', 'servicios-transporte*');
+                $inventarioActivo = request()->is('inventario*', 'investigacion-operativa*');
                 $enlaces = [
                     ['admin.index', 'Inicio', 'home', request()->routeIs('admin.index')],
                     ['atencion.index', 'Atención a clientes', 'mountain', request()->is('atencion*') && !request()->routeIs('atencion.calendario')],
                     ['atencion.calendario', 'Calendario de viajes', 'calendar', request()->routeIs('atencion.calendario')],
-                    ['inventario.index', 'Inventario', 'box', request()->is('inventario*') && !$gestionActiva],
+                    ['inventario.operaciones', 'Inventario y almacén', 'box', $inventarioActivo],
                     ['clientes.index', 'Clientes', 'users', request()->is('clientes*')],
                 ];
             @endphp
@@ -41,7 +42,7 @@
             @endforeach
             <div class="menu-gestion">
                 <a href="{{ route('admin.gestion') }}" @class(['activo' => $gestionActiva]) @if ($gestionActiva) aria-current="page" @endif><x-icon name="grid"/><span>Gestión</span>@if ($gestionActiva)<span class="nav-indicador"></span>@endif</a>
-                <p>Equipo, accesos y análisis.</p>
+                <p>Equipo, servicios y accesos.</p>
             </div>
         </nav>
         <div class="sidebar-pie sidebar-pie-simple"><span>THAKI VOYAGE · BOLIVIA</span><small>{{ session('usuario.rol') === 'ADMIN' ? 'Administración' : 'Equipo de trabajo' }}</small></div>
@@ -51,7 +52,7 @@
             <nav class="breadcrumb" aria-label="Ruta de navegación">
                 <a href="{{ route('admin.index') }}"><x-icon name="home"/><span>Panel</span></a>
                 @if ($gestionActiva && !request()->routeIs('admin.gestion'))<span aria-hidden="true">/</span><a href="{{ route('admin.gestion') }}">Gestión</a>@endif
-                @if (request()->is('inventario/*'))<span aria-hidden="true">/</span><a href="{{ route('inventario.index') }}">Inventario</a>@endif
+                @if ($inventarioActivo && !request()->routeIs('inventario.operaciones'))<span aria-hidden="true">/</span><a href="{{ route('inventario.operaciones') }}">Inventario y almacén</a>@endif
                 @if (request()->route('modulo') && ! request()->routeIs(request()->route('modulo').'.index'))<span aria-hidden="true">/</span><a href="{{ route(request()->route('modulo').'.index') }}">{{ config('gestion.'.request()->route('modulo').'.title') }}</a>@endif
                 <span aria-hidden="true">/</span><strong aria-current="page">@yield('titulo', 'Administración')</strong>
             </nav>

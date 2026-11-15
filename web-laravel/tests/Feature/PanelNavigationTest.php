@@ -78,10 +78,10 @@ class PanelNavigationTest extends TestCase
         }
     }
 
-    public function test_herramientas_secundarias_se_alcanzan_desde_gestion_sin_llenar_el_inicio(): void
+    public function test_inventario_tiene_apartado_propio_y_gestion_reune_personal_y_servicios(): void
     {
         $this->prepararApi();
-        $inicio = $this->get('/admin')->assertOk()->assertSeeText('Inventario de un vistazo');
+        $inicio = $this->get('/admin')->assertOk()->assertSeeText('Inventario y almacén')->assertSeeText('Recuento del Excel');
         $this->assertStringNotContainsString('hero-thaki', $inicio->getContent());
         $dom = new \DOMDocument;
         @$dom->loadHTML($inicio->getContent());
@@ -91,9 +91,9 @@ class PanelNavigationTest extends TestCase
         foreach ($menu as $enlace) {
             $destinos[] = parse_url($enlace->getAttribute('href'), PHP_URL_PATH);
         }
-        $this->assertSame(['/admin', '/atencion', '/atencion/calendario', '/inventario', '/clientes', '/admin/gestion'], $destinos);
+        $this->assertSame(['/admin', '/atencion', '/atencion/calendario', '/inventario/operaciones', '/clientes', '/admin/gestion'], $destinos);
         $gestion = $this->get('/admin/gestion')->assertOk();
-        foreach (['personas.index', 'empleados.index', 'cargos.index', 'departamentos.index', 'usuarios.index', 'roles.index', 'inventario.abc', 'io.index'] as $ruta) {
+        foreach (['personas.index', 'empleados.index', 'cargos.index', 'departamentos.index', 'usuarios.index', 'roles.index', 'hoteles.index', 'servicios-transporte.index'] as $ruta) {
             $gestion->assertSee(route($ruta));
         }
     }
@@ -101,7 +101,7 @@ class PanelNavigationTest extends TestCase
     public function test_gestion_permanece_disponible_si_falla_la_api_y_situa_la_seccion_actual(): void
     {
         Http::preventStrayRequests();
-        $this->get('/admin/gestion')->assertOk()->assertSeeText('Personas y equipo')->assertSeeText('Análisis del inventario');
+        $this->get('/admin/gestion')->assertOk()->assertSeeText('Personas y equipo')->assertSeeText('Alojamientos y movilidad')->assertDontSeeText('Vista del viajero');
         Http::assertNothingSent();
         $this->prepararApi();
         $response = $this->get('/empleados')->assertOk();
@@ -121,6 +121,24 @@ class PanelNavigationTest extends TestCase
             $this->get($ruta)->assertStatus(503)->assertSeeText('No pudimos cargar esta sección.')
                 ->assertSeeText('Ir al panel')->assertSeeText('Volver a intentar')
                 ->assertDontSeeText('Aún no hay registros');
+        }
+    }
+
+    public function test_centro_y_gestion_no_incluyen_enlaces_privados_del_cliente(): void
+    {
+        $this->prepararApi();
+        foreach (['ADMIN', 'ADMINISTRATIVO'] as $rol) {
+            foreach (['/admin', '/admin/gestion'] as $ruta) {
+                $respuesta = $this->withSession(['usuario' => ['rol' => $rol]])->get($ruta)->assertOk();
+                $dom = new \DOMDocument;
+                @$dom->loadHTML($respuesta->getContent());
+                $xpath = new \DOMXPath($dom);
+                foreach ($xpath->query('//main//a | //nav[@id="navegacion-admin"]//a') as $link) {
+                    $path = parse_url($link->getAttribute('href'), PHP_URL_PATH) ?? '';
+                    $this->assertFalse(str_starts_with($path, '/mi-viaje'), $path);
+                    $this->assertNotContains($path, ['/alojamientos', '/traslados']);
+                }
+            }
         }
     }
 

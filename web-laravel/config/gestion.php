@@ -101,4 +101,5 @@ return [
         'columns' => [['key' => 'codRol', 'label' => 'Código'], ['key' => 'desRol', 'label' => 'Nombre'], ['key' => 'descripcion', 'label' => 'Descripción']],
         'fields' => ['desRol' => $campo('Nombre del rol', 'required|in:ADMIN,ADMINISTRATIVO,CLIENTE', 'text', ['immutable' => true]), 'descripcion' => $descripcion],
     ],
+    ...require __DIR__.'/catalogos-viaje.php',
 ];

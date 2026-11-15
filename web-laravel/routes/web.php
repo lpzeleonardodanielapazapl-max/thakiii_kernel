@@ -5,6 +5,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AtencionController;
 use App\Http\Controllers\GestionController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\OperacionesInventarioController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PublicoController;
@@ -19,12 +21,17 @@ Route::get('/', [PublicoController::class, 'inicio'])->name('publico.inicio');
 Route::get('/planificar-viaje', [PublicoController::class, 'planificar'])->name('publico.planificar');
 Route::get('/inspiracion/{slug}', [PublicoController::class, 'inspiracion'])->name('publico.inspiracion');
 Route::get('/destinos/{codigo}', [PublicoController::class, 'destino'])->name('publico.destino');
+Route::get('/alojamientos', [OfertaController::class, 'alojamientos'])->name('publico.alojamientos');
+Route::post('/alojamientos/elegir', [OfertaController::class, 'elegirHotel'])->middleware('throttle:20,1,oferta:')->name('publico.alojamientos.elegir');
+Route::get('/traslados', [OfertaController::class, 'transporte'])->name('publico.transporte');
+Route::post('/traslados/elegir', [OfertaController::class, 'elegirTransporte'])->middleware('throttle:20,1,oferta:')->name('publico.transporte.elegir');
+Route::post('/viaje/eleccion/quitar', [OfertaController::class, 'quitar'])->middleware('throttle:20,1,oferta:')->name('publico.eleccion.quitar');
 Route::get('/ingresar', [AccesoController::class, 'ingresar'])->name('acceso.ingresar');
-Route::post('/ingresar', [AccesoController::class, 'autenticar'])->middleware('throttle:8,1')->name('acceso.autenticar');
+Route::post('/ingresar', [AccesoController::class, 'autenticar'])->middleware('throttle:8,1,acceso-ingresar:')->name('acceso.autenticar');
 Route::get('/registro', [AccesoController::class, 'registro'])->name('acceso.registro');
-Route::post('/registro', [AccesoController::class, 'registrar'])->middleware('throttle:5,1')->name('acceso.registrar');
+Route::post('/registro', [AccesoController::class, 'registrar'])->middleware('throttle:5,1,acceso-registrar:')->name('acceso.registrar');
 Route::get('/configurar-administracion', [AccesoController::class, 'configurar'])->name('acceso.configurar');
-Route::post('/configurar-administracion', [AccesoController::class, 'inicializar'])->middleware('throttle:5,1')->name('acceso.inicializar');
+Route::post('/configurar-administracion', [AccesoController::class, 'inicializar'])->middleware('throttle:5,1,acceso-inicializar:')->name('acceso.inicializar');
 Route::post('/salir', [AccesoController::class, 'salir'])->name('acceso.salir');
 
 Route::middleware('sesion:cliente')->prefix('mi-viaje')->name('portal.')->group(function () {
@@ -33,6 +40,7 @@ Route::middleware('sesion:cliente')->prefix('mi-viaje')->name('portal.')->group(
     Route::put('/perfil', [PortalController::class, 'guardarPerfil'])->name('perfil.guardar');
     Route::get('/solicitar', [PortalController::class, 'solicitud'])->name('solicitud');
     Route::post('/solicitudes', [PortalController::class, 'solicitar'])->name('solicitar');
+    Route::post('/preferencias', [PortalController::class, 'guardarBorrador'])->name('borrador');
     Route::get('/mensajes', [PortalController::class, 'mensajes'])->name('mensajes');
     Route::post('/mensajes', [PortalController::class, 'enviar'])->name('mensajes.enviar');
     Route::post('/asignacion', [PortalController::class, 'asignar'])->name('asignar');
@@ -45,7 +53,13 @@ Route::middleware('sesion:cliente')->prefix('mi-viaje')->name('portal.')->group(
 
 Route::middleware('sesion:personal')->group(function () {
 
-    foreach (['personas', 'empleados', 'clientes', 'usuarios', 'cargos', 'departamentos', 'roles'] as $modulo) {
+    Route::get('/inventario/operaciones', [OperacionesInventarioController::class, 'index'])->name('inventario.operaciones');
+    Route::get('/inventario/catalogos', [OperacionesInventarioController::class, 'catalogos'])->name('inventario.catalogos');
+    Route::post('/inventario/catalogos/{tipo}', [OperacionesInventarioController::class, 'guardarCatalogo'])->name('inventario.catalogos.crear');
+    Route::put('/inventario/catalogos/{tipo}/{codigo}', [OperacionesInventarioController::class, 'guardarCatalogo'])->name('inventario.catalogos.editar');
+    Route::get('/inventario/operaciones/documentos/{codigo}', [OperacionesInventarioController::class, 'documento'])->name('inventario.operaciones.documento');
+
+    foreach (['personas', 'empleados', 'clientes', 'usuarios', 'cargos', 'departamentos', 'roles', 'hoteles', 'habitaciones', 'tarifas-hotel', 'vehiculos', 'conductores', 'servicios-transporte'] as $modulo) {
         Route::get('/'.$modulo, [GestionController::class, 'index'])->defaults('modulo', $modulo)->name($modulo.'.index');
         Route::get('/'.$modulo.'/nuevo', [GestionController::class, 'create'])->defaults('modulo', $modulo)->name($modulo.'.create');
         Route::post('/'.$modulo, [GestionController::class, 'store'])->defaults('modulo', $modulo)->name($modulo.'.store');
@@ -142,6 +156,7 @@ Route::middleware('sesion:personal')->group(function () {
 
     Route::get('/atencion', [AtencionController::class, 'index'])->name('atencion.index');
     Route::get('/atencion/calendario', [AtencionController::class, 'calendario'])->name('atencion.calendario');
+    Route::get('/atencion/catalogo', [AtencionController::class, 'catalogo'])->name('atencion.catalogo');
     Route::get('/atencion/conversaciones/{id}', [AtencionController::class, 'conversacion'])->whereNumber('id')->name('atencion.conversacion');
     Route::post('/atencion/conversaciones/{id}/mensajes', [AtencionController::class, 'responder'])->whereNumber('id')->name('atencion.responder');
     Route::get('/atencion/solicitudes/{codigo}', [AtencionController::class, 'solicitud'])->name('atencion.solicitud');

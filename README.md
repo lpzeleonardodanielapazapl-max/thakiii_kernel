@@ -13,36 +13,41 @@ La plataforma reúne dos actividades de la empresa: diseñar viajes a medida seg
 
 ## Arquitectura
 
-Cuando el administrador abre el inventario, Laravel solicita los productos a la API de Quarkus mediante HTTP. Quarkus consulta MySQL y devuelve los resultados en JSON. Laravel usa esos datos para mostrar la tabla en el navegador.
+El navegador solo habla con Laravel. Laravel no abre MySQL: reenvía cada operación a la API de Quarkus. Quarkus valida, aplica las reglas y consulta la base.
 
 | Componente | Tecnología | Responsabilidad |
 |---|---|---|
-| Interfaz web y BFF | Laravel, PHP 8.5 y Blade | Gestiona las vistas y las solicitudes del navegador. Consume la API sin conectarse directamente a MySQL. |
-| API REST | Quarkus y Java 21 | Valida los datos de entrada, ejecuta las reglas de negocio y controla las transacciones. |
-| Base de datos | MySQL 8.0 | El esquema `thaki_modificado` almacena productos, unidades físicas, precios, personas y demás registros del proyecto. |
+| Interfaz web | Laravel, PHP 8.3+ y Blade | Vistas, sesión del navegador y llamadas a la API. |
+| API REST | Quarkus 3 y Java 25 | Acceso, viajes, inventario y catálogo. |
+| Base de datos | MySQL 8.0, esquema `thaki_modificado` | Personas, viajes, hoteles, traslados, inventario y sesiones. |
 
-## Funcionalidades implementadas
+La contraseña de MySQL no va en `application.properties`. Quarkus la lee de `thaki-voyage-backend/.env` (`THAKI_DB_PASSWORD`). Hay un ejemplo en `.env.example`. Laravel usa `QUARKUS_URL` (por defecto `http://localhost:8080`).
 
-- **Panel administrativo:** muestra productos activos, unidades registradas, equipos pendientes de arreglo y unidades dadas de baja.
-- **Inventario:** permite registrar productos y consultar sus cantidades. Un mismo producto, como el botellón de oxígeno portátil, agrupa varias unidades físicas, cada una identificada con su propio código, por ejemplo, `BOP1` y `BOP2`.
+## Funcionalidades
 
+- **Sitio público:** inspiración, destinos, alojamientos y traslados. El visitante puede elegir una habitación o un servicio antes de crear su cuenta.
+- **Portal del cliente:** perfil, solicitud de viaje, chat con el asesor, propuestas, aceptación y solicitud de cancelación. La elección de hotel o traslado queda en la solicitud con el precio vigente del catálogo.
+- **Personal:** atención (propuestas, calendario, pagos), inventario con unidades físicas, clasificación ABC, reposición y el directorio de personas, empleados, clientes, usuarios y roles.
+- **Sesión:** token opaco guardado solo como hash, con caducidad de 8 horas. Las contraseñas usan PBKDF2.
 
+## Pendiente
 
-## Funcionalidades previstas
+Inicio de sesión con Google, correo de confirmación y permisos finos por módulo. El anticipo del 50 % se coordina con el asesor; esta web no cobra en línea.
 
-El cliente podrá iniciar sesión con Google y conversar con su asesor asignado para definir un itinerario con hospedaje, transporte y alimentación. Cuando el cliente acepte la propuesta, el asesor registrará la aceptación. El anticipo obligatorio será del 50 %; una vez verificado el pago, se enviará el correo de confirmación. El saldo se pagará al llegar a Bolivia.
+## Arranque local
 
-En inventario, el siguiente paso es registrar unidades físicas desde la web y controlar sus salidas y recepciones por código individual. Al recibir cada equipo se registrarán la fecha y su condición.
-
-## Accesos en desarrollo local
-
-Con Laravel y Quarkus en ejecución y MySQL configurado:
+1. Crear la base con `thaki.sql`. **Atención: este script elimina y recrea `thaki_modificado`, borrando todos sus datos. Úsalo solo para una instalación nueva o después de respaldar la base.** Si la base ya existe y solo faltan hoteles y traslados, ejecutar `datos-hospedaje.sql`.
+2. Copiar `thaki-voyage-backend/.env.example` a `.env` y completar `THAKI_DB_PASSWORD`. Luego `./mvnw quarkus:dev`.
+3. En `web-laravel`, copiar `.env.example` a `.env`, generar la clave y dejar `QUARKUS_URL=http://localhost:8080`. Luego `php artisan serve`.
 
 | Recurso | Dirección |
 |---|---|
-| Panel administrativo | http://localhost:8000/admin |
-| Inventario de equipos | http://localhost:8000/inventario |
-| Clasificación ABC | http://localhost:8000/inventario/abc |
-| API de productos | http://localhost:8080/api/inventario/productos |
+| Sitio público | http://localhost:8000 |
+| Alojamientos | http://localhost:8000/alojamientos |
+| Traslados | http://localhost:8000/traslados |
+| Portal del cliente | http://localhost:8000/mi-viaje |
+| Panel del personal | http://localhost:8000/admin |
+| Inventario | http://localhost:8000/inventario |
+| Salud de la API | http://localhost:8080/api/v1/health/ping |
 
-El código web se encuentra en `web-laravel/` y el de la API en `thaki-voyage-backend/`.
+El código web está en `web-laravel/` y la API en `thaki-voyage-backend/`.

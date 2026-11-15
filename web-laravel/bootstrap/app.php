@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\RegistrarActividad;
 use App\Http\Middleware\SesionPrivada;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->append(RegistrarActividad::class);
         $middleware->alias(['sesion' => SesionPrivada::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

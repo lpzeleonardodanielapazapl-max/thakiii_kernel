@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PortalController extends Controller
@@ -73,6 +74,10 @@ class PortalController extends Controller
             'moneda' => ['required', 'in:BOB,USD,EUR'], 'destinos' => ['nullable', 'string', 'max:200'],
             'intereses' => ['required', 'string', 'max:4000'], 'hotel' => ['nullable', 'string', 'max:200'],
             'alimentacion' => ['nullable', 'string', 'max:200'], 'transporte' => ['nullable', 'string', 'max:200'],
+            'hotelCodigo' => ['nullable', 'string', 'max:20'], 'habitacionCodigo' => ['nullable', 'string', 'max:20'],
+            'transporteCodigo' => ['nullable', 'string', 'max:20'],
+            'tipoHotel' => ['nullable', Rule::in(config('publico.tiposHotel'))],
+            'tipoTransporte' => ['nullable', Rule::in(config('publico.tiposTransporte'))],
         ]);
         $datos['personas'] = (int) $datos['personas'];
         $perfil = $this->consultarApi('GET', '/api/cliente/perfil');
@@ -94,6 +99,24 @@ class PortalController extends Controller
         $this->consultarApi('POST', '/api/cliente/mensajes', $datos);
 
         return back()->with('exito', 'Mensaje enviado a tu asesor.');
+    }
+
+    public function guardarBorrador(Request $request): RedirectResponse
+    {
+        $datos = $request->validate([
+            'catalogo' => ['required', 'in:hotel,transporte'],
+            'fechaInicio' => ['nullable', 'date_format:Y-m-d'], 'fechaFin' => ['nullable', 'date_format:Y-m-d'],
+            'personas' => ['nullable', 'integer', 'min:1', 'max:1000'], 'presupuesto' => ['nullable', 'numeric', 'min:0', 'max:9999999999.99', 'decimal:0,2'],
+            'moneda' => ['nullable', 'in:BOB,USD,EUR'], 'destinos' => ['nullable', 'string', 'max:200'], 'intereses' => ['nullable', 'string', 'max:4000'],
+            'hotel' => ['nullable', 'string', 'max:200'], 'alimentacion' => ['nullable', 'string', 'max:200'], 'transporte' => ['nullable', 'string', 'max:200'],
+            'hotelCodigo' => ['nullable', 'string', 'max:20'], 'habitacionCodigo' => ['nullable', 'string', 'max:20'], 'transporteCodigo' => ['nullable', 'string', 'max:20'],
+            'tipoHotel' => ['nullable', Rule::in(config('publico.tiposHotel'))], 'tipoTransporte' => ['nullable', Rule::in(config('publico.tiposTransporte'))],
+        ]);
+        $ruta = $datos['catalogo'] === 'hotel' ? 'publico.alojamientos' : 'publico.transporte';
+        unset($datos['catalogo']);
+        $request->session()->put('viaje_borrador', [...$request->session()->get('viaje_borrador', []), ...$datos]);
+
+        return redirect()->route($ruta);
     }
 
     public function asignar(): RedirectResponse

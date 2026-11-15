@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'tiposHotel' => ['Económico', 'Turista / 3 estrellas', 'Superior / 4 estrellas', 'Lujo / 5 estrellas', 'Lodge o refugio'],
+    'tiposTransporte' => ['Privado', 'Compartido', 'Turístico', 'Fluvial', 'Aéreo'],
     'inspiraciones' => [
         'uyuni' => ['nombre' => 'Salar de Uyuni', 'region' => 'ALTIPLANO', 'imagen' => 'uyuni.jpg', 'descripcion' => 'Horizontes de sal y paisajes que cambian con la luz. Una idea para comenzar a diseñar tu ruta.'],
         'la-paz' => ['nombre' => 'La Paz y sus caminos', 'region' => 'CULTURA & MONTAÑA', 'imagen' => 'la-paz.jpg', 'descripcion' => 'Descubre la ciudad entre montañas y conversa con tu asesor sobre las experiencias que te interesan.'],

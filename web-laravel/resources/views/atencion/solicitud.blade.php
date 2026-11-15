@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('titulo', 'Solicitud de viaje')
+@push('scripts')<script src="{{ asset('js/catalogo-itinerario.js') }}?v={{ filemtime(public_path('js/catalogo-itinerario.js')) }}" defer></script>@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/catalogo-itinerario.css') }}?v={{ filemtime(public_path('css/catalogo-itinerario.css')) }}" media="screen">@endpush
 @section('contenido')
 @php
     $aceptada = collect($solicitud['propuestas'])->contains('estado', 'ACEPTADA');
@@ -69,7 +71,8 @@
     </div>
     <aside class="atencion-columna">
         <section class="panel"><span class="sobre-titulo">LO QUE BUSCA EL VIAJERO</span><h2>Preferencias del cliente</h2><h3>Intereses y detalles</h3><p class="atencion-texto">{{ $solicitud['intereses'] }}</p>
-        @foreach($solicitud['preferencias'] as $pref)<div class="atencion-caja"><h3>{{ ['HOTEL' => 'Alojamiento', 'ALIMENTACION' => 'Alimentación', 'TRANSPORTE' => 'Transporte'][$pref['tipo']] ?? ucfirst(mb_strtolower($pref['tipo'])) }}</h3><p class="atencion-texto">{{ $pref['valor'] }}</p></div>@endforeach</section>
+        @foreach($solicitud['preferencias'] as $pref)<div class="atencion-caja"><h3>{{ ['HOTEL' => 'Alojamiento', 'HOTEL_TIPO' => 'Tipo de alojamiento deseado', 'ALIMENTACION' => 'Alimentación', 'TRANSPORTE' => 'Transporte', 'TRANSPORTE_TIPO' => 'Tipo de traslado deseado'][$pref['tipo']] ?? ucfirst(mb_strtolower($pref['tipo'])) }}</h3><p class="atencion-texto">{{ $pref['valor'] }}</p></div>@endforeach</section>
+        <section class="panel"><span class="sobre-titulo">OPCIONES PARA SU VIAJE</span><h2>Catálogos del equipo</h2><p class="atencion-ayuda">Dentro de cada día puedes incluir alojamientos y traslados del catálogo en los servicios de la propuesta.</p><div class="acciones-viaje"><a class="enlace-registro" href="{{ route('hoteles.index') }}" target="_blank" rel="noopener">Gestionar alojamientos ↗</a><a class="enlace-registro" href="{{ route('servicios-transporte.index') }}" target="_blank" rel="noopener">Gestionar traslados ↗</a><a class="enlace-registro" href="{{ route('vehiculos.index') }}" target="_blank" rel="noopener">Gestionar vehículos ↗</a><a class="enlace-registro" href="{{ route('empleados.index') }}" target="_blank" rel="noopener">Gestionar personal ↗</a></div></section>
         @if(count($solicitud['reservas']))<section class="panel"><span class="sobre-titulo">CONTINUAR LA ATENCIÓN</span><h2>Reservas vinculadas</h2>@foreach($solicitud['reservas'] as $r)<div class="atencion-caja"><x-viaje-estado :value="$r['estado']"/><p class="atencion-ayuda"><x-print-value :value="$r['total']" type="money" :currency="$r['moneda']"/></p><a class="enlace-registro" href="{{ route('atencion.reserva', $r['codigo']) }}">Revisar pagos y reserva ↗</a><small class="referencia-viaje">{{ $r['codigo'] }}</small></div>@endforeach</section>@endif
     </aside>
 </div>

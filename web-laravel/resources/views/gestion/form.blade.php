@@ -46,7 +46,7 @@
                                     @foreach ($opciones as $codigo => $etiqueta)<option value="{{ $codigo }}" @selected((string) $valor === (string) $codigo)>{{ $etiqueta }}</option>@endforeach
                                 </select>
                                 @if (isset($campo['catalogo']) && empty($opciones))<small class="campo-error">No hay registros disponibles. Registra primero {{ $campo['catalogo'] }} desde su apartado.</small>@endif
-                                @if ($readonly)<small>La persona vinculada se conserva. Puedes editar sus datos desde Personas.</small>@endif
+                                @if ($readonly)<small>El vínculo con este registro se conserva. Sus datos se pueden editar desde el apartado correspondiente.</small>@endif
                             @elseif ($campo['type'] === 'textarea')
                                 <textarea id="{{ $nombre }}" name="{{ $nombre }}" rows="4" maxlength="{{ $maxLength }}" @required($required)>{{ $valor }}</textarea>
                             @else

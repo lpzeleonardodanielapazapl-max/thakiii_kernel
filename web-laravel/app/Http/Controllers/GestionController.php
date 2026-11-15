@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response as ClientResponse;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -31,6 +33,14 @@ class GestionController extends Controller
         return Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))->acceptJson()->timeout(15);
     }
 
+    private function exigir(ClientResponse $respuesta): void
+    {
+        if ($respuesta->status() === 401) {
+            session()->forget(['api_token', 'usuario']);
+            throw new HttpResponseException(redirect()->route('acceso.ingresar')->withErrors(['acceso' => 'Tu sesión terminó. Vuelve a ingresar.']));
+        }
+    }
+
     private function endpoint(string $modulo, ?string $codigo = null): string
     {
         return '/api/v1/'.$modulo.($codigo === null ? '' : '/'.rawurlencode($codigo));
@@ -39,6 +49,7 @@ class GestionController extends Controller
     private function registro(Request $request, array $meta): array
     {
         $respuesta = $this->api()->get($this->endpoint($meta['modulo'], $request->route('codigo')));
+        $this->exigir($respuesta);
         abort_if($respuesta->status() === 404, 404, 'Registro no encontrado.');
 
         return $respuesta->throw()->json();
@@ -48,12 +59,28 @@ class GestionController extends Controller
     {
         $catalogos = [];
         foreach (array_unique(array_column($meta['fields'], 'catalogo')) as $modulo) {
-            $lista = $this->api()->get($this->endpoint($modulo))->throw()->json();
+            $respuesta = $this->api()->get($this->endpoint($modulo));
+            $this->exigir($respuesta);
+            $lista = $respuesta->throw()->json();
+            $contexto = [];
+            if (in_array($modulo, ['habitaciones', 'empleados'], true)) {
+                $relacion = $modulo === 'habitaciones' ? 'hoteles' : 'personas';
+                $relacionRespuesta = $this->api()->get($this->endpoint($relacion));
+                $this->exigir($relacionRespuesta);
+                $contexto = collect($relacionRespuesta->throw()->json())->keyBy(config('gestion.'.$relacion.'.key'))->all();
+            }
             $clave = config('gestion.'.$modulo.'.key');
             foreach ($lista as $registro) {
                 $label = $modulo === 'personas'
                     ? trim($registro['nombres'].' '.$registro['apellidos']).' · '.$registro[$clave]
                     : ($registro[config('gestion.'.$modulo.'.labelKey')] ?? $registro[$clave]);
+                if ($modulo === 'habitaciones') {
+                    $label .= ' · '.($contexto[$registro['codHotel']]['nombre'] ?? $registro['codHotel']);
+                }
+                if ($modulo === 'empleados') {
+                    $persona = $contexto[$registro['codPersona']] ?? [];
+                    $label = trim(($persona['nombres'] ?? '').' '.($persona['apellidos'] ?? '')).' · '.$registro[$clave];
+                }
                 $catalogos[$modulo][$registro[$clave]] = $label;
             }
             $catalogos[$modulo] ??= [];
@@ -65,10 +92,12 @@ class GestionController extends Controller
     public function index(Request $request): View
     {
         $meta = $this->meta($request);
-        $registros = $this->api()->get($this->endpoint($meta['modulo']))->throw()->json();
+        $respuesta = $this->api()->get($this->endpoint($meta['modulo']));
+        $this->exigir($respuesta);
+        $registros = $respuesta->throw()->json();
         $catalogos = $this->catalogos($meta);
         foreach ($registros as &$registro) {
-            foreach (['codPersona' => ['personas', '_persona'], 'codCargo' => ['cargos', '_cargo'], 'codDep' => ['departamentos', '_departamento'], 'codRol' => ['roles', '_rol']] as $campo => [$catalogo, $destino]) {
+            foreach (['codPersona' => ['personas', '_persona'], 'codCargo' => ['cargos', '_cargo'], 'codDep' => ['departamentos', '_departamento'], 'codRol' => ['roles', '_rol'], 'codHotel' => ['hoteles', '_hotel'], 'codTipoHab' => ['habitaciones', '_habitacion'], 'codEmpleado' => ['empleados', '_empleado']] as $campo => [$catalogo, $destino]) {
                 $registro[$destino] = $catalogos[$catalogo][$registro[$campo] ?? ''] ?? ($registro[$campo] ?? null);
             }
         }
@@ -145,6 +174,7 @@ class GestionController extends Controller
 
         try {
             $respuesta = $this->api()->send($editing ? 'PUT' : 'POST', $this->endpoint($meta['modulo'], $editing ? $request->route('codigo') : null), ['json' => $datos]);
+            $this->exigir($respuesta);
             if (in_array($respuesta->status(), [400, 409, 422], true)) {
                 return $this->rechazado($request, $respuesta->json('mensaje') ?? $respuesta->json('error') ?? 'Revisa los datos del formulario.');
             }
@@ -170,6 +200,7 @@ class GestionController extends Controller
         $request->validate(['confirmar' => ['accepted']]);
         try {
             $respuesta = $this->api()->delete($this->endpoint($meta['modulo'], $request->route('codigo')));
+            $this->exigir($respuesta);
             if ($respuesta->status() === 409) {
                 return $this->rechazado($request, $respuesta->json('mensaje') ?? $respuesta->json('error') ?? 'El registro tiene información vinculada y no puede eliminarse.');
             }

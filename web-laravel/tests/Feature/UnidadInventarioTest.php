@@ -27,6 +27,24 @@ class UnidadInventarioTest extends TestCase
         ];
     }
 
+    public function test_sesion_expirada_en_la_api_redirige_al_acceso_y_limpia_la_sesion(): void
+    {
+        Http::fake(['*/unidades' => Http::response(['mensaje' => 'Sesión terminada.'], 401)]);
+
+        $this->withSession(['api_token' => 'expirado', 'usuario' => ['rol' => 'ADMIN']])
+            ->get('/inventario/PRO-1/unidades')
+            ->assertRedirect(route('acceso.ingresar'))
+            ->assertSessionMissing('api_token')->assertSessionMissing('usuario');
+    }
+
+    public function test_rechazo_de_permisos_no_se_presenta_como_caida_del_servicio(): void
+    {
+        Http::fake(['*/unidades' => Http::response(['mensaje' => 'Sin permiso.'], 403)]);
+
+        $this->get('/inventario/PRO-1/unidades')->assertForbidden();
+        $this->post('/inventario/PRO-1/unidades', $this->datos())->assertForbidden();
+    }
+
     private function ficha(): array
     {
         return [

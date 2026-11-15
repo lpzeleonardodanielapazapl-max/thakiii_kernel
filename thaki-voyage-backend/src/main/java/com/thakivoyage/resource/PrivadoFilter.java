@@ -21,11 +21,13 @@ public class PrivadoFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext request) {
         String path = request.getUriInfo().getPath().replaceFirst("^/", "");
+        if (path.equals("api/v1/health/ping") && Set.of("GET", "HEAD").contains(request.getMethod())) return;
         if (!path.startsWith("api/") || path.startsWith("api/publico/")
             || Set.of("api/acceso/ingresar", "api/acceso/registrar", "api/acceso/configuracion", "api/acceso/inicializar", "api/docs").contains(path)
             || request.getMethod().equals("OPTIONS")) return;
         try {
             var identity = acceso.autenticar(request.getHeaderString("Authorization"));
+            request.setProperty("thaki.identidad", identity);
             boolean cliente = identity.rol().equals("CLIENTE");
             if (path.startsWith("api/cliente/")) {
                 if (!cliente) throw new jakarta.ws.rs.ForbiddenException("Este espacio corresponde a clientes.");
@@ -35,9 +37,9 @@ public class PrivadoFilter implements ContainerRequestFilter {
             if (!request.getMethod().equals("GET") && (path.startsWith("api/v1/usuarios") || path.startsWith("api/v1/roles")) && !identity.rol().equals("ADMIN")) {
                 throw new jakarta.ws.rs.ForbiddenException("Esta operación requiere un administrador.");
             }
-            request.setProperty("thaki.identidad", identity);
         } catch (WebApplicationException e) {
-            request.abortWith(Response.status(e.getResponse().getStatus()).type(MediaType.APPLICATION_JSON).entity(Map.of("mensaje", e.getMessage())).build());
+            request.abortWith(Response.fromResponse(e.getResponse()).type(MediaType.APPLICATION_JSON)
+                .entity(Map.of("mensaje", e.getMessage() == null ? "No tienes acceso a este recurso." : e.getMessage())).build());
         }
     }
 }

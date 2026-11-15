@@ -1,0 +1,1105 @@
+{
+    "checks": 183,
+    "passed": 183,
+    "failed": 0,
+    "results": [
+        {
+            "database": "thaki_modificado",
+            "check": "actividad_cliente.fk_act_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "actividad_cliente.fk_act_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "almacen.fk_almacen_resp",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "archivo.fk_arch_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "asignacion_asesor.fk_asig_ase",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "asignacion_asesor.fk_asig_cli",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "auditoria.fk_aud_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "clase_producto.fk_clase_padre",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "cliente.fk_cliente_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "conductor.fk_conductor_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "conversacion.fk_conv_asesor",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "conversacion.fk_conv_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "conversacion_participante.fk_cp_conversacion",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "conversacion_participante.fk_cp_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "destino.fk_destino_categoria",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "destino_actividad.fk_dact_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "destino_historia.fk_dhist_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "destino_imagen.fk_dimg_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "destino_itinerario.fk_dit_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "documento_detalle.fk_docD_doc",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "documento_detalle.fk_docD_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "documento_detalle.fk_docD_unidad",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "documento_inventario.fk_doc_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "empleado.fk_empleado_cargo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "empleado.fk_empleado_dep",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "empleado.fk_empleado_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "hotel.fk_hotel_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "hotel_tarifa.fk_htarifa_tipo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "hotel_tipo_habitacion.fk_htipo_hotel",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "inventario_stock.fk_invS_almacen",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "inventario_stock.fk_invS_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "inventario_unidad.fk_invU_almacen",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "inventario_unidad.fk_invU_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "log_acceso.fk_log_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "mensaje.fk_msg_conversacion",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "mensaje.fk_msg_remitente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "mensaje_adjunto.fk_adj_mensaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "mensaje_lectura.fk_ml_mensaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "mensaje_lectura.fk_ml_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "movimiento_detalle.fk_movD_mov",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "movimiento_detalle.fk_movD_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "movimiento_detalle.fk_movD_unidad",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "movimiento_inventario.fk_mov_almacen_d",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "movimiento_inventario.fk_mov_almacen_o",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "movimiento_inventario.fk_mov_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "notificacion.fk_notif_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "pago.fk_pago_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "precio.fk_precio_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "prestamo_concesion.fk_prestamo_doc",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "prestamo_concesion.fk_prestamo_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "prestamo_concesion.fk_prestamo_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "prestamo_detalle.fk_pd_prestamo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "prestamo_detalle.fk_pd_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "prestamo_detalle.fk_pd_unidad",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "producto.fk_producto_clase",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "producto.fk_producto_marca",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "producto.fk_producto_um",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "propuesta_aprobacion.fk_propa_propuesta",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "propuesta_detalle.fk_propd_propuesta",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "propuesta_viaje.fk_prop_solicitud",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva.fk_reserva_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_hotel.fk_rHotel_hotel",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_hotel.fk_rHotel_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_hotel_detalle.fk_rHD_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_hotel_detalle.fk_rHD_tipo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_pasajero.fk_rp_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_pasajero.fk_rp_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_transporte.fk_rTrans_conductor",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_transporte.fk_rTrans_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_transporte.fk_rTrans_servicio",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "reserva_transporte.fk_rTrans_vehiculo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "rol_permiso.fk_rp_permiso",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "rol_permiso.fk_rp_rol",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "sesion.fk_sesion_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "solicitud_destino.fk_sold_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "solicitud_destino.fk_sold_solicitud",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "solicitud_preferencia.fk_solp_solicitud",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "solicitud_viaje.fk_solv_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "testimonio.fk_test_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "token_recuperacion.fk_token_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "usuario.fk_usuario_rol",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "usuario_auth.fk_uath_provider",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "usuario_auth.fk_uath_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "viaje_cliente_historial.fk_vch_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "viaje_cliente_historial.fk_vch_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "viaje_cliente_historial.fk_vch_viaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "viaje_confirmado.fk_vc_propuesta",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "viaje_confirmado.fk_vc_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_modificado",
+            "check": "viaje_servicio.fk_vs_viaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "actividad_cliente.fk_act_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "actividad_cliente.fk_act_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "almacen.fk_almacen_resp",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "archivo.fk_arch_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "asignacion_asesor.fk_asig_ase",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "asignacion_asesor.fk_asig_cli",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "auditoria.fk_aud_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "clase_producto.fk_clase_padre",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "cliente.fk_cliente_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "conductor.fk_conductor_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "conversacion.fk_conv_asesor",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "conversacion.fk_conv_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "conversacion_participante.fk_cp_conversacion",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "conversacion_participante.fk_cp_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "destino.fk_destino_categoria",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "destino_actividad.fk_dact_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "destino_historia.fk_dhist_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "destino_imagen.fk_dimg_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "destino_itinerario.fk_dit_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "documento_detalle.fk_docD_doc",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "documento_detalle.fk_docD_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "documento_detalle.fk_docD_unidad",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "documento_inventario.fk_doc_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "empleado.fk_empleado_cargo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "empleado.fk_empleado_dep",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "empleado.fk_empleado_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "hotel.fk_hotel_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "hotel_tarifa.fk_htarifa_tipo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "hotel_tipo_habitacion.fk_htipo_hotel",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "inventario_stock.fk_invS_almacen",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "inventario_stock.fk_invS_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "inventario_unidad.fk_invU_almacen",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "inventario_unidad.fk_invU_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "log_acceso.fk_log_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "mensaje.fk_msg_conversacion",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "mensaje.fk_msg_remitente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "mensaje_adjunto.fk_adj_mensaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "mensaje_lectura.fk_ml_mensaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "mensaje_lectura.fk_ml_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "movimiento_detalle.fk_movD_mov",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "movimiento_detalle.fk_movD_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "movimiento_detalle.fk_movD_unidad",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "movimiento_inventario.fk_mov_almacen_d",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "movimiento_inventario.fk_mov_almacen_o",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "movimiento_inventario.fk_mov_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "notificacion.fk_notif_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "pago.fk_pago_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "precio.fk_precio_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "prestamo_concesion.fk_prestamo_doc",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "prestamo_concesion.fk_prestamo_empleado",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "prestamo_concesion.fk_prestamo_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "prestamo_detalle.fk_pd_prestamo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "prestamo_detalle.fk_pd_producto",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "prestamo_detalle.fk_pd_unidad",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "producto.fk_producto_clase",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "producto.fk_producto_marca",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "producto.fk_producto_um",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "propuesta_aprobacion.fk_propa_propuesta",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "propuesta_detalle.fk_propd_propuesta",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "propuesta_viaje.fk_prop_solicitud",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva.fk_reserva_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_hotel.fk_rHotel_hotel",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_hotel.fk_rHotel_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_hotel_detalle.fk_rHD_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_hotel_detalle.fk_rHD_tipo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_pasajero.fk_rp_persona",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_pasajero.fk_rp_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_transporte.fk_rTrans_conductor",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_transporte.fk_rTrans_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_transporte.fk_rTrans_servicio",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "reserva_transporte.fk_rTrans_vehiculo",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "rol_permiso.fk_rp_permiso",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "rol_permiso.fk_rp_rol",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "sesion.fk_sesion_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "solicitud_destino.fk_sold_destino",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "solicitud_destino.fk_sold_solicitud",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "solicitud_preferencia.fk_solp_solicitud",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "solicitud_viaje.fk_solv_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "testimonio.fk_test_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "token_recuperacion.fk_token_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "usuario.fk_usuario_rol",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "usuario_auth.fk_uath_provider",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "usuario_auth.fk_uath_usuario",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "viaje_cliente_historial.fk_vch_cliente",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "viaje_cliente_historial.fk_vch_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "viaje_cliente_historial.fk_vch_viaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "viaje_confirmado.fk_vc_propuesta",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "viaje_confirmado.fk_vc_reserva",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "viaje_servicio.fk_vs_viaje",
+            "passed": true,
+            "orphan_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "Tokens guardados exclusivamente como hashes SHA-256",
+            "passed": true,
+            "invalid_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "Importes válidos en todos los pagos sintéticos",
+            "passed": true,
+            "invalid_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "Los pagos rechazados no incrementaron el total de reservas",
+            "passed": true,
+            "invalid_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "Cada reserva del recorrido terminó cancelada",
+            "passed": true,
+            "invalid_rows": 0
+        },
+        {
+            "database": "thaki_revision_20261114_023959",
+            "check": "Los catálogos producen auditoría persistida",
+            "passed": true,
+            "audit_events": 24
+        }
+    ]
+}

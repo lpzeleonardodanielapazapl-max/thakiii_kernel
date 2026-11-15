@@ -3,22 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class UnidadInventarioController extends Controller
 {
-    public function edit(string $codigo, string $id): View
+    use UsaApiPrivada;
+
+    public function edit(string $codigo, string $id): View|RedirectResponse
     {
-        $respuesta = $this->api()->get($this->endpoint($codigo).'/'.rawurlencode($id));
-        abort_if($respuesta->status() === 404, 404, 'Unidad no encontrada.');
-        $unidad = $respuesta->throw()->json();
-        $ficha = $this->api()->get($this->endpoint($codigo))->throw()->json();
+        $unidad = $this->consultarApi('GET', $this->endpoint($codigo).'/'.rawurlencode($id));
+        $ficha = $this->consultarApi('GET', $this->endpoint($codigo));
 
         return view('inventario.editar-unidad', [...$ficha, 'unidad' => $unidad]);
     }
@@ -27,8 +25,8 @@ class UnidadInventarioController extends Controller
     {
         $datos = $request->validate([
             'codigoUnico' => ['required', 'string', 'max:50'], 'codAlmacen' => ['required', 'string', 'max:20'],
-            'estadoFisico' => ['required', 'string', 'max:20'], 'calificacion' => ['nullable', 'integer', 'min:0', 'max:2147483647'],
-            'fechaAlta' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
+            'estadoFisico' => ['required', 'string', 'max:20'], 'calificacion' => ['nullable', 'integer', 'between:1,10'],
+            'fechaAlta' => ['nullable', 'date_format:Y-m-d', 'before_or_equal:today'],
             'observaciones' => ['nullable', 'string', 'max:2000'],
             'requiereArreglo' => ['sometimes', 'boolean'], 'requiereCambio' => ['sometimes', 'boolean'], 'requiereBaja' => ['sometimes', 'boolean'],
         ]);
@@ -37,12 +35,7 @@ class UnidadInventarioController extends Controller
         }
         $datos['calificacion'] = isset($datos['calificacion']) ? (int) $datos['calificacion'] : null;
         try {
-            $respuesta = $this->api()->put($this->endpoint($codigo).'/'.rawurlencode($id), $datos);
-            abort_if($respuesta->status() === 404, 404, 'Unidad no encontrada.');
-            if (in_array($respuesta->status(), [400, 409, 422], true)) {
-                return back()->withInput()->withErrors(['api' => $respuesta->json('mensaje') ?? 'Revisa los datos de la unidad.']);
-            }
-            $respuesta->throw();
+            $this->consultarApi('PUT', $this->endpoint($codigo).'/'.rawurlencode($id), $datos);
 
             return redirect()->route('inventario.unidades', ['codigo' => $codigo])->with('exito', 'Condición y detalles de la unidad actualizados.');
         } catch (ConnectionException|RequestException $e) {
@@ -50,13 +43,6 @@ class UnidadInventarioController extends Controller
 
             return back()->withInput()->withErrors(['api' => 'No pudimos confirmar los cambios. Consulta la unidad antes de volver a enviarlos.']);
         }
-    }
-
-    private function api(): PendingRequest
-    {
-        return Http::baseUrl(config('services.quarkus.url'))->withToken((string) session('api_token', ''))
-            ->acceptJson()
-            ->timeout(15);
     }
 
     private function endpoint(string $codigo): string
@@ -67,10 +53,7 @@ class UnidadInventarioController extends Controller
     public function index(string $codigo): Response
     {
         try {
-            $respuesta = $this->api()->get($this->endpoint($codigo));
-            abort_if($respuesta->status() === 404, 404, 'Producto no encontrado.');
-            $respuesta->throw();
-            $ficha = $respuesta->json();
+            $ficha = $this->consultarApi('GET', $this->endpoint($codigo));
 
             if (! is_array($ficha) || ! is_array($ficha['producto'] ?? null)
                 || ! is_array($ficha['unidades'] ?? null) || ! is_array($ficha['almacenes'] ?? null)) {
@@ -96,7 +79,7 @@ class UnidadInventarioController extends Controller
             'codigoUnico' => ['required', 'string', 'max:50'],
             'codAlmacen' => ['required', 'string', 'max:20'],
             'estadoFisico' => ['required', 'string', 'max:20'],
-            'calificacion' => ['nullable', 'integer', 'min:0', 'max:2147483647'],
+            'calificacion' => ['nullable', 'integer', 'between:1,10'],
             'fechaAlta' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
             'requiereArreglo' => ['sometimes', 'boolean'],
             'requiereCambio' => ['sometimes', 'boolean'],
@@ -110,16 +93,7 @@ class UnidadInventarioController extends Controller
         $datos['calificacion'] = isset($datos['calificacion']) ? (int) $datos['calificacion'] : null;
 
         try {
-            $respuesta = $this->api()->post($this->endpoint($codigo), $datos);
-            abort_if($respuesta->status() === 404, 404, 'Producto no encontrado.');
-
-            if (in_array($respuesta->status(), [409, 422], true)) {
-                return back()->withInput()->withErrors([
-                    'api' => $respuesta->json('mensaje') ?? 'Revisa los datos de la unidad.',
-                ]);
-            }
-
-            $respuesta->throw();
+            $this->consultarApi('POST', $this->endpoint($codigo), $datos);
 
             return redirect()->route('inventario.unidades', ['codigo' => $codigo])
                 ->with('exito', 'Unidad registrada: '.$datos['codigoUnico'].'.');

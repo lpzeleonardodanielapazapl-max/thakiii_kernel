@@ -75,8 +75,10 @@ public class UnidadInventarioService {
 
     @Transactional
     public Unidad actualizar(String codigo, long id, UnidadRequest solicitud) {
+        entityManager.createNativeQuery("SELECT id_unidad FROM inventario_unidad WHERE id_unidad = :id AND cod_pro = :producto FOR UPDATE")
+            .setParameter("id", id).setParameter("producto", codigo).getResultList();
         Unidad actual = consultarUnidad(codigo, id);
-        UnidadRequest datos = validar(solicitud);
+        UnidadRequest datos = validar(solicitud, false);
         if (actual.fechaBaja() != null) throw new BadRequestException("La unidad tiene una baja registrada y su historial se conserva sin cambios.");
         if (actual.codigoUnico() != null && !actual.codigoUnico().equals(datos.codigoUnico())) throw new BadRequestException("El código único ya asignado no puede cambiarse.");
         if (actual.codAlmacen() != null && !actual.codAlmacen().equals(datos.codAlmacen())) throw new BadRequestException("El almacén no se cambia mediante la edición de condición.");
@@ -114,14 +116,18 @@ public class UnidadInventarioService {
     }
 
     static UnidadRequest validar(UnidadRequest datos) {
+        return validar(datos,true);
+    }
+
+    private static UnidadRequest validar(UnidadRequest datos, boolean fechaObligatoria) {
         if (datos == null) {
             throw new BadRequestException("Debes enviar los datos de la unidad.");
         }
-        if (datos.fechaAlta() == null || datos.fechaAlta().isAfter(LocalDate.now())) {
+        if (fechaObligatoria && datos.fechaAlta() == null || datos.fechaAlta() != null && datos.fechaAlta().isAfter(LocalDate.now())) {
             throw new BadRequestException("La fecha de alta es obligatoria y no puede ser futura.");
         }
-        if (datos.calificacion() != null && datos.calificacion() < 0) {
-            throw new BadRequestException("La calificación no puede ser negativa.");
+        if (datos.calificacion() != null && (datos.calificacion() < 1 || datos.calificacion() > 10)) {
+            throw new BadRequestException("La calificación debe estar entre 1 y 10.");
         }
         return new UnidadRequest(texto(datos.codigoUnico(), "código único", 50, true),
             texto(datos.codAlmacen(), "almacén", 20, true),
