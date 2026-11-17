@@ -44,7 +44,7 @@ public class AbcService {
     ) {}
 
     public ResultadoAbc calcular() {
-        String custodia = "SELECT d.cod_pro,SUM(d.cantidad) AS cantidad FROM prestamo_detalle d JOIN prestamo_concesion p ON p.cod_prestamo=d.cod_prestamo WHERE d.id_unidad IS NULL AND COALESCE(d.devuelto,0)=0 AND p.estado='ACTIVO' GROUP BY d.cod_pro";
+        String custodia = "SELECT d.cod_pro,SUM(d.cantidad) AS cantidad FROM prestamo_detalle d JOIN prestamo_concesion p ON p.cod_prestamo=d.cod_prestamo WHERE d.id_unidad IS NULL AND COALESCE(d.devuelto,0)=0 AND p.estado IN ('ACTIVO','PARCIAL') GROUP BY d.cod_pro";
 
         String sql = """
             SELECT

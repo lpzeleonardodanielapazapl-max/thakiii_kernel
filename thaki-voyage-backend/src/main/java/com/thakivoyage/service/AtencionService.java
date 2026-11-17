@@ -18,6 +18,64 @@ public class AtencionService {
 
     private boolean admin(AccesoService.Identidad user) { return user.rol().equals("ADMIN"); }
 
+    public List<Map<String,Object>> clientes(AccesoService.Identidad user) {
+        return db.lista("""
+            SELECT c.cod_cliente,CONCAT(p.nombres,' ',p.apellidos),p.email,p.telefono,c.estado,c.created_at,
+              (SELECT MAX(a.fecha) FROM actividad_cliente a WHERE a.cod_cliente=c.cod_cliente
+                AND a.id_usuario=:usuario AND a.tipo_actividad='ATENCION_REVISADA'),
+              (SELECT COUNT(*) FROM solicitud_viaje s WHERE s.cod_cliente=c.cod_cliente AND s.fecha_solicitud>
+                COALESCE((SELECT MAX(a.fecha) FROM actividad_cliente a WHERE a.cod_cliente=c.cod_cliente
+                  AND a.id_usuario=:usuario AND a.tipo_actividad='ATENCION_REVISADA'),'1900-01-01')),
+              (SELECT COUNT(*) FROM mensaje m JOIN conversacion cv ON cv.cod_conversacion=m.cod_conversacion
+                JOIN usuario u ON u.id_usuario=cv.id_usuario_cliente WHERE u.email=p.email
+                AND m.id_remitente=cv.id_usuario_cliente AND (:admin=1 OR cv.id_usuario_asesor=:usuario)
+                AND NOT EXISTS(SELECT 1 FROM mensaje_lectura ml WHERE ml.cod_mensaje=m.cod_mensaje AND ml.id_usuario=:usuario)),
+              (SELECT COUNT(*) FROM reserva r WHERE r.cod_cliente=c.cod_cliente AND r.fecha_reserva>
+                COALESCE((SELECT MAX(a.fecha) FROM actividad_cliente a WHERE a.cod_cliente=c.cod_cliente
+                  AND a.id_usuario=:usuario AND a.tipo_actividad='ATENCION_REVISADA'),'1900-01-01')),
+              p.cod_persona
+            FROM cliente c JOIN persona p ON p.cod_persona=c.cod_persona
+            WHERE (:admin=1 OR EXISTS(SELECT 1 FROM usuario u JOIN asignacion_asesor a ON a.id_usuario_cli=u.id_usuario
+              WHERE u.email=p.email AND a.activa=1 AND a.id_usuario_ase=:usuario))
+            ORDER BY c.created_at DESC,c.cod_cliente
+            """,Map.of("usuario",user.id(),"admin",admin(user)?1:0),
+            "codigo","nombre","email","telefono","estado","registro","revisado","solicitudesNuevas","mensajesNuevos","reservasNuevas","persona");
+    }
+
+    public Map<String,Object> cliente(AccesoService.Identidad user,String codigo) {
+        var cliente=clientes(user).stream().filter(c -> codigo.equals(c.get("codigo"))).findFirst()
+            .orElseThrow(() -> new NotFoundException("Cliente no encontrado."));
+        cliente.put("solicitudes",db.lista("SELECT cod_solicitud,fecha_inicio,fecha_fin,num_personas,presupuesto,moneda,intereses,estado FROM solicitud_viaje WHERE cod_cliente=:codigo ORDER BY fecha_solicitud DESC,cod_solicitud",Map.of("codigo",codigo),"codigo","inicio","fin","personas","presupuesto","moneda","intereses","estado"));
+        cliente.put("conversaciones",db.lista("""
+            SELECT cv.cod_conversacion,cv.asunto,cv.fecha_ultimo_msg,cv.estado FROM conversacion cv
+            JOIN usuario u ON u.id_usuario=cv.id_usuario_cliente WHERE u.email=:email
+            AND (:admin=1 OR cv.id_usuario_asesor=:usuario) ORDER BY cv.fecha_ultimo_msg DESC
+            """,valores("email",cliente.get("email"),"admin",admin(user)?1:0,"usuario",user.id()),"codigo","asunto","fecha","estado"));
+        cliente.put("reservas",db.lista("""
+            SELECT r.cod_reserva,r.fecha_inicio,r.fecha_fin,r.estado,r.total,r.moneda
+            FROM reserva r WHERE r.cod_cliente=:codigo AND EXISTS (
+              SELECT 1 FROM viaje_confirmado v JOIN propuesta_viaje p ON p.cod_propuesta=v.cod_propuesta
+              WHERE v.cod_reserva=r.cod_reserva) ORDER BY r.fecha_inicio DESC
+            """,Map.of("codigo",codigo),"codigo","inicio","fin","estado","total","moneda"));
+        return cliente;
+    }
+
+    @Transactional
+    public void revisarCliente(AccesoService.Identidad user,String codigo) {
+        cliente(user,codigo);
+        db.ejecutar("INSERT INTO actividad_cliente (id_usuario,cod_cliente,tipo_actividad) VALUES (:usuario,:codigo,'ATENCION_REVISADA')",Map.of("usuario",user.id(),"codigo",codigo));
+    }
+
+    @Transactional
+    public void leerConversacion(AccesoService.Identidad user,long id) {
+        conversacion(user,id);
+        db.ejecutar("""
+            INSERT IGNORE INTO mensaje_lectura (cod_mensaje,id_usuario)
+            SELECT m.cod_mensaje,:usuario FROM mensaje m JOIN conversacion c ON c.cod_conversacion=m.cod_conversacion
+            WHERE m.cod_conversacion=:id AND m.id_remitente=c.id_usuario_cliente
+            """,Map.of("usuario",user.id(),"id",id));
+    }
+
     public List<Map<String,Object>> calendario(AccesoService.Identidad user, java.time.LocalDate desde, java.time.LocalDate hasta) {
         if (desde == null || hasta == null || hasta.isBefore(desde) || java.time.temporal.ChronoUnit.DAYS.between(desde, hasta) > 41) {
             throw new BadRequestException("Selecciona un intervalo válido de hasta 42 días.");
@@ -60,10 +118,11 @@ public class AtencionService {
     public Map<String,Object> conversacion(AccesoService.Identidad user,long id) {
         var c=db.primero("""
             SELECT c.cod_conversacion,c.id_usuario_cliente,c.id_usuario_asesor,c.asunto,
-                COALESCE((SELECT CONCAT(p.nombres,' ',p.apellidos) FROM persona p WHERE p.email=u.email ORDER BY p.cod_persona LIMIT 1),u.username,u.email),u.email,c.estado
+                COALESCE((SELECT CONCAT(p.nombres,' ',p.apellidos) FROM persona p WHERE p.email=u.email ORDER BY p.cod_persona LIMIT 1),u.username,u.email),u.email,c.estado,
+                (SELECT cl.cod_cliente FROM cliente cl JOIN persona pe ON pe.cod_persona=cl.cod_persona WHERE pe.email=u.email ORDER BY cl.cod_cliente LIMIT 1)
             FROM conversacion c JOIN usuario u ON u.id_usuario=c.id_usuario_cliente
             WHERE c.cod_conversacion=:id AND (:admin=1 OR c.id_usuario_asesor=:usuario)
-            """,Map.of("id",id,"admin",admin(user)?1:0,"usuario",user.id()),"codigo","clienteId","asesorId","asunto","cliente","email","estado");
+            """,Map.of("id",id,"admin",admin(user)?1:0,"usuario",user.id()),"codigo","clienteId","asesorId","asunto","cliente","email","estado","clienteCodigo");
         if(c.isEmpty())throw new NotFoundException("Conversación no encontrada.");
         c.put("mensajes",db.lista("SELECT cod_mensaje,id_remitente,contenido,fecha_envio FROM mensaje WHERE cod_conversacion=:id ORDER BY fecha_envio DESC,cod_mensaje DESC LIMIT 100",Map.of("id",id),"id","remitente","contenido","fecha"));
         return c;
@@ -154,6 +213,7 @@ public class AtencionService {
         if(r.isEmpty())throw new NotFoundException("Reserva no encontrada.");
         var s=solicitud(user,(String)r.get("solicitud"));
         r.put("clienteId",s.get("clienteId"));
+        r.put("clienteCodigo",s.get("clienteCodigo"));
         r.put("cliente",s.get("nombres")+" "+s.get("apellidos"));
         r.put("pagos",db.lista("SELECT cod_pago,fecha,monto,metodo,referencia,estado FROM pago WHERE cod_reserva=:codigo ORDER BY fecha,cod_pago",Map.of("codigo",codigo),"codigo","fecha","monto","metodo","referencia","estado"));
         var pagado=db.primero("SELECT COALESCE(SUM(monto),0) FROM pago WHERE cod_reserva=:codigo AND estado='CONFIRMADO'",Map.of("codigo",codigo),"total");

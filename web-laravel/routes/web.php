@@ -53,6 +53,11 @@ Route::middleware('sesion:cliente')->prefix('mi-viaje')->name('portal.')->group(
 
 Route::middleware('sesion:personal')->group(function () {
 
+    Route::get('/clientes', [AtencionController::class, 'clientes'])->name('clientes.index');
+    Route::get('/clientes/{codigo}', [AtencionController::class, 'cliente'])->where('codigo', '(?!nuevo$)[^/]+')->name('clientes.show');
+    Route::post('/clientes/{codigo}/revisar', [AtencionController::class, 'revisarCliente'])->name('clientes.revisar');
+    Route::post('/atencion/conversaciones/{id}/leer', [AtencionController::class, 'leerConversacion'])->whereNumber('id')->name('atencion.leer');
+
     Route::get('/inventario/operaciones', [OperacionesInventarioController::class, 'index'])->name('inventario.operaciones');
     Route::get('/inventario/catalogos', [OperacionesInventarioController::class, 'catalogos'])->name('inventario.catalogos');
     Route::post('/inventario/catalogos/{tipo}', [OperacionesInventarioController::class, 'guardarCatalogo'])->name('inventario.catalogos.crear');
@@ -60,12 +65,16 @@ Route::middleware('sesion:personal')->group(function () {
     Route::get('/inventario/operaciones/documentos/{codigo}', [OperacionesInventarioController::class, 'documento'])->name('inventario.operaciones.documento');
 
     foreach (['personas', 'empleados', 'clientes', 'usuarios', 'cargos', 'departamentos', 'roles', 'hoteles', 'habitaciones', 'tarifas-hotel', 'vehiculos', 'conductores', 'servicios-transporte'] as $modulo) {
-        Route::get('/'.$modulo, [GestionController::class, 'index'])->defaults('modulo', $modulo)->name($modulo.'.index');
+        if ($modulo !== 'clientes') {
+            Route::get('/'.$modulo, [GestionController::class, 'index'])->defaults('modulo', $modulo)->name($modulo.'.index');
+        }
         Route::get('/'.$modulo.'/nuevo', [GestionController::class, 'create'])->defaults('modulo', $modulo)->name($modulo.'.create');
         Route::post('/'.$modulo, [GestionController::class, 'store'])->defaults('modulo', $modulo)->name($modulo.'.store');
         Route::get('/'.$modulo.'/{codigo}/editar', [GestionController::class, 'edit'])->defaults('modulo', $modulo)->name($modulo.'.edit');
         Route::get('/'.$modulo.'/{codigo}/eliminar', [GestionController::class, 'delete'])->defaults('modulo', $modulo)->name($modulo.'.delete');
-        Route::get('/'.$modulo.'/{codigo}', [GestionController::class, 'show'])->defaults('modulo', $modulo)->name($modulo.'.show');
+        if ($modulo !== 'clientes') {
+            Route::get('/'.$modulo.'/{codigo}', [GestionController::class, 'show'])->defaults('modulo', $modulo)->name($modulo.'.show');
+        }
         Route::put('/'.$modulo.'/{codigo}', [GestionController::class, 'update'])->defaults('modulo', $modulo)->name($modulo.'.update');
         Route::delete('/'.$modulo.'/{codigo}', [GestionController::class, 'destroy'])->defaults('modulo', $modulo)->name($modulo.'.destroy');
     }

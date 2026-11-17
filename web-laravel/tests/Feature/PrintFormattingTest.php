@@ -45,6 +45,8 @@ class PrintFormattingTest extends TestCase
             }
 
             return Http::response(match ($path) {
+                '/api/atencion/clientes' => [],
+                '/api/atencion/clientes/CLI-1' => ['codigo' => 'CLI-1', 'nombre' => 'Ana Pérez', 'email' => 'ana@example.test', 'telefono' => '', 'estado' => 'ACTIVO', 'registro' => null, 'solicitudes' => [], 'conversaciones' => [], 'reservas' => []],
                 '/api/inventario/productos' => [[...$producto, 'marca' => 'Doite', 'categoria' => 'ALPINISMO', 'unidadesRegistradas' => 1, 'unidadesRequierenArreglo' => 1, 'unidadesConBaja' => 0]],
                 '/api/inventario/productos/PRO-1' => $producto,
                 '/api/registro-productos/catalogos' => ['clases' => [['codigo' => 'CLA-1', 'nombre' => 'Carpas']], 'marcas' => [], 'unidadesMedida' => [['codigo' => 'UM-1', 'nombre' => 'Unidad']]],

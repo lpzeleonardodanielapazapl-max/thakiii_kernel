@@ -36,7 +36,7 @@ Inicio de sesión con Google, correo de confirmación y permisos finos por módu
 
 ## Arranque local
 
-1. Crear la base con `thaki.sql`. **Atención: este script elimina y recrea `thaki_modificado`, borrando todos sus datos. Úsalo solo para una instalación nueva o después de respaldar la base.** Si la base ya existe y solo faltan hoteles y traslados, ejecutar `datos-hospedaje.sql`.
+1. Crear la base con `material_auxiliar/thaki_empresa.sql`, siguiendo [la guía del inventario de la empresa](material_auxiliar/BASE_INVENTARIO_EMPRESA.md). Incluye las 80 tablas, la procedencia y los datos de `Inventarios 2026 (1).xlsx`. **La importación elimina y recrea `thaki_modificado`. Respalda la base existente antes de ejecutarla.** Crea después el administrador desde `/configurar-administracion` con Laravel en local y Quarkus en desarrollo. Para una instalación con tablas operativas vacías está disponible `material_auxiliar/thaki_limpio.sql` con [su guía de importación](material_auxiliar/IMPORTAR_BASE_LIMPIA.md).
 2. Copiar `thaki-voyage-backend/.env.example` a `.env` y completar `THAKI_DB_PASSWORD`. Luego `./mvnw quarkus:dev`.
 3. En `web-laravel`, copiar `.env.example` a `.env`, generar la clave y dejar `QUARKUS_URL=http://localhost:8080`. Luego `php artisan serve`.
 

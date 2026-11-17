@@ -3,7 +3,7 @@
 @push('styles')<link rel="stylesheet" href="{{ asset('css/calendario.css') }}?v={{ filemtime(public_path('css/calendario.css')) }}" media="screen">@endpush
 @section('contenido')
 <x-page-header title="Calendario de viajes" description="Viajes con aceptación del cliente registrada. Consulta sus fechas y continúa con cada reserva." eyebrow="TU AGENDA DE VIAJES">
-    <a class="boton boton-secundario" href="{{ route('atencion.index') }}">Atención a clientes ↗</a>
+    <a class="boton boton-secundario" href="{{ route('clientes.index') }}">Clientes ↗</a>
 </x-page-header>
 <section class="agenda-calendario" aria-label="Calendario mensual">
     <header class="agenda-cabecera">
@@ -31,6 +31,6 @@
 <section class="agenda-lista" id="agenda-viajes">
     <div class="agenda-lista-titulo"><h2>{{ $diaSeleccionado ? 'Viajes del '.\Illuminate\Support\Carbon::parse($diaSeleccionado)->format('d/m/Y') : 'Viajes de este mes' }}</h2>@if($diaSeleccionado)<a href="{{ route('atencion.calendario', ['mes' => $mes->format('Y-m')]) }}#agenda-viajes">Ver todo el mes ↗</a>@endif</div>
     @forelse($agenda as $viaje)<article class="agenda-reserva"><div class="agenda-fechas"><strong>{{ \Illuminate\Support\Carbon::parse($viaje['fechaInicio'])->locale('es')->translatedFormat('d M') }}</strong><span>hasta {{ \Illuminate\Support\Carbon::parse($viaje['fechaFin'])->locale('es')->translatedFormat('d M Y') }}</span></div><div class="agenda-reserva-datos"><h3>{{ $viaje['titulo'] }}</h3><p>{{ $viaje['cliente'] }} · {{ $viaje['personas'] }} {{ $viaje['personas'] == 1 ? 'viajero' : 'viajeros' }} · Propuesta {{ $viaje['version'] }}</p><x-viaje-estado :value="$viaje['estado']"/></div><a class="boton boton-secundario boton-pequeno" href="{{ route('atencion.reserva', $viaje['reserva']) }}">Ver reserva ↗</a></article>
-    @empty<div class="agenda-vacio"><x-icon name="calendar"/><h3>{{ $diaSeleccionado ? 'No hay viajes aceptados para este día.' : 'Un mes por llenar de caminos.' }}</h3><p>Los viajes aparecerán aquí cuando se registre la aceptación del cliente. Los cancelados quedan fuera de la agenda.</p><a href="{{ route('atencion.index') }}">Revisar solicitudes ↗</a></div>@endforelse
+    @empty<div class="agenda-vacio"><x-icon name="calendar"/><h3>{{ $diaSeleccionado ? 'No hay viajes aceptados para este día.' : 'Un mes por llenar de caminos.' }}</h3><p>Los viajes aparecerán aquí cuando se registre la aceptación del cliente. Los cancelados quedan fuera de la agenda.</p><a href="{{ route('clientes.index') }}">Revisar solicitudes ↗</a></div>@endforelse
 </section>
 @endsection

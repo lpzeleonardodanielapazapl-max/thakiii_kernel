@@ -19,7 +19,7 @@ class PanelNavigationTest extends TestCase
     {
         Http::preventStrayRequests();
         Http::fake([
-            '*/api/inventario/productos' => Http::response([
+            '*/api/inventario/productos*' => Http::response([
                 ['codigo' => 'PRO-1', 'nombre' => 'Carpa de prueba', 'marca' => 'Doite',
                     'categoria' => 'ALPINISMO', 'unidadesRegistradas' => 2,
                     'unidadesRequierenArreglo' => 1, 'unidadesConBaja' => 0],
@@ -32,6 +32,7 @@ class PanelNavigationTest extends TestCase
             '*/api/v1/empleados' => Http::response([
                 ['codEmpleado' => 'EMP-1', 'codPersona' => 'PER-1', 'estado' => 'ACTIVO', 'esGuia' => true],
             ]),
+            '*/api/atencion/clientes' => Http::response([]),
             '*/api/v1/clientes' => Http::response([
                 ['codCliente' => 'CLI-1', 'codPersona' => 'PER-1', 'estado' => 'ACTIVO'],
             ]),
@@ -91,7 +92,7 @@ class PanelNavigationTest extends TestCase
         foreach ($menu as $enlace) {
             $destinos[] = parse_url($enlace->getAttribute('href'), PHP_URL_PATH);
         }
-        $this->assertSame(['/admin', '/atencion', '/atencion/calendario', '/inventario/operaciones', '/clientes', '/admin/gestion'], $destinos);
+        $this->assertSame(['/admin', '/clientes', '/inventario/operaciones', '/admin/gestion'], $destinos);
         $gestion = $this->get('/admin/gestion')->assertOk();
         foreach (['personas.index', 'empleados.index', 'cargos.index', 'departamentos.index', 'usuarios.index', 'roles.index', 'hoteles.index', 'servicios-transporte.index'] as $ruta) {
             $gestion->assertSee(route($ruta));

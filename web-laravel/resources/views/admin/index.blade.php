@@ -5,9 +5,7 @@
 <header class="operaciones-cabecera"><div><p class="sobre-titulo">TU ESPACIO DE TRABAJO</p><h1>Centro de operaciones</h1><p class="descripcion">Atención, viajes y almacén, cada uno en su lugar.</p></div></header>
 <section class="operaciones-accesos" aria-label="Trabajo diario">
     @foreach([
-        ['atencion.index', 'Atención a clientes', 'Continúa solicitudes, conversaciones y propuestas de viaje.', 'mountain', 'Continuar atención'],
-        ['atencion.calendario', 'Calendario de viajes', 'Consulta las salidas aceptadas por tus clientes.', 'calendar', 'Ver calendario'],
-        ['clientes.index', 'Clientes', 'Consulta y actualiza las fichas de tus viajeros.', 'users', 'Ver clientes'],
+        ['clientes.index', 'Clientes', 'Solicitudes, conversaciones, propuestas y viajes de cada cliente.', 'users', 'Ver clientes'],
     ] as [$ruta, $titulo, $detalle, $icono, $accion])
     <a class="operaciones-acceso" href="{{ route($ruta) }}"><span class="operaciones-icono"><x-icon :name="$icono"/></span><h2>{{ $titulo }}</h2><p>{{ $detalle }}</p><span class="operaciones-accion">{{ $accion }} <x-icon name="arrow"/></span></a>
     @endforeach

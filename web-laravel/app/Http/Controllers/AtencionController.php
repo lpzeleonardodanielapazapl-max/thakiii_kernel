@@ -12,9 +12,47 @@ class AtencionController extends Controller
 {
     use UsaApiPrivada;
 
-    public function index(): View
+    public function clientes(Request $request): View
     {
-        return view('atencion.index', $this->consultarApi('GET', '/api/atencion/panel'));
+        $datos = $request->validate(['q' => ['nullable', 'string', 'max:150'], 'ver' => ['nullable', 'in:todos,nuevos,pendientes']]);
+        $clientes = collect($this->consultarApi('GET', '/api/atencion/clientes'));
+        $busqueda = mb_strtolower(trim($datos['q'] ?? ''));
+        $filtro = $datos['ver'] ?? 'todos';
+        $clientes = $clientes->filter(function (array $cliente) use ($busqueda, $filtro): bool {
+            $coincide = $busqueda === '' || str_contains(mb_strtolower(implode(' ', [$cliente['nombre'], $cliente['email'], $cliente['telefono']])), $busqueda);
+
+            return $coincide && match ($filtro) {
+                'nuevos' => $cliente['revisado'] === null,
+                'pendientes' => $cliente['solicitudesNuevas'] + $cliente['mensajesNuevos'] + ($cliente['reservasNuevas'] ?? 0) > 0,
+                default => true,
+            };
+        });
+
+        return view('atencion.clientes', compact('clientes', 'busqueda', 'filtro'));
+    }
+
+    public function cliente(string $codigo): View
+    {
+        return view('atencion.cliente', ['cliente' => $this->consultarApi('GET', '/api/atencion/clientes/'.rawurlencode($codigo))]);
+    }
+
+    public function revisarCliente(string $codigo): RedirectResponse
+    {
+        $this->consultarApi('POST', '/api/atencion/clientes/'.rawurlencode($codigo).'/revisar');
+
+        return back()->with('exito', 'Ficha, solicitudes y reservas marcadas como revisadas. Los mensajes se revisan desde su conversación.');
+    }
+
+    public function leerConversacion(string $id): RedirectResponse
+    {
+        $this->consultarApi('POST', '/api/atencion/conversaciones/'.rawurlencode($id).'/leer');
+
+        return back()->with('exito', 'Mensajes marcados como leídos.');
+    }
+
+    public function index(): RedirectResponse
+    {
+        return redirect()->route('clientes.index');
     }
 
     public function calendario(Request $request): View

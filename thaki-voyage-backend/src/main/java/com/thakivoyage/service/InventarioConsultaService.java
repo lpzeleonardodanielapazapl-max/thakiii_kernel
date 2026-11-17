@@ -42,7 +42,13 @@ public class InventarioConsultaService {
         var d=db.primero("SELECT cod_doc,tipo,numero,fecha,proveedor,departamento,destino_a,grupo,recibido_por,observaciones,total FROM documento_inventario WHERE cod_doc=:codigo",Map.of("codigo",codigo),"codigo","tipo","numero","fecha","proveedor","departamento","destino","grupo","recibidoPor","observaciones","total");
         if(d.isEmpty())throw new NotFoundException("Documento no encontrado.");
         d.put("items",db.lista("SELECT descripcion,cantidad,nota_observacion,estado_articulo,devuelto FROM documento_detalle WHERE cod_doc=:codigo ORDER BY id_detalle",Map.of("codigo",codigo),"descripcion","cantidad","observaciones","calificacion","devuelto"));
-        d.put("movimientos",db.lista("SELECT tipo_movimiento,fecha,cod_almacen_origen,cod_almacen_destino,observaciones FROM movimiento_inventario WHERE documento_ref=:codigo ORDER BY fecha",Map.of("codigo",codigo),"tipo","fecha","origen","destino","observaciones"));
+        String movimiento = codigo.contains("-") ? "MOV-"+codigo.substring(codigo.indexOf('-')+1) : codigo;
+        d.put("movimientos",db.lista("""
+            SELECT tipo_movimiento,fecha,cod_almacen_origen,cod_almacen_destino,observaciones
+            FROM movimiento_inventario
+            WHERE documento_ref=:codigo OR cod_movimiento=:movimiento
+            ORDER BY fecha
+            """,Map.of("codigo",codigo,"movimiento",movimiento),"tipo","fecha","origen","destino","observaciones"));
         return d;
     }
     public List<Map<String,Object>> precios() {

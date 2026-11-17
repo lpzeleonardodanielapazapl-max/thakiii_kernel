@@ -1,6 +1,7 @@
 @props(['name' => 'grid'])
 @php
     $paths = [
+        'bell' => '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',
         'home' => '<path d="m3 10 9-7 9 7v10H15v-7H9v7H3Z"/>',
         'grid' => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
         'box' => '<path d="m12 3 9 5-9 5-9-5Zm-9 5v10l9 5 9-5V8M12 13v10M7 5.8l10 5.5"/>',

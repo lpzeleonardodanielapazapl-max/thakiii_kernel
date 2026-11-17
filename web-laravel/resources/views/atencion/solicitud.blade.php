@@ -13,7 +13,7 @@
 @endphp
 <header class="atencion-cabecera">
     <div><span class="sobre-titulo">ATENCIÓN · VIAJE A MEDIDA</span><h1>El viaje de {{ $solicitud['nombres'] }} {{ $solicitud['apellidos'] }}</h1><p>{{ $solicitud['email'] }}</p><small class="referencia-viaje">Referencia: {{ $solicitud['codigo'] }}</small></div>
-    <a class="boton boton-secundario" href="{{ route('atencion.index') }}">← Atención a clientes</a>
+    <a class="boton boton-secundario" href="{{ isset($solicitud['clienteCodigo']) ? route('clientes.show', $solicitud['clienteCodigo']) : route('clientes.index') }}">← Ficha del cliente</a>
 </header>
 @include('components.avisos-publicos')
 <dl class="resumen-viaje">

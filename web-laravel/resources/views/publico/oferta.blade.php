@@ -1,5 +1,6 @@
 @extends($enPortal ? 'layouts.portal' : 'layouts.publico')
 @section('titulo', $modo === 'hotel' ? 'Alojamientos' : 'Traslados')
+@section('publico-clase', 'publico-con-cabecera')
 @section($enPortal ? 'portal' : 'contenido')
 @php
     $esPersonal = in_array(session('usuario.rol'), ['ADMIN', 'ADMINISTRATIVO'], true);

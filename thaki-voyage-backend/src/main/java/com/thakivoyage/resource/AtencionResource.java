@@ -16,6 +16,10 @@ public class AtencionResource {
         return user;
     }
     @GET @Path("/panel") public Map<String,Object> panel(@HeaderParam("Authorization") String h){return service.panel(user(h));}
+    @GET @Path("/clientes") public java.util.List<Map<String,Object>> clientes(@HeaderParam("Authorization") String h){return service.clientes(user(h));}
+    @GET @Path("/clientes/{codigo}") public Map<String,Object> cliente(@HeaderParam("Authorization") String h,@PathParam("codigo") String codigo){return service.cliente(user(h),codigo);}
+    @POST @Path("/clientes/{codigo}/revisar") public void revisar(@HeaderParam("Authorization") String h,@PathParam("codigo") String codigo){service.revisarCliente(user(h),codigo);}
+    @POST @Path("/conversaciones/{id}/leer") public void leer(@HeaderParam("Authorization") String h,@PathParam("id") long id){service.leerConversacion(user(h),id);}
     @GET @Path("/calendario") public java.util.List<Map<String,Object>> calendario(@HeaderParam("Authorization") String h,@QueryParam("desde") String desde,@QueryParam("hasta") String hasta){
         var identidad=user(h);
         try { return service.calendario(identidad,java.time.LocalDate.parse(desde==null?"":desde),java.time.LocalDate.parse(hasta==null?"":hasta)); }

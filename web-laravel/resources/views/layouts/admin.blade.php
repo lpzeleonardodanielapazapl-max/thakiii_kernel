@@ -30,10 +30,8 @@
                 $inventarioActivo = request()->is('inventario*', 'investigacion-operativa*');
                 $enlaces = [
                     ['admin.index', 'Inicio', 'home', request()->routeIs('admin.index')],
-                    ['atencion.index', 'Atención a clientes', 'mountain', request()->is('atencion*') && !request()->routeIs('atencion.calendario')],
-                    ['atencion.calendario', 'Calendario de viajes', 'calendar', request()->routeIs('atencion.calendario')],
+                    ['clientes.index', 'Clientes', 'users', request()->is('clientes*', 'atencion*')],
                     ['inventario.operaciones', 'Inventario y almacén', 'box', $inventarioActivo],
-                    ['clientes.index', 'Clientes', 'users', request()->is('clientes*')],
                 ];
             @endphp
             <p class="menu-etiqueta">TRABAJO DIARIO</p>

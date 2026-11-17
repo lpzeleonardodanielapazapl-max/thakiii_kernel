@@ -54,11 +54,15 @@ class OperacionesInventarioController extends Controller
     {
         $documento = $this->consultarApi('GET', '/api/inventario/operaciones/documentos/'.rawurlencode($codigo));
         if ($documento['tipo'] === 'REF') {
-            $fuente = json_decode($documento['observaciones'] ?? '{}', true, 512, JSON_THROW_ON_ERROR);
-            foreach ($documento['items'] as &$item) {
-                $item['fuente'] = json_decode($item['observaciones'] ?? '{}', true, 512, JSON_THROW_ON_ERROR);
+            try {
+                $fuente = json_decode($documento['observaciones'] ?? '{}', true, 512, JSON_THROW_ON_ERROR);
+                foreach ($documento['items'] as &$item) {
+                    $item['fuente'] = json_decode($item['observaciones'] ?? '{}', true, 512, JSON_THROW_ON_ERROR);
+                }
+                unset($item);
+            } catch (\JsonException) {
+                abort(422, 'La referencia del documento tiene observaciones inválidas.');
             }
-            unset($item);
 
             return view('inventario.referencia', compact('documento', 'fuente'));
         }

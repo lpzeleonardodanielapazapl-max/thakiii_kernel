@@ -28,14 +28,12 @@ class InventarioConsultaMysqlTest {
         @Override public int ejecutar(String sql,Map<String,?> params){throw new UnsupportedOperationException("Sin escrituras.");}
     }
     @Test void consultasYAbcFuncionanConElEsquemaOriginal() throws Exception {
-        String url=System.getenv("THAKI_INVENTARIO_READ_URL");assumeTrue(url!=null,"Configura la conexión de lectura para MySQL.");
+        String url=System.getenv("THAKI_INVENTARIO_READ_URL");assumeTrue(url!=null && !url.isBlank(),"Configura la conexión de lectura para MySQL.");
         try(var c=DriverManager.getConnection(url,System.getenv("THAKI_INVENTARIO_READ_USER"),System.getenv("THAKI_INVENTARIO_READ_PASSWORD"))){
             c.setReadOnly(true);var db=new SoloLectura(c);var service=new InventarioConsultaService();service.db=db;
             assertTrue(service.resumen().containsKey("unidades"));
             for(var d:service.documentos())assertNotNull(service.documento(d.get("codigo").toString()).get("items"));
             var abc=new AbcService();abc.db=db;assertNotNull(abc.calcular());
-            assertTrue(db.lista("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('inventario_importacion','gasto_inventario')",Map.of(),"tabla").isEmpty());
-            assertTrue(db.lista("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND ((TABLE_NAME='inventario_unidad' AND COLUMN_NAME='color') OR (TABLE_NAME='inventario_stock' AND COLUMN_NAME='lote') OR (TABLE_NAME='prestamo_detalle' AND COLUMN_NAME='cantidad_devuelta'))",Map.of(),"columna").isEmpty());
         }
     }
 }

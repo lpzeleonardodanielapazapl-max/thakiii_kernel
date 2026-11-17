@@ -63,9 +63,13 @@ public class ProductoGestionService {
         if (referencias.longValue() > 0) {
             if (!java.util.Objects.equals(um,anterior.codUm())) throw new BadRequestException("El producto ya tiene inventario o historial. Conserva su unidad de medida para no alterar cantidades anteriores.");
             if (!clase.equals(anterior.codClase())) {
-                var modos = em.createNativeQuery("SELECT es_serializado,es_consumible FROM clase_producto WHERE cod_clase IN (:actual,:nueva)").setParameter("actual",anterior.codClase()).setParameter("nueva",clase).getResultList();
-                Object[] a=(Object[])modos.get(0), b=(Object[])modos.get(1);
-                if (!java.util.Objects.equals(a[0],b[0]) || !java.util.Objects.equals(a[1],b[1])) throw new BadRequestException("La nueva clase usa otra forma de control. Conserva el modo individual, por cantidad o consumible de este producto.");
+                Object[] modoActual = (Object[]) em.createNativeQuery("SELECT es_serializado,es_consumible FROM clase_producto WHERE cod_clase=:codigo")
+                    .setParameter("codigo", anterior.codClase()).getSingleResult();
+                Object[] modoNuevo = (Object[]) em.createNativeQuery("SELECT es_serializado,es_consumible FROM clase_producto WHERE cod_clase=:codigo")
+                    .setParameter("codigo", clase).getSingleResult();
+                if (!java.util.Objects.equals(modoActual[0], modoNuevo[0]) || !java.util.Objects.equals(modoActual[1], modoNuevo[1])) {
+                    throw new BadRequestException("La nueva clase usa otra forma de control. Conserva el modo individual, por cantidad o consumible de este producto.");
+                }
             }
         }
         if (marca != null) referencia("marca", "cod_mar", marca);

@@ -22,7 +22,7 @@ class InventarioController extends Controller
 
     private function buscarProducto(string $codigo): array
     {
-        $producto = collect($this->productos())
+        $producto = collect($this->productos('TODOS'))
             ->firstWhere('codigo', $codigo);
 
         abort_if($producto === null, 404, 'Producto no encontrado.');

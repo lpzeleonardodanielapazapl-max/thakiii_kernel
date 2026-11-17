@@ -32,6 +32,10 @@ class GestionCrudTest extends TestCase
         Http::preventStrayRequests();
         $registros = $this->registros();
         Http::fake(function ($request) use ($registros) {
+            if (str_contains($request->url(), '/api/atencion/clientes')) {
+                $cliente = ['codigo' => 'CLI-1', 'nombre' => 'Ana Pérez', 'email' => 'ana@example.test', 'telefono' => '', 'estado' => 'ACTIVO', 'registro' => null, 'revisado' => null, 'solicitudesNuevas' => 0, 'mensajesNuevos' => 0, 'solicitudes' => [], 'conversaciones' => [], 'reservas' => []];
+                return Http::response(str_ends_with($request->url(), '/CLI-1') ? $cliente : [$cliente]);
+            }
             foreach ($registros as $modulo => $registro) {
                 $key = config('gestion.'.$modulo.'.key');
                 $path = parse_url($request->url(), PHP_URL_PATH);
@@ -51,8 +55,8 @@ class GestionCrudTest extends TestCase
         $this->preparar();
         foreach ($this->registros() as $modulo => $registro) {
             $codigo = $registro[config('gestion.'.$modulo.'.key')];
-            $this->get('/'.$modulo)->assertOk()->assertSeeText('Ver detalles');
-            $this->get('/'.$modulo.'/'.$codigo)->assertOk()->assertSeeText('Datos y detalles');
+            $this->get('/'.$modulo)->assertOk()->assertSeeText($modulo === 'clientes' ? 'Ana Pérez' : 'Ver detalles');
+            $this->get('/'.$modulo.'/'.$codigo)->assertOk()->assertSeeText($modulo === 'clientes' ? 'Datos del cliente' : 'Datos y detalles');
             $this->get('/'.$modulo.'/'.$codigo.'/editar')->assertOk()->assertSeeText('Guardar cambios');
             if ($modulo !== 'roles') {
                 $this->get('/'.$modulo.'/nuevo')->assertOk()->assertSeeText('Guardar registro');

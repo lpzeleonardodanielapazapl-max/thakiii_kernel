@@ -85,6 +85,11 @@ public class UnidadInventarioService {
         Number total = (Number) entityManager.createNativeQuery("SELECT COUNT(*) FROM almacen WHERE cod_almacen = :codigo AND estado = 'ACTIVO'")
             .setParameter("codigo", datos.codAlmacen()).getSingleResult();
         if (total.longValue() == 0) throw new BadRequestException("Selecciona un almacén activo existente.");
+        LocalDate fechaAlta = datos.fechaAlta();
+        if (fechaAlta == null) {
+            if (actual.fechaAlta() == null) throw new BadRequestException("La fecha de alta es obligatoria.");
+            fechaAlta = LocalDate.parse(actual.fechaAlta());
+        }
         entityManager.createNativeQuery("""
             UPDATE inventario_unidad SET codigo_unico = :unico, cod_almacen = :almacen,
                 estado_fisico = :estado, calificacion = :calificacion, fecha_alta = :fecha,
@@ -93,7 +98,7 @@ public class UnidadInventarioService {
             WHERE id_unidad = :id AND cod_pro = :producto
             """).setParameter("unico", datos.codigoUnico()).setParameter("almacen", datos.codAlmacen())
             .setParameter("estado", datos.estadoFisico()).setParameter("calificacion", datos.calificacion())
-            .setParameter("fecha", datos.fechaAlta()).setParameter("arreglo", datos.requiereArreglo())
+            .setParameter("fecha", fechaAlta).setParameter("arreglo", datos.requiereArreglo())
             .setParameter("cambio", datos.requiereCambio()).setParameter("baja", datos.requiereBaja())
             .setParameter("observaciones", datos.observaciones()).setParameter("id", id).setParameter("producto", codigo)
             .executeUpdate();
@@ -123,8 +128,11 @@ public class UnidadInventarioService {
         if (datos == null) {
             throw new BadRequestException("Debes enviar los datos de la unidad.");
         }
-        if (fechaObligatoria && datos.fechaAlta() == null || datos.fechaAlta() != null && datos.fechaAlta().isAfter(LocalDate.now())) {
-            throw new BadRequestException("La fecha de alta es obligatoria y no puede ser futura.");
+        if (fechaObligatoria && datos.fechaAlta() == null) {
+            throw new BadRequestException("La fecha de alta es obligatoria.");
+        }
+        if (datos.fechaAlta() != null && datos.fechaAlta().isAfter(LocalDate.now())) {
+            throw new BadRequestException("La fecha de alta no puede ser futura.");
         }
         if (datos.calificacion() != null && (datos.calificacion() < 1 || datos.calificacion() > 10)) {
             throw new BadRequestException("La calificación debe estar entre 1 y 10.");

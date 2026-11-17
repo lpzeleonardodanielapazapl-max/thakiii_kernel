@@ -102,7 +102,7 @@ class AtencionClientesTest extends TestCase
             '*/api/atencion/conversaciones/1' => Http::response(['codigo' => 1, 'clienteId' => 7, 'asunto' => 'Viaje', 'mensajes' => []]),
             '*/api/atencion/reservas/RES-1' => Http::response(['codigo' => 'RES-1', 'solicitud' => 'SOL-1', 'cliente' => 'Ana Pérez', 'estado' => 'PENDIENTE_ANTICIPO', 'total' => 1000, 'moneda' => 'USD', 'pagado' => 0, 'pagos' => [], 'cancelacionSolicitada' => false]),
         ]);
-        $this->get('/atencion')->assertOk()->assertSee(route('atencion.solicitud', 'SOL-1'));
+        $this->get('/atencion')->assertRedirect(route('clientes.index'));
         $this->get('/atencion/solicitudes/SOL-1')->assertOk()->assertSeeText('Enviar propuesta al cliente');
         $this->get('/atencion/conversaciones/1')->assertOk()->assertSeeText('Responder al cliente');
         $this->get('/atencion/reservas/RES-1')->assertOk()->assertSeeText('Registrar pago verificado')->assertDontSeeText('Registrar cancelación solicitada');
