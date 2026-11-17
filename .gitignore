@@ -1,1 +1,4 @@
 /material_auxiliar/
+.env
+.env.*
+!.env.docker.example

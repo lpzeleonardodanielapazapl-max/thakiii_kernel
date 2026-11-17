@@ -1,0 +1,73 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: thaki_modificado
+      MYSQL_USER: thaki
+      MYSQL_PASSWORD: ${THAKI_DB_PASSWORD:?Set THAKI_DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+      TZ: America/La_Paz
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./thaki.sql:/docker-entrypoint-initdb.d/001-thaki.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  api:
+    build:
+      context: ./thaki-voyage-backend
+    restart: unless-stopped
+    environment:
+      THAKI_DB_USER: thaki
+      THAKI_DB_PASSWORD: ${THAKI_DB_PASSWORD:?Set THAKI_DB_PASSWORD in .env}
+      THAKI_DB_URL: jdbc:mysql://db:3306/thaki_modificado?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/La_Paz&characterEncoding=UTF-8
+      QUARKUS_HTTP_HOST: 0.0.0.0
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8080/api/v1/health/ping || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  web:
+    build:
+      context: ./web-laravel
+    restart: unless-stopped
+    environment:
+      APP_NAME: Thaki Voyage
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL:-http://localhost:8085}
+      QUARKUS_URL: http://api:8080
+      SESSION_DRIVER: file
+      CACHE_STORE: file
+      QUEUE_CONNECTION: sync
+      LOG_CHANNEL: stderr
+      TZ: America/La_Paz
+    ports:
+      - "${WEB_PORT:-8085}:80"
+    volumes:
+      - laravel_storage:/var/www/html/storage
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "php -r '$$s=@fsockopen(\"127.0.0.1\",80); exit($$s ? 0 : 1);'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mysql_data:
+  laravel_storage:

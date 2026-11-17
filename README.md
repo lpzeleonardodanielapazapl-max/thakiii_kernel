@@ -51,3 +51,22 @@ Inicio de sesión con Google, correo de confirmación y permisos finos por módu
 | Salud de la API | http://localhost:8080/api/v1/health/ping |
 
 El código web está en `web-laravel/` y la API en `thaki-voyage-backend/`.
+
+## Arranque con Docker
+
+Requiere Docker Desktop o Docker Engine con Docker Compose. Desde la raíz del repositorio, crea el archivo de configuración y define dos contraseñas distintas:
+
+```powershell
+Copy-Item .env.docker.example .env
+notepad .env
+```
+
+Después, ejecuta:
+
+```powershell
+docker compose up --build -d
+```
+
+Abre la dirección definida por `APP_URL` (por defecto, http://localhost:8085). Laravel consulta la API Quarkus en `http://api:8080` dentro de la red Docker. La clave de Laravel se genera una vez y se conserva en el volumen de almacenamiento.
+
+MySQL carga `thaki.sql` solo al inicializar por primera vez el volumen `mysql_data`. Los datos se conservan con `docker compose down`; `docker compose down -v` elimina permanentemente los volúmenes y la base. Para ver el estado usa `docker compose ps`; para ver registros usa `docker compose logs -f`.
