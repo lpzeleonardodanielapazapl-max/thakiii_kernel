@@ -62,6 +62,50 @@ class UnidadInventarioServiceTest {
     }
 
     @Test
+    void aceptaLongitudesMaximasYLimitesDeCalificacion() {
+        var solicitud = new UnidadInventarioService.UnidadRequest("C".repeat(50), "A".repeat(20),
+            "E".repeat(20), 10, LocalDate.now(), false, false, false, "O".repeat(2000));
+
+        var resultado = UnidadInventarioService.validar(solicitud);
+
+        assertEquals(50, resultado.codigoUnico().length());
+        assertEquals(20, resultado.codAlmacen().length());
+        assertEquals(20, resultado.estadoFisico().length());
+        assertEquals(2000, resultado.observaciones().length());
+        assertEquals(10, resultado.calificacion());
+        assertEquals(1, UnidadInventarioService.validar(datos("CD002", 1, LocalDate.now())).calificacion());
+    }
+
+    @Test
+    void rechazaCamposQueSuperanSuLongitudMaximaConUnErrorDescriptivo() {
+        var base = datos("CD001", null, LocalDate.now());
+
+        var errorCodigo = assertThrows(BadRequestException.class,
+            () -> UnidadInventarioService.validar(new UnidadInventarioService.UnidadRequest(
+                "C".repeat(51), base.codAlmacen(), base.estadoFisico(), base.calificacion(), base.fechaAlta(),
+                base.requiereArreglo(), base.requiereCambio(), base.requiereBaja(), base.observaciones())));
+        assertEquals("El campo código único admite hasta 50 caracteres.", errorCodigo.getMessage());
+
+        var errorAlmacen = assertThrows(BadRequestException.class,
+            () -> UnidadInventarioService.validar(new UnidadInventarioService.UnidadRequest(
+                base.codigoUnico(), "A".repeat(21), base.estadoFisico(), base.calificacion(), base.fechaAlta(),
+                base.requiereArreglo(), base.requiereCambio(), base.requiereBaja(), base.observaciones())));
+        assertEquals("El campo almacén admite hasta 20 caracteres.", errorAlmacen.getMessage());
+
+        var errorEstado = assertThrows(BadRequestException.class,
+            () -> UnidadInventarioService.validar(new UnidadInventarioService.UnidadRequest(
+                base.codigoUnico(), base.codAlmacen(), "E".repeat(21), base.calificacion(), base.fechaAlta(),
+                base.requiereArreglo(), base.requiereCambio(), base.requiereBaja(), base.observaciones())));
+        assertEquals("El campo estado físico admite hasta 20 caracteres.", errorEstado.getMessage());
+
+        var errorObservaciones = assertThrows(BadRequestException.class,
+            () -> UnidadInventarioService.validar(new UnidadInventarioService.UnidadRequest(
+                base.codigoUnico(), base.codAlmacen(), base.estadoFisico(), base.calificacion(), base.fechaAlta(),
+                base.requiereArreglo(), base.requiereCambio(), base.requiereBaja(), "O".repeat(2001))));
+        assertEquals("El campo observaciones admite hasta 2000 caracteres.", errorObservaciones.getMessage());
+    }
+
+    @Test
     void rechazaFechaAusenteOFutura() {
         assertThrows(BadRequestException.class,
             () -> UnidadInventarioService.validar(datos("CD001", null, null)));
