@@ -22,8 +22,8 @@ class PlanificadorPublicoTest extends TestCase
     {
         Http::fake(['*/api/publico/inicio' => Http::response(['empresa' => [], 'destinos' => [], 'testimonios' => []])]);
         $this->get('/')->assertOk()->assertSee(route('publico.viaje'))->assertSeeText('¿Adónde quieres ir?')
-            ->assertSeeText('Otras preferencias')->assertSeeText('Diseñar mi viaje')->assertSee('data-destinos-carrusel', false)
-            ->assertDontSeeText('25%')->assertDontSee('all.accor.com');
+            ->assertDontSeeText('Otras preferencias')->assertSeeText('Diseñar mi viaje')->assertSee('data-destinos-carrusel', false)
+            ->assertSeeText('Vlogs de')->assertDontSeeText('¿Lo imaginamos')->assertDontSeeText('25%')->assertDontSee('all.accor.com');
     }
 
     public function test_visitante_conserva_preferencias_hasta_el_registro_sin_enviar_solicitudes(): void

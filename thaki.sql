@@ -145,6 +145,7 @@ CREATE TABLE empleado (
   es_guia       TINYINT(1) DEFAULT 0,
   es_asesor     TINYINT(1) DEFAULT 0,
   es_conductor  TINYINT(1) DEFAULT 0,
+  es_cocinero   TINYINT(1) DEFAULT 0,
   estado        VARCHAR(20) DEFAULT 'ACTIVO',
   created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -373,6 +374,30 @@ CREATE TABLE viaje_servicio (
   cod_reserva_hotel VARCHAR(20),
   cod_reserva_trans VARCHAR(20),
   CONSTRAINT fk_vs_viaje FOREIGN KEY (cod_viaje) REFERENCES viaje_confirmado(cod_viaje) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE viaje_personal (
+  id_asignacion INT AUTO_INCREMENT PRIMARY KEY,
+  cod_viaje     VARCHAR(20) NOT NULL,
+  cod_empleado  VARCHAR(20) NOT NULL,
+  rol_en_viaje  VARCHAR(30) NOT NULL,
+  notas         VARCHAR(500),
+  created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_viaje_empleado (cod_viaje, cod_empleado),
+  CONSTRAINT fk_vp_viaje FOREIGN KEY (cod_viaje) REFERENCES viaje_confirmado(cod_viaje) ON DELETE CASCADE,
+  CONSTRAINT fk_vp_empleado FOREIGN KEY (cod_empleado) REFERENCES empleado(cod_empleado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE viaje_utileria (
+  id_utileria   INT AUTO_INCREMENT PRIMARY KEY,
+  cod_viaje     VARCHAR(20) NOT NULL,
+  cod_producto  VARCHAR(30) NOT NULL,
+  cantidad      INT NOT NULL,
+  notas         VARCHAR(500),
+  created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_viaje_producto (cod_viaje, cod_producto),
+  CONSTRAINT fk_vu_viaje FOREIGN KEY (cod_viaje) REFERENCES viaje_confirmado(cod_viaje) ON DELETE CASCADE,
+  CONSTRAINT fk_vu_producto FOREIGN KEY (cod_producto) REFERENCES producto(cod_pro)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE reserva_pasajero (

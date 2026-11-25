@@ -24,8 +24,8 @@
                 @csrf
                 <div>
                     <span class="etiqueta">COMPARTE TU VIAJE</span>
-                    <h2>Publica una foto y tu experiencia</h2>
-                    <p>Solo usuarios con sesión pueden subir, dar me gusta y comentar. Tu nombre aparecerá junto a la publicación.</p>
+                    <h2>Publica tus fotos y tu experiencia</h2>
+                    <p>Puedes subir una o varias fotos (hasta 6). Tu nombre aparecerá junto a la publicación.</p>
                 </div>
                 <label for="vlog-destino">Destino o ruta (opcional)
                     <input id="vlog-destino" name="destino" maxlength="120" value="{{ old('destino') }}" placeholder="Uyuni, Titicaca, Madidi…">
@@ -34,9 +34,9 @@
                     <textarea id="vlog-comentario" name="comentario" rows="4" maxlength="800" required placeholder="¿Qué fue lo que más te marcó del viaje?">{{ old('comentario') }}</textarea>
                 </label>
                 <label class="vlog-archivo" for="vlog-imagen">
-                    <span>Foto del viaje</span>
-                    <input id="vlog-imagen" type="file" name="imagen" accept="image/jpeg,image/png,image/webp" required>
-                    <small>JPG, PNG o WEBP · máximo 4 MB</small>
+                    <span>Fotos del viaje</span>
+                    <input id="vlog-imagen" type="file" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple required>
+                    <small>JPG, PNG o WEBP · hasta 6 fotos · 4 MB cada una</small>
                 </label>
                 @if($errors->any() && !old('texto'))
                     <div class="aviso error" role="alert"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
@@ -61,9 +61,15 @@
                     $likes = $post['likes'] ?? [];
                     $respuestas = $post['comentarios'] ?? [];
                     $dioLike = \App\Support\Vlog::usuarioDioLike($post, $usuarioId);
+                    $fotos = \App\Support\Vlog::urlsImagenes($post);
                 @endphp
                 <article class="vlog-tarjeta" id="vlog-{{ $post['id'] }}">
-                    <img src="{{ route('publico.vlog.imagen', $post['id']) }}" alt="Experiencia de {{ $post['nombre'] }}" loading="lazy">
+                    <button type="button" class="vlog-foto-abrir" data-vlog-abrir data-vlog-fotos='@json($fotos)' data-vlog-inicio="0">
+                        <img src="{{ $fotos[0] ?? route('publico.vlog.imagen', $post['id']) }}" alt="Experiencia de {{ $post['nombre'] }}" loading="lazy">
+                        @if(count($fotos) > 1)
+                            <span class="vlog-foto-badge">{{ count($fotos) }} fotos</span>
+                        @endif
+                    </button>
                     <div>
                         @if(!empty($post['destino']))
                             <span class="etiqueta">{{ $post['destino'] }}</span>
@@ -73,6 +79,16 @@
                             <strong>{{ $post['nombre'] }}</strong>
                             <time datetime="{{ $post['creado'] }}">{{ \Illuminate\Support\Carbon::parse($post['creado'])->timezone(config('app.timezone'))->format('d/m/Y') }}</time>
                         </footer>
+
+                        @if(count($fotos) > 1)
+                            <div class="vlog-miniaturas">
+                                @foreach($fotos as $i => $foto)
+                                    <button type="button" data-vlog-abrir data-vlog-fotos='@json($fotos)' data-vlog-inicio="{{ $i }}">
+                                        <img src="{{ $foto }}" alt="Foto {{ $i + 1 }}" loading="lazy">
+                                    </button>
+                                @endforeach
+                            </div>
+                        @endif
 
                         <div class="vlog-interacciones">
                             <div class="vlog-reacciones">
@@ -122,4 +138,5 @@
         </div>
     </div>
 </section>
+<x-vlog-lightbox/>
 @endsection

@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/api/atencion") @Produces(MediaType.APPLICATION_JSON) @Consumes(MediaType.APPLICATION_JSON)
 public class AtencionResource {
     @Inject AtencionService service;
+    @Inject ViajeOperacionService operacion;
     @Inject AccesoService acceso;
     private AccesoService.Identidad user(String header) {
         var user=acceso.autenticar(header);
@@ -33,4 +34,12 @@ public class AtencionResource {
     @GET @Path("/reservas/{codigo}") public Map<String,Object> reserva(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo){return service.reserva(user(h),codigo);}
     @POST @Path("/reservas/{codigo}/pagos") public Map<String,String> pago(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo,AtencionService.Pago datos){return service.registrarPago(user(h),codigo,datos);}
     @POST @Path("/reservas/{codigo}/cancelacion") public void cancelar(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo){service.registrarCancelacion(user(h),codigo);}
+    @GET @Path("/conversaciones/{id}/contexto") public java.util.Map<String,Object> contexto(@HeaderParam("Authorization")String h,@PathParam("id")long id){return operacion.contextoChat(user(h),id);}
+    @POST @Path("/viajes/cerrar-pago") public java.util.Map<String,Object> cerrarPago(@HeaderParam("Authorization")String h,ViajeOperacionService.CierreViaje datos){return operacion.cerrarYHabilitarPago(user(h),datos);}
+    @GET @Path("/viajes-confirmados") public java.util.List<java.util.Map<String,Object>> confirmados(@HeaderParam("Authorization")String h){return operacion.viajesConfirmados(user(h));}
+    @GET @Path("/viajes-confirmados/{codigo}") public java.util.Map<String,Object> viaje(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo){return operacion.viaje(user(h),codigo);}
+    @POST @Path("/viajes-confirmados/{codigo}/personal") public java.util.Map<String,Object> personal(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo,ViajeOperacionService.PersonalAsignacion datos){return operacion.asignarPersonal(user(h),codigo,datos);}
+    @DELETE @Path("/viajes-confirmados/{codigo}/personal/{id}") public void quitarPersonal(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo,@PathParam("id")long id){operacion.quitarPersonal(user(h),codigo,id);}
+    @POST @Path("/viajes-confirmados/{codigo}/utileria") public java.util.Map<String,Object> utileria(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo,ViajeOperacionService.UtileriaAsignacion datos){return operacion.asignarUtileria(user(h),codigo,datos);}
+    @DELETE @Path("/viajes-confirmados/{codigo}/utileria/{id}") public void quitarUtileria(@HeaderParam("Authorization")String h,@PathParam("codigo")String codigo,@PathParam("id")long id){operacion.quitarUtileria(user(h),codigo,id);}
 }

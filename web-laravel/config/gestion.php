@@ -62,6 +62,7 @@ return [
             'esGuia' => $campo('Trabaja como guía', 'required|boolean', 'checkbox'),
             'esAsesor' => $campo('Atiende clientes como asesor', 'required|boolean', 'checkbox'),
             'esConductor' => $campo('Trabaja como conductor', 'required|boolean', 'checkbox'),
+            'esCocinero' => $campo('Trabaja como cocinero', 'required|boolean', 'checkbox'),
         ],
     ],
     'clientes' => [

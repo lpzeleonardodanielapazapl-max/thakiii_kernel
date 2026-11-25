@@ -38,6 +38,40 @@
     .planificador-nota { font-size:10px; color:#566f8b; text-align:center; margin:13px 0 0; }
     .estilo-liquid.portada-viajes #inspiraciones { padding-top: 65px; }
     .estilo-liquid.portada-viajes #inspiraciones h2 { font-size: clamp(30px,3vw,44px); }
+    .vlog-showcase-seccion { padding-bottom: 40px; }
+    .vlog-showcase-encabezado { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 28px; }
+    .vlog-showcase-encabezado h2 { margin: 0; font-size: clamp(30px, 3.2vw, 46px); }
+    .vlog-showcase { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
+    .vlog-showcase-nav { width: 46px; height: 46px; border-radius: 50%; border: 1px solid #d5deea; background: #fff; color: #1f3a5d; font-size: 18px; cursor: pointer; box-shadow: 0 8px 18px #1a355a10; }
+    .vlog-showcase-nav:disabled { opacity: .35; cursor: default; }
+    .vlog-showcase-pista { display: grid; grid-auto-flow: column; grid-auto-columns: min(920px, 86%); gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 8px 6% 18px; }
+    .vlog-showcase-pista::-webkit-scrollbar { display: none; }
+    .vlog-showcase-tarjeta { display: grid; grid-template-columns: 1.05fr .95fr; min-height: 420px; scroll-snap-align: center; border-radius: 4px; overflow: hidden; background: #f7f4ee; border: 1px solid #e4e0d8; box-shadow: 0 16px 40px #1a355a12; opacity: .72; transform: scale(.97); transition: opacity .35s, transform .35s; }
+    .vlog-showcase-tarjeta.activo { opacity: 1; transform: scale(1); }
+    .vlog-showcase-media { position: relative; display: block; width: 100%; min-height: 420px; padding: 0; border: 0; background: #1a2d45; cursor: zoom-in; overflow: hidden; }
+    .vlog-showcase-media img { width: 100%; height: 100%; object-fit: cover; }
+    .vlog-foto-badge { position: absolute; left: 14px; bottom: 14px; z-index: 2; padding: 6px 10px; border-radius: 999px; background: #0b1524d0; color: #fff; font-size: 11px; font-weight: 650; letter-spacing: .04em; }
+    .vlog-vista { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 86px; height: 86px; border-radius: 50%; background: #ffffffd9; color: #152033; font-size: 11px; font-weight: 700; letter-spacing: .14em; box-shadow: 0 10px 28px #00000030; transition: transform .25s, background .25s; }
+    .vlog-showcase-media:hover .vlog-vista { transform: translate(-50%, -50%) scale(1.05); background: #fff; }
+    .vlog-showcase-info { display: flex; flex-direction: column; gap: 14px; padding: 34px 36px 30px; background:
+        linear-gradient(180deg, #fbf8f2 0%, #f4efe6 100%);
+        background-image:
+            radial-gradient(circle at 12% 18%, #00000008 0 1px, transparent 1.5px),
+            radial-gradient(circle at 88% 72%, #00000007 0 1px, transparent 1.5px),
+            linear-gradient(180deg, #fbf8f2 0%, #f4efe6 100%);
+        background-size: 28px 28px, 34px 34px, auto; }
+    .vlog-indice { color: #7a8794; font-size: 11px; letter-spacing: .16em; font-weight: 600; }
+    .vlog-showcase-info h3 { margin: 0; color: #141414; font-family: var(--liquid-font, 'Segoe UI', sans-serif); font-size: clamp(22px, 2.2vw, 30px); font-weight: 700; letter-spacing: .02em; line-height: 1.2; }
+    .vlog-showcase-info > p { margin: 0; color: #4a5560; font-size: 14px; line-height: 1.65; max-width: 38ch; }
+    .vlog-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin: 8px 0 0; }
+    .vlog-meta > div { display: flex; align-items: center; gap: 10px; color: #2b3640; font-size: 13px; }
+    .vlog-meta .icon { width: 16px; height: 16px; color: #5d6b78; flex-shrink: 0; }
+    .vlog-cta { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; color: #141414; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-decoration: none; padding-top: 12px; }
+    .vlog-cta:hover { color: #c26147; }
+    .vlog-showcase-vacio { padding: 48px 28px; text-align: center; border-radius: 24px; background: #f7faff; border: 1px solid #d7e3f3; }
+    .vlog-showcase-vacio h3 { margin: 0 0 10px; color: #1f3a5d; font-size: 22px; }
+    .vlog-showcase-vacio p { margin: 0 0 20px; }
+    .vlog-showcase-contacto { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 28px; margin-top: 28px; color: #5b728e; font-size: 13px; }
     .destinos-cabecera { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:20px; }
     .destinos-cabecera>span { color:#5b728e; font-size:12px; }
     .destinos-controles { display:flex; gap:10px; }
@@ -80,5 +114,13 @@
         .estilo-liquid.portada-viajes .inspiraciones { grid-auto-columns:100%; gap:18px; }
         .estilo-liquid.portada-viajes .tarjeta-editorial { height:350px; }
         .estilo-liquid.portada-viajes .encabezado-seccion { gap:17px; margin-bottom:25px; }
+        .vlog-showcase { grid-template-columns: 1fr; }
+        .vlog-showcase-nav { display: none; }
+        .vlog-showcase-pista { grid-auto-columns: 92%; padding: 4px 4% 12px; gap: 14px; }
+        .vlog-showcase-tarjeta { grid-template-columns: 1fr; min-height: 0; }
+        .vlog-showcase-media { min-height: 240px; }
+        .vlog-showcase-info { padding: 24px 22px 22px; }
+        .vlog-meta { grid-template-columns: 1fr; gap: 10px; }
+        .vlog-showcase-encabezado { flex-direction: column; align-items: start; }
     }
 }

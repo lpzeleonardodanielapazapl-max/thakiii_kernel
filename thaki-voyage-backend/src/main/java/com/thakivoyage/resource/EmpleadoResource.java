@@ -72,6 +72,7 @@ public class EmpleadoResource {
         nuevo.esGuia = request.esGuia;
         nuevo.esAsesor = request.esAsesor;
         nuevo.esConductor = request.esConductor;
+        nuevo.esCocinero = request.esCocinero;
         nuevo.estado = request.estado;
         nuevo.createdAt = LocalDateTime.now();
         nuevo.updatedAt = LocalDateTime.now();
@@ -101,6 +102,7 @@ public class EmpleadoResource {
         emp.esGuia = request.esGuia;
         emp.esAsesor = request.esAsesor;
         emp.esConductor = request.esConductor;
+        emp.esCocinero = request.esCocinero;
         emp.estado = request.estado;
         emp.updatedAt = LocalDateTime.now();
 

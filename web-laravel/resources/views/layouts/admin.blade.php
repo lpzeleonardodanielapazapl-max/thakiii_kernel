@@ -28,10 +28,13 @@
             @php
                 $gestionActiva = request()->routeIs('admin.gestion', 'admin.lugares-visitados', 'admin.vlog') || request()->is('personas*', 'empleados*', 'cargos*', 'departamentos*', 'usuarios*', 'roles*', 'hoteles*', 'habitaciones*', 'tarifas-hotel*', 'vehiculos*', 'conductores*', 'servicios-transporte*');
                 $inventarioActivo = request()->is('inventario*', 'investigacion-operativa*');
+                $atencionActiva = request()->routeIs('atencion.index', 'atencion.conversacion', 'atencion.solicitud', 'atencion.reserva', 'atencion.calendario');
+                $confirmadosActivo = request()->routeIs('atencion.viajesConfirmados', 'atencion.viajeConfirmado');
                 $enlaces = [
                     ['admin.index', 'Inicio', 'home', request()->routeIs('admin.index')],
-                    ['atencion.index', 'Solicitudes', 'chat', request()->routeIs('atencion.index')],
-                    ['clientes.index', 'Clientes', 'users', request()->is('clientes*') || (request()->is('atencion*') && ! request()->routeIs('atencion.index'))],
+                    ['atencion.index', 'Solicitudes', 'chat', $atencionActiva],
+                    ['atencion.viajesConfirmados', 'Viajes confirmados', 'calendar', $confirmadosActivo],
+                    ['clientes.index', 'Clientes', 'users', request()->is('clientes*')],
                     ['inventario.operaciones', 'Inventario y almacén', 'box', $inventarioActivo],
                 ];
             @endphp

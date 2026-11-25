@@ -21,7 +21,7 @@
         });
     }
     if (!('IntersectionObserver' in window)) return;
-    const piezas = document.querySelectorAll('.tarjeta-destino, .encabezado-seccion > *, .nosotros > *, .proceso article, .llamada > h2, .operaciones-acceso, .gestion-seccion, .perfil-seccion');
+    const piezas = document.querySelectorAll('.tarjeta-destino, .encabezado-seccion > *, .nosotros > *, .proceso article, .vlog-showcase-encabezado > *, .vlog-showcase-tarjeta, .operaciones-acceso, .gestion-seccion, .perfil-seccion');
     const observador = new IntersectionObserver(entradas => entradas.forEach(entrada => {
         if (!entrada.isIntersecting) return;
         entrada.target.classList.add('liquid-visible');

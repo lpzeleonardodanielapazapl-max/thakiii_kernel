@@ -21,8 +21,14 @@
             $likes = $post['likes'] ?? [];
             $respuestas = $post['comentarios'] ?? [];
         @endphp
+        @php($fotos = \App\Support\Vlog::urlsImagenes($post))
         <article class="moderacion-tarjeta" id="vlog-{{ $post['id'] }}">
-            <img src="{{ route('publico.vlog.imagen', $post['id']) }}" alt="Publicación de {{ $post['nombre'] }}" loading="lazy">
+            <div class="moderacion-fotos">
+                <img src="{{ $fotos[0] ?? route('publico.vlog.imagen', $post['id']) }}" alt="Publicación de {{ $post['nombre'] }}" loading="lazy">
+                @if(count($fotos) > 1)
+                    <span class="vlog-foto-badge">{{ count($fotos) }} fotos</span>
+                @endif
+            </div>
             <div class="moderacion-cuerpo">
                 <header>
                     <div>

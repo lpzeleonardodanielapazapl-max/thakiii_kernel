@@ -23,7 +23,7 @@
                                 @if (($column['type'] ?? '') === 'boolean')
                                     <span @class(['badge', 'badge-verde' => $value, 'badge-gris' => ! $value])>{{ $value ? 'Activo' : 'Inactivo' }}</span>
                                 @elseif (($column['type'] ?? '') === 'functions')
-                                    @foreach (['esGuia' => 'Guía', 'esAsesor' => 'Asesor', 'esConductor' => 'Conductor'] as $flag => $label)
+                                    @foreach (['esGuia' => 'Guía', 'esAsesor' => 'Asesor', 'esConductor' => 'Conductor', 'esCocinero' => 'Cocinero'] as $flag => $label)
                                         @if ($record[$flag] ?? false)<span class="badge badge-azul">{{ $label }}</span>@endif
                                     @endforeach
                                 @elseif (isset($column['linkModule']) && ($record[$column['source']] ?? null))
@@ -58,7 +58,7 @@
                     @php($valor = $record[$column['key']] ?? null)
                     <td>
                         @if (($column['type'] ?? '') === 'functions')
-                            {{ collect(['esGuia' => 'Guía', 'esAsesor' => 'Asesor', 'esConductor' => 'Conductor'])->filter(fn ($label, $flag) => $record[$flag] ?? false)->implode(' · ') ?: 'Sin funciones adicionales' }}
+                            {{ collect(['esGuia' => 'Guía', 'esAsesor' => 'Asesor', 'esConductor' => 'Conductor', 'esCocinero' => 'Cocinero'])->filter(fn ($label, $flag) => $record[$flag] ?? false)->implode(' · ') ?: 'Sin funciones adicionales' }}
                         @elseif (($column['type'] ?? '') === 'boolean'){{ $valor ? 'Activo' : 'Inactivo' }}
                         @else<span class="reporte-texto">{{ $valor ?? '—' }}</span>@endif
                     </td>

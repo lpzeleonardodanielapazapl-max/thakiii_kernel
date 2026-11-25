@@ -45,6 +45,9 @@ public class Empleado extends PanacheEntityBase {
     @Column(name = "es_conductor")
     public Boolean esConductor;
 
+    @Column(name = "es_cocinero")
+    public Boolean esCocinero;
+
     @Column(name = "estado", length = 20)
     public String estado;
 

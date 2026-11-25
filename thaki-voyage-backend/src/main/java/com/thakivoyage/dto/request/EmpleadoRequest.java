@@ -26,5 +26,7 @@ public class EmpleadoRequest {
 
     public Boolean esConductor = false;
 
+    public Boolean esCocinero = false;
+
     public String estado = "ACTIVO";
 }

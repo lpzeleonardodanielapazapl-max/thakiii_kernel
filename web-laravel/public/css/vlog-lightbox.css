@@ -1,0 +1,18 @@
+body.vlog-lightbox-abierto { overflow: hidden; }
+.vlog-lightbox { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; }
+.vlog-lightbox[hidden] { display: none !important; }
+.vlog-lightbox-fondo { position: absolute; inset: 0; border: 0; background: #0b1524d9; backdrop-filter: blur(2px); cursor: zoom-out; }
+.vlog-lightbox-marco { position: relative; z-index: 1; width: min(1080px, calc(100vw - 48px)); max-height: calc(100vh - 48px); display: grid; place-items: center; }
+.vlog-lightbox-marco img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 72px); object-fit: contain; border-radius: 4px; box-shadow: 0 24px 60px #00000055; background: #111; }
+.vlog-lightbox-cerrar { position: absolute; top: -8px; right: -8px; z-index: 2; width: 42px; height: 42px; border: 0; border-radius: 50%; background: #ffffffee; color: #152033; font-size: 24px; line-height: 1; cursor: pointer; box-shadow: 0 8px 20px #00000033; }
+.vlog-lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border: 0; border-radius: 50%; background: #ffffffee; color: #152033; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px #00000033; }
+.vlog-lightbox-nav.prev { left: -18px; }
+.vlog-lightbox-nav.next { right: -18px; }
+.vlog-lightbox-nav:disabled { opacity: .35; cursor: default; }
+.vlog-lightbox-count { position: absolute; left: 50%; bottom: -28px; transform: translateX(-50%); color: #edf3ff; font-size: 12px; letter-spacing: .14em; font-weight: 600; }
+@media (max-width: 760px) {
+    .vlog-lightbox-marco { width: calc(100vw - 20px); }
+    .vlog-lightbox-nav.prev { left: 8px; }
+    .vlog-lightbox-nav.next { right: 8px; }
+    .vlog-lightbox-cerrar { top: 8px; right: 8px; }
+}

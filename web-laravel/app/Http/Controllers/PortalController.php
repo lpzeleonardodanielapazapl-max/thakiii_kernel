@@ -162,4 +162,44 @@ class PortalController extends Controller
 
         return back()->with('exito', 'Notificación marcada como leída.');
     }
+
+    public function pago(string $codigo): View|RedirectResponse
+    {
+        $resumen = $this->consultarApi('GET', '/api/cliente/resumen');
+        $reserva = collect($resumen['reservas'] ?? [])->firstWhere('codigo', $codigo);
+        if (! $reserva) {
+            return redirect()->route('portal.inicio')->withErrors(['pago' => 'No encontramos esa reserva.']);
+        }
+        if (! in_array($reserva['estado'], ['PENDIENTE_ANTICIPO', 'CONFIRMADA'], true)) {
+            return redirect()->route('portal.inicio')->withErrors(['pago' => 'Esta reserva no admite pagos en línea.']);
+        }
+
+        return view('portal.pago', ['reserva' => $reserva]);
+    }
+
+    public function pagar(Request $request, string $codigo): RedirectResponse
+    {
+        $datos = $request->validate([
+            'tipo' => ['required', 'in:ANTICIPO,TOTAL'],
+            'titular' => ['required', 'string', 'max:120'],
+            'metodo' => ['nullable', 'string', 'max:50'],
+            'tarjeta' => ['required', 'regex:/^\d{13,19}$/'],
+            'vencimiento' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
+            'cvv' => ['required', 'regex:/^\d{3,4}$/'],
+        ], [
+            'tarjeta.regex' => 'Ingresa un número de tarjeta válido (solo dígitos).',
+            'vencimiento.regex' => 'Usa el formato MM/AA.',
+            'cvv.regex' => 'El CVV debe tener 3 o 4 dígitos.',
+        ]);
+        $this->consultarApi('POST', '/api/cliente/reservas/'.rawurlencode($codigo).'/pago-online', [
+            'tipo' => $datos['tipo'],
+            'titular' => $datos['titular'],
+            'metodo' => $datos['metodo'] ?: 'Tarjeta',
+            'referencia' => 'ONLINE-'.substr(hash('sha256', $datos['tarjeta'].$datos['vencimiento'].now()->timestamp), 0, 16),
+        ]);
+
+        return redirect()->route('portal.inicio')->with('exito', $datos['tipo'] === 'TOTAL'
+            ? 'Pago total registrado. Tu viaje queda al día.'
+            : 'Anticipo registrado. Si cubre el 50 %, tu viaje queda confirmado.');
+    }
 }

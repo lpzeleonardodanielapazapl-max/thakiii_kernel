@@ -84,7 +84,87 @@ class AtencionController extends Controller
 
     public function conversacion(string $id): View
     {
-        return view('atencion.conversacion', ['conversacion' => $this->consultarApi('GET', '/api/atencion/conversaciones/'.rawurlencode($id))]);
+        $contexto = $this->consultarApi('GET', '/api/atencion/conversaciones/'.rawurlencode($id).'/contexto');
+
+        return view('atencion.conversacion', [
+            'conversacion' => $contexto['conversacion'] ?? [],
+            'solicitudesChat' => $contexto['solicitudes'] ?? [],
+            'reservasChat' => $contexto['reservas'] ?? [],
+        ]);
+    }
+
+    public function cerrarPago(Request $request): RedirectResponse
+    {
+        $datos = $request->validate([
+            'solicitud' => ['required', 'string', 'max:20'],
+            'titulo' => ['required', 'string', 'max:200'],
+            'descripcion' => ['nullable', 'string', 'max:4000'],
+            'incluye' => ['required', 'string', 'max:4000'],
+            'precio' => ['required', 'numeric', 'gt:0', 'max:9999999999.99', 'decimal:0,2'],
+            'moneda' => ['required', 'in:BOB,USD,EUR'],
+            'dias' => ['required', 'integer', 'min:1', 'max:120'],
+            'conversacion' => ['nullable', 'integer'],
+        ]);
+        $conversacion = $datos['conversacion'] ?? null;
+        unset($datos['conversacion']);
+        $resultado = $this->consultarApi('POST', '/api/atencion/viajes/cerrar-pago', $datos);
+        $destino = $conversacion
+            ? redirect()->route('atencion.conversacion', $conversacion)
+            : redirect()->route('atencion.reserva', $resultado['reserva'] ?? '');
+
+        return $destino->with('exito', 'Viaje registrado. El cliente ya puede pagar el anticipo o el total en su pasarela.');
+    }
+
+    public function viajesConfirmados(): View
+    {
+        return view('atencion.viajes-confirmados', [
+            'viajes' => $this->consultarApi('GET', '/api/atencion/viajes-confirmados'),
+        ]);
+    }
+
+    public function viajeConfirmado(string $codigo): View
+    {
+        return view('atencion.viaje-confirmado', [
+            'viaje' => $this->consultarApi('GET', '/api/atencion/viajes-confirmados/'.rawurlencode($codigo)),
+        ]);
+    }
+
+    public function asignarPersonal(Request $request, string $codigo): RedirectResponse
+    {
+        $datos = $request->validate([
+            'empleado' => ['required', 'string', 'max:20'],
+            'rol' => ['required', 'in:GUIA,CONDUCTOR,COCINERO,OTRO'],
+            'notas' => ['nullable', 'string', 'max:500'],
+        ]);
+        $this->consultarApi('POST', '/api/atencion/viajes-confirmados/'.rawurlencode($codigo).'/personal', $datos);
+
+        return back()->with('exito', 'Personal asignado al viaje.');
+    }
+
+    public function quitarPersonal(string $codigo, string $id): RedirectResponse
+    {
+        $this->consultarApi('DELETE', '/api/atencion/viajes-confirmados/'.rawurlencode($codigo).'/personal/'.rawurlencode($id));
+
+        return back()->with('exito', 'Personal quitado del viaje.');
+    }
+
+    public function asignarUtileria(Request $request, string $codigo): RedirectResponse
+    {
+        $datos = $request->validate([
+            'producto' => ['required', 'string', 'max:30'],
+            'cantidad' => ['required', 'integer', 'min:1', 'max:100000'],
+            'notas' => ['nullable', 'string', 'max:500'],
+        ]);
+        $this->consultarApi('POST', '/api/atencion/viajes-confirmados/'.rawurlencode($codigo).'/utileria', $datos);
+
+        return back()->with('exito', 'Utilería reservada para el viaje.');
+    }
+
+    public function quitarUtileria(string $codigo, string $id): RedirectResponse
+    {
+        $this->consultarApi('DELETE', '/api/atencion/viajes-confirmados/'.rawurlencode($codigo).'/utileria/'.rawurlencode($id));
+
+        return back()->with('exito', 'Utilería liberada para otros viajes.');
     }
 
     public function catalogo(): JsonResponse

@@ -38,3 +38,50 @@ document.querySelectorAll('[data-destinos-carrusel]').forEach(carrusel => {
 document.querySelectorAll('[data-sugerencias-carrusel]').forEach(carrusel => {
     armarCarrusel(carrusel, carrusel.parentElement.querySelector('[data-sugerencias-controles]'), '.sugerencia-tarjeta', 14);
 });
+
+document.querySelectorAll('[data-vlog-showcase]').forEach(showcase => {
+    const pista = showcase.querySelector('[data-vlog-pista]');
+    const anterior = showcase.querySelector('[data-vlog-anterior]');
+    const siguiente = showcase.querySelector('[data-vlog-siguiente]');
+    if (!pista || !anterior || !siguiente) return;
+
+    const slides = () => [...pista.querySelectorAll('[data-vlog-slide]')];
+    const activo = () => {
+        const centro = pista.scrollLeft + pista.clientWidth / 2;
+        let mejor = slides()[0];
+        let distancia = Infinity;
+        slides().forEach(slide => {
+            const mid = slide.offsetLeft + slide.offsetWidth / 2;
+            const d = Math.abs(mid - centro);
+            if (d < distancia) {
+                distancia = d;
+                mejor = slide;
+            }
+        });
+        return mejor;
+    };
+    const ir = direccion => {
+        const lista = slides();
+        const actual = activo();
+        const indice = Math.max(0, lista.indexOf(actual));
+        const destino = lista[Math.min(lista.length - 1, Math.max(0, indice + direccion))];
+        destino?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', inline: 'center', block: 'nearest' });
+    };
+    const actualizar = () => {
+        const lista = slides();
+        const actual = activo();
+        const indice = lista.indexOf(actual);
+        anterior.disabled = indice <= 0;
+        siguiente.disabled = indice >= lista.length - 1;
+        lista.forEach((slide, i) => slide.classList.toggle('activo', i === indice));
+    };
+
+    anterior.addEventListener('click', () => ir(-1));
+    siguiente.addEventListener('click', () => ir(1));
+    pista.addEventListener('scroll', actualizar, { passive: true });
+    window.addEventListener('resize', actualizar);
+    requestAnimationFrame(() => {
+        slides()[0]?.scrollIntoView({ inline: 'center', block: 'nearest' });
+        actualizar();
+    });
+});

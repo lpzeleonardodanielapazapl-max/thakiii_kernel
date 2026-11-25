@@ -34,13 +34,16 @@ class VlogController extends Controller
         $datos = $request->validate([
             'comentario' => ['required', 'string', 'min:10', 'max:800'],
             'destino' => ['nullable', 'string', 'max:120'],
-            'imagen' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'imagenes' => ['required', 'array', 'min:1', 'max:6'],
+            'imagenes.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], [
             'comentario.required' => 'Cuéntanos un poco de tu viaje.',
             'comentario.min' => 'El comentario necesita al menos 10 caracteres.',
-            'imagen.required' => 'Sube una foto de tu experiencia.',
-            'imagen.image' => 'El archivo debe ser una imagen.',
-            'imagen.max' => 'La imagen no puede superar 4 MB.',
+            'imagenes.required' => 'Sube al menos una foto de tu experiencia.',
+            'imagenes.min' => 'Sube al menos una foto de tu experiencia.',
+            'imagenes.max' => 'Puedes subir hasta 6 fotos por publicación.',
+            'imagenes.*.image' => 'Cada archivo debe ser una imagen.',
+            'imagenes.*.max' => 'Cada imagen no puede superar 4 MB.',
         ]);
 
         $actor = $this->actor();
@@ -51,7 +54,7 @@ class VlogController extends Controller
             'destino' => $datos['destino'] ?? null,
             'usuarioId' => $actor['id'],
             'usuarioRol' => (string) (session('usuario.rol') ?? ''),
-        ], $request->file('imagen'));
+        ], $request->file('imagenes', []));
 
         return redirect()
             ->route('publico.vlog')
@@ -98,9 +101,9 @@ class VlogController extends Controller
             ->with('estado', 'Tu comentario se publicó.');
     }
 
-    public function imagen(string $id): BinaryFileResponse|Response
+    public function imagen(string $id, int $indice = 0): BinaryFileResponse|Response
     {
-        $ruta = Vlog::rutaImagen($id);
+        $ruta = Vlog::rutaImagen($id, max(0, $indice));
         abort_unless($ruta, 404);
 
         return response()->file($ruta, [

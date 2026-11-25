@@ -313,7 +313,11 @@ class PublicoController extends Controller
             $errorCatalogo = true;
         }
 
-        return view('publico.inicio', [...$datos, 'errorCatalogo' => $errorCatalogo]);
+        return view('publico.inicio', [
+            ...$datos,
+            'errorCatalogo' => $errorCatalogo,
+            'vlogs' => \App\Support\Vlog::todos(),
+        ]);
     }
 
     public function inspiracion(string $slug): View

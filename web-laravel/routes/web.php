@@ -36,7 +36,7 @@ Route::get('/traslados', [OfertaController::class, 'transporte'])->name('publico
 Route::post('/traslados/elegir', [OfertaController::class, 'elegirTransporte'])->middleware('throttle:20,1,oferta:')->name('publico.transporte.elegir');
 Route::post('/viaje/eleccion/quitar', [OfertaController::class, 'quitar'])->middleware('throttle:20,1,oferta:')->name('publico.eleccion.quitar');
 Route::get('/vlog', [VlogController::class, 'index'])->name('publico.vlog');
-Route::get('/vlog/imagen/{id}', [VlogController::class, 'imagen'])->whereUuid('id')->name('publico.vlog.imagen');
+Route::get('/vlog/imagen/{id}/{indice?}', [VlogController::class, 'imagen'])->whereUuid('id')->whereNumber('indice')->name('publico.vlog.imagen');
 Route::post('/vlog', [VlogController::class, 'publicar'])->middleware('throttle:10,1,vlog:')->name('publico.vlog.publicar');
 Route::post('/vlog/{id}/me-gusta', [VlogController::class, 'meGusta'])->whereUuid('id')->middleware('throttle:30,1,vlog-like:')->name('publico.vlog.megusta');
 Route::post('/vlog/{id}/comentar', [VlogController::class, 'comentar'])->whereUuid('id')->middleware('throttle:20,1,vlog-comment:')->name('publico.vlog.comentar');
@@ -62,6 +62,8 @@ Route::middleware('sesion:cliente')->prefix('mi-viaje')->name('portal.')->group(
     Route::post('/notificaciones/{id}/leer', [PortalController::class, 'leer'])->whereNumber('id')->name('notificaciones.leer');
     Route::get('/propuestas/{codigo}', [PortalController::class, 'propuesta'])->name('propuesta');
     Route::post('/propuestas/{codigo}/aceptar', [PortalController::class, 'aceptar'])->name('propuesta.aceptar');
+    Route::get('/reservas/{codigo}/pagar', [PortalController::class, 'pago'])->name('pago');
+    Route::post('/reservas/{codigo}/pagar', [PortalController::class, 'pagar'])->name('pagar');
     Route::post('/reservas/{codigo}/cancelacion', [PortalController::class, 'cancelar'])->name('cancelacion');
 });
 
@@ -187,6 +189,13 @@ Route::middleware('sesion:personal')->group(function () {
     Route::get('/atencion/catalogo', [AtencionController::class, 'catalogo'])->name('atencion.catalogo');
     Route::get('/atencion/conversaciones/{id}', [AtencionController::class, 'conversacion'])->whereNumber('id')->name('atencion.conversacion');
     Route::post('/atencion/conversaciones/{id}/mensajes', [AtencionController::class, 'responder'])->whereNumber('id')->name('atencion.responder');
+    Route::post('/atencion/viajes/cerrar-pago', [AtencionController::class, 'cerrarPago'])->name('atencion.cerrarPago');
+    Route::get('/atencion/viajes-confirmados', [AtencionController::class, 'viajesConfirmados'])->name('atencion.viajesConfirmados');
+    Route::get('/atencion/viajes-confirmados/{codigo}', [AtencionController::class, 'viajeConfirmado'])->name('atencion.viajeConfirmado');
+    Route::post('/atencion/viajes-confirmados/{codigo}/personal', [AtencionController::class, 'asignarPersonal'])->name('atencion.asignarPersonal');
+    Route::delete('/atencion/viajes-confirmados/{codigo}/personal/{id}', [AtencionController::class, 'quitarPersonal'])->whereNumber('id')->name('atencion.quitarPersonal');
+    Route::post('/atencion/viajes-confirmados/{codigo}/utileria', [AtencionController::class, 'asignarUtileria'])->name('atencion.asignarUtileria');
+    Route::delete('/atencion/viajes-confirmados/{codigo}/utileria/{id}', [AtencionController::class, 'quitarUtileria'])->whereNumber('id')->name('atencion.quitarUtileria');
     Route::get('/atencion/solicitudes/{codigo}', [AtencionController::class, 'solicitud'])->name('atencion.solicitud');
     Route::post('/atencion/solicitudes/{codigo}/propuestas', [AtencionController::class, 'proponer'])->name('atencion.proponer');
     Route::post('/atencion/propuestas/{codigo}/aceptacion', [AtencionController::class, 'aceptar'])->name('atencion.aceptar');

@@ -11,6 +11,7 @@ import java.util.*;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PortalClienteResource {
     @Inject PortalService portal;
+    @Inject ViajeOperacionService operacion;
     @Inject AccesoService acceso;
     private AccesoService.Identidad user(String header) {
         var user=acceso.autenticar(header);
@@ -29,4 +30,5 @@ public class PortalClienteResource {
     @POST @Path("/reservas/{codigo}/cancelacion") public Map<String,String> cancelar(@HeaderParam("Authorization") String h,@PathParam("codigo") String codigo,PortalService.Texto datos) { portal.cancelar(user(h),codigo,datos); return Map.of("mensaje","Solicitud enviada. El personal registrará la cancelación."); }
     @GET @Path("/notificaciones") public List<Map<String,Object>> notificaciones(@HeaderParam("Authorization") String h) { return portal.notificaciones(user(h)); }
     @POST @Path("/notificaciones/{id}/leer") public void leer(@HeaderParam("Authorization") String h,@PathParam("id") long id) { portal.leer(user(h),id); }
+    @POST @Path("/reservas/{codigo}/pago-online") public java.util.Map<String,Object> pagar(@HeaderParam("Authorization") String h,@PathParam("codigo") String codigo,ViajeOperacionService.PagoCliente datos) { return operacion.pagarCliente(user(h),codigo,datos); }
 }

@@ -64,7 +64,7 @@ public class PortalService {
         }
     }
 
-    private Map<String, Object> cliente(AccesoService.Identidad user, boolean obligatorio) {
+    Map<String, Object> cliente(AccesoService.Identidad user, boolean obligatorio) {
         var persona = persona(user);
         if (!persona.containsKey("codigo")) {
             if (obligatorio) throw new ClientErrorException("Completa tu perfil antes de solicitar un viaje.", 409);

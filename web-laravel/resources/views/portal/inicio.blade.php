@@ -20,8 +20,9 @@
 <section class="portal-bienvenida"><span class="etiqueta clara">TODO COMIENZA CON UNA IDEA</span><h2>Bolivia te espera.<br>Cuéntanos cómo quieres vivirla.</h2><p>Elige tus fechas, comparte tus intereses y deja que tu asesor prepare una propuesta para ti.</p><a class="boton" href="{{ route('portal.solicitud') }}">Crear mi primera solicitud ↗</a></section>
 @elseif($reservaActiva)
 <section class="siguiente-paso" aria-label="Siguiente paso de tu viaje"><span class="etiqueta">TU VIAJE, PASO A PASO</span>
-    @if($reservaActiva['estado'] === 'CONFIRMADA')<h2>Tu viaje está confirmado.</h2><p>El personal ya verificó el anticipo. @if((float)$reservaActiva['saldo'] > 0)Tu saldo pendiente es de <x-print-value :value="$reservaActiva['saldo']" type="money" :currency="$reservaActiva['moneda']"/>; coordina su pago a la llegada.@else Los pagos registrados cubren el total de esta reserva.@endif</p>
-    @else<h2>El siguiente paso es coordinar tu anticipo.</h2><p>Tu aceptación está registrada. Coordina con el asesor el anticipo de <x-print-value :value="$reservaActiva['anticipo']" type="money" :currency="$reservaActiva['moneda']"/>. El viaje se confirma después de que el personal verifique el pago externo.</p>@endif
+    @if($reservaActiva['estado'] === 'CONFIRMADA')<h2>Tu viaje está confirmado.</h2><p>El anticipo ya está cubierto. @if((float)$reservaActiva['saldo'] > 0)Tu saldo pendiente es de <x-print-value :value="$reservaActiva['saldo']" type="money" :currency="$reservaActiva['moneda']"/>; puedes pagarlo ahora o a la llegada.@else Los pagos registrados cubren el total de esta reserva.@endif</p>
+    @else<h2>Tu pasarela de pago ya está habilitada.</h2><p>Puedes pagar el anticipo de <x-print-value :value="$reservaActiva['anticipo']" type="money" :currency="$reservaActiva['moneda']"/> o el total del viaje para confirmarlo.</p>@endif
+    @if((float)$reservaActiva['saldo'] > 0)<a class="boton pequeno" href="{{ route('portal.pago', $reservaActiva['codigo']) }}">Ir a la pasarela de pagos ↗</a>@endif
     <a class="enlace" href="{{ route('portal.mensajes') }}">Conversar con mi asesor ↗</a>
 </section>
 @elseif($propuestaPendiente)

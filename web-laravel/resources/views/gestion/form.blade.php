@@ -13,7 +13,7 @@
     @endif
     @if ($meta['modulo'] === 'empleados')
         <div class="enlaces-contexto"><a href="{{ route('cargos.index') }}">Administrar cargos y responsabilidades <x-icon name="arrow"/></a><a href="{{ route('departamentos.index') }}">Administrar departamentos <x-icon name="arrow"/></a></div>
-        <p class="nota">El cargo describe su trabajo; las funciones indican si puede actuar como guía, asesor o conductor. Estas funciones no crean roles de acceso.</p>
+        <p class="nota">El cargo describe su trabajo; las funciones indican si puede actuar como guía, asesor, conductor o cocinero. Estas funciones no crean roles de acceso.</p>
     @endif
     <section class="formulario-panel">
         <h2>{{ $editing ? 'Actualiza los detalles' : 'Completa los detalles' }}</h2>

@@ -38,12 +38,6 @@
             </div>
         </div>
         @endif
-        <details class="planificador-extra"><summary>Otras preferencias <span aria-hidden="true">＋</span></summary><div class="planificador-opciones">
-            <label for="idea-presupuesto">Presupuesto total (opcional)<input id="idea-presupuesto" type="number" name="presupuesto" min="0" max="9999999999.99" step="0.01" value="{{ old('presupuesto', session('viaje_borrador.presupuesto')) }}" placeholder="Por definir"></label>
-            <label for="idea-moneda">Moneda<select id="idea-moneda" name="moneda">@foreach(['BOB','USD','EUR'] as $moneda)<option @selected(old('moneda', session('viaje_borrador.moneda', 'USD')) === $moneda)>{{ $moneda }}</option>@endforeach</select></label>
-            @foreach(['hotel' => 'Alojamiento', 'alimentacion' => 'Alimentación', 'transporte' => 'Transporte'] as $campo => $titulo)<label for="idea-{{ $campo }}">{{ $titulo }}<input id="idea-{{ $campo }}" name="{{ $campo }}" maxlength="200" value="{{ old($campo, session('viaje_borrador.'.$campo)) }}" placeholder="Tus preferencias"></label>@endforeach
-        </div></details>
-        <p class="planificador-nota">Viajes a medida. Tu asesor confirmará contigo el itinerario, los servicios y el precio.</p>
         @if($errors->any())<div class="aviso error" role="alert"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
     </form>
 </section>

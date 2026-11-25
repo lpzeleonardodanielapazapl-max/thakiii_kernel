@@ -123,6 +123,8 @@
     .estilo-liquid .analytics-kpi-oscuro { background: linear-gradient(160deg, #2a4a74, #1c334f); }
     .estilo-liquid .analytics-cta { border-radius: 999px; }
     .estilo-liquid .llamada { background: radial-gradient(ellipse at 12% 20%,#c8dce6,transparent 65%),#e0def0; border-radius: 32px; margin: 0 14px 14px; }
+    .estilo-liquid .vlog-showcase-tarjeta { border-radius: 18px; }
+    .estilo-liquid .vlog-showcase-info h3 { font-family: var(--liquid-font); }
     .estilo-liquid .pie { border-radius: 30px 30px 0 0; background: #1c304d; margin: 14px 14px 0; }
     .estilo-liquid .pie p { color: #d3ddef; }
     .estilo-liquid .detalle-hero { margin: 14px; padding-top: 160px; border-radius: 32px; min-height: 520px; }
@@ -238,7 +240,9 @@
     .estilo-liquid .vlog-tarjeta {
         overflow: hidden; border-radius: 26px; background: #fcfdff; border: 1px solid #dfe6f2; box-shadow: 0 8px 22px #1a355a08;
     }
-    .estilo-liquid .vlog-tarjeta img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .estilo-liquid .vlog-tarjeta > .vlog-foto-abrir,
+    .estilo-liquid .vlog-tarjeta > img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .estilo-liquid .vlog-tarjeta > .vlog-foto-abrir img { width: 100%; height: 100%; aspect-ratio: 4/3; object-fit: cover; }
     .estilo-liquid .vlog-tarjeta > div { padding: 18px 20px 20px; }
     .estilo-liquid .vlog-tarjeta p { margin: 10px 0 16px; color: #2c486a; font-size: 14px; line-height: 1.55; }
     .estilo-liquid .vlog-tarjeta footer { display: flex; justify-content: space-between; gap: 12px; color: #5b728e; font-size: 12px; }
@@ -299,7 +303,14 @@
     .estilo-liquid .moderacion-resumen strong { color: #1f3a5d; font-size: 24px; }
     .estilo-liquid .moderacion-lista { display: grid; gap: 16px; }
     .estilo-liquid .moderacion-tarjeta { display: grid; grid-template-columns: 180px 1fr; gap: 18px; padding: 16px; border-radius: 24px; background: #fcfdff; border: 1px solid #dfe6f2; box-shadow: 0 8px 22px #1a355a08; }
+    .estilo-liquid .moderacion-fotos { position: relative; }
     .estilo-liquid .moderacion-tarjeta img { width: 100%; height: 180px; object-fit: cover; border-radius: 18px; }
+    .estilo-liquid .vlog-foto-abrir { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+    .estilo-liquid .vlog-foto-abrir img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+    .estilo-liquid .vlog-miniaturas { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+    .estilo-liquid .vlog-miniaturas button { width: 56px; height: 56px; padding: 0; border: 0; border-radius: 10px; overflow: hidden; cursor: zoom-in; background: #d7e3f3; }
+    .estilo-liquid .vlog-miniaturas img { width: 100%; height: 100%; object-fit: cover; }
+    .estilo-liquid .vlog-foto-badge { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 5px 9px; border-radius: 999px; background: #0b1524d0; color: #fff; font-size: 10px; font-weight: 650; }
     .estilo-liquid .moderacion-cuerpo header { display: flex; justify-content: space-between; gap: 12px; align-items: start; margin-bottom: 10px; }
     .estilo-liquid .moderacion-cuerpo h2 { margin: 6px 0 4px; font-size: 18px; color: #1f3a5d; }
     .estilo-liquid .moderacion-cuerpo time, .estilo-liquid .moderacion-meta, .estilo-liquid .moderacion-vacio { color: #6b8099; font-size: 12px; }
